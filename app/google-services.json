@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "79642433986",
+    "project_id": "my-workout-organizer",
+    "storage_bucket": "my-workout-organizer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:79642433986:android:1062cbbb9fa69355c09e5b",
+        "android_client_info": {
+          "package_name": "com.tierriapps.myworkoutorganizer"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "79642433986-2aiskj286phih5uejdgrgl75r76ghp5s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYLqrR8bVJKiausMT40isL-cqFZRmbMhQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "79642433986-2aiskj286phih5uejdgrgl75r76ghp5s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

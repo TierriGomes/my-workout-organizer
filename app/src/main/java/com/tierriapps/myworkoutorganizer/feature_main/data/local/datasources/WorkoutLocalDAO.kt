@@ -7,7 +7,7 @@ import com.tierriapps.myworkoutorganizer.feature_main.data.local.dto.WorkoutRoom
 interface WorkoutLocalDAO {
 
     @Query("SELECT * FROM workouts WHERE id = :id")
-    suspend fun getWorkoutEntityByID(id: Int): WorkoutRoomEntity
+    suspend fun getWorkoutEntityByID(id: Int): WorkoutRoomEntity?
 
     @Query("SELECT * FROM workouts")
     suspend fun getAllWorkoutEntities(): List<WorkoutRoomEntity>

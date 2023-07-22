@@ -15,7 +15,7 @@ data class WorkoutRoomEntity(
     @PrimaryKey(autoGenerate = true) val id: Int?,
     val name: String = "",
     val description: String = "",
-    val divisions: List<Division>,
+    val divisions: List<Division> = listOf(),
     @ColumnInfo("trainings_done")
     val trainingsDone: MutableList<Division> = mutableListOf()
 )
@@ -29,11 +29,6 @@ fun Workout.toRoomEntity(): WorkoutRoomEntity{
         trainingsDone = this.trainingsDone
     )
 }
-
-
-
-
-
 class WorkoutRoomEntityTypeConverter(){
     private val gson = Gson()
     @TypeConverter

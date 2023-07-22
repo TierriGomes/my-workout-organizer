@@ -36,18 +36,6 @@ fun Workout.toRoomEntity(): WorkoutRoomEntity{
 
 class WorkoutRoomEntityTypeConverter(){
     private val gson = Gson()
-
-    @TypeConverter
-    fun divisionsToJson(divisions: List<Division>): String {
-        return gson.toJson(divisions)
-    }
-
-    @TypeConverter
-    fun jsonToDivisions(json: String): List<Division> {
-        val listType = object : TypeToken<List<Division>>() {}.type
-        return gson.fromJson(json, listType)
-    }
-
     @TypeConverter
     fun divisionsListToJson(divisionsList: MutableList<Division>): String {
         return gson.toJson(divisionsList)

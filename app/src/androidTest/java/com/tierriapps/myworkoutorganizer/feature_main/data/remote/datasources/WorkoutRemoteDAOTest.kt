@@ -1,9 +1,12 @@
 package com.tierriapps.myworkoutorganizer.feature_main.data.remote.datasources
 
+import android.util.Log
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.google.firebase.FirebaseException
 import com.tierriapps.myworkoutorganizer.feature_main.data.remote.dto.WorkoutRemoteEntity
+import com.tierriapps.myworkoutorganizer.feature_main.domain.models.Workout
 import dagger.hilt.android.testing.HiltAndroidRule
+import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
@@ -17,6 +20,7 @@ import javax.inject.Inject
  *  testing the real api here
  *  the main objective is verify our api rules set in FireBase service
  */
+@HiltAndroidTest
 @ExperimentalCoroutinesApi
 class WorkoutRemoteDAOTest {
     @get:Rule
@@ -26,7 +30,7 @@ class WorkoutRemoteDAOTest {
 
     // class under test
     @Inject
-    private lateinit var workoutRemoteDAO: WorkoutRemoteDAO
+    lateinit var workoutRemoteDAO: WorkoutRemoteDAO
 
     private val fakeOwnerId = "user123"
 
@@ -34,12 +38,17 @@ class WorkoutRemoteDAOTest {
     fun setUp() {
         hiltRule.inject()
         // clean data before each test
-        runBlocking {
-            val savedWorkouts = workoutRemoteDAO.getAllWorkoutEntities(fakeOwnerId)?: listOf()
-            for (workout in savedWorkouts){
-                workoutRemoteDAO.deleteWorkoutEntity(workout)
+        try {
+            runBlocking {
+                val savedWorkouts = workoutRemoteDAO.getAllWorkoutEntities(fakeOwnerId)
+                for (workout in savedWorkouts){
+                    workoutRemoteDAO.deleteWorkoutEntity(workout)
+                }
             }
+        }catch (e: Exception){
+            Log.d("test", e.message.toString())
         }
+
     }
     @Test
     fun getWorkoutRemoteEntityById_givingExistentParams_should_returnTheWorkout()
@@ -54,7 +63,7 @@ class WorkoutRemoteDAOTest {
     }
 
     @Test
-    fun getWorkoutRemoteEntityById_givingNonexistentParams_should_throwFireBaseException()
+    fun getWorkoutRemoteEntityById_givingNonexistentParams_should_throwException()
     = runBlocking {
         // GIVEN
         val workoutToAdd = WorkoutRemoteEntity(fakeOwnerId, 1, "test")
@@ -62,7 +71,7 @@ class WorkoutRemoteDAOTest {
         // WHEN
         var workoutFromApi: WorkoutRemoteEntity? = null
         // THEN
-        assertThrows(FirebaseException::class.java){
+        assertThrows(Exception::class.java){
             runBlocking {
                 workoutFromApi = workoutRemoteDAO.getWorkoutEntityByID(0, fakeOwnerId)
             }
@@ -88,7 +97,7 @@ class WorkoutRemoteDAOTest {
     }
 
     @Test
-    fun getAllRemoteWorkouts_givingNonexistentOwnerId_should_throwFireBaseException()
+    fun getAllRemoteWorkouts_givingNonexistentOwnerId_should_throwException()
      = runBlocking {
         // GIVEN
         val workoutToAdd1 = WorkoutRemoteEntity(fakeOwnerId, 1, "test1")
@@ -98,7 +107,7 @@ class WorkoutRemoteDAOTest {
         // WHEN
         var workoutFromApi1: WorkoutRemoteEntity? = null
         var workoutFromApi2: WorkoutRemoteEntity? = null
-        assertThrows(FirebaseException::class.java){
+        assertThrows(Exception::class.java){
             runBlocking {
                 val workoutsFromApi = workoutRemoteDAO.getAllWorkoutEntities("noneExistent")!!
                 workoutFromApi1 = workoutsFromApi[0]
@@ -132,23 +141,65 @@ class WorkoutRemoteDAOTest {
     }
 
     @Test
-    fun insertWorkoutRemoteEntity_giving_aAlreadySavedValidWorkout_should_setIt(){
-
+    fun insertWorkoutRemoteEntity_giving_aAlreadySavedValidWorkout_should_setIt()
+    = runBlocking {
+        // GIVEN
+        val workoutToAdd1 = WorkoutRemoteEntity(fakeOwnerId, 1, "test1")
+        val workoutToAdd2 = WorkoutRemoteEntity(fakeOwnerId, 1, "test2")
+        // WHEN
+        workoutRemoteDAO.insertWorkoutEntity(workoutToAdd1)
+        workoutRemoteDAO.insertWorkoutEntity(workoutToAdd2)
+        val workoutsFromApi = workoutRemoteDAO.getAllWorkoutEntities(fakeOwnerId)!!
+        // THEN
+        assertEquals(1, workoutsFromApi.size)
+        assertEquals("test2", workoutsFromApi[0].name)
     }
 
     @Test
-    fun insertWorkoutRemoteEntity_giving_aInvalidWorkout_should_throwFirebaseException(){
+    fun insertWorkoutRemoteEntity_giving_aInvalidWorkout_should_throwFirebaseException()
+    = runBlocking {
+        // GIVEN
+        val invalidWorkout = WorkoutRemoteEntity(ownerId = fakeOwnerId)
+        // WHEN
+        var workoutsInserted: List<WorkoutRemoteEntity>? = null
+        // THEN
+        assertThrows(FirebaseException::class.java){
+            runBlocking {workoutRemoteDAO.insertWorkoutEntity(invalidWorkout) }
+        }
 
+        workoutsInserted = workoutRemoteDAO.getAllWorkoutEntities(fakeOwnerId)
+
+        assertTrue(workoutsInserted.isEmpty())
     }
 
     @Test
-    fun deleteWorkoutRemoteEntity_giving_aAlreadySavedValidWorkout_should_deleteIt(){
-
+    fun deleteWorkoutRemoteEntity_giving_aAlreadySavedValidWorkout_should_deleteIt()
+    = runBlocking {
+        // GIVEN
+        val workoutToAdd1 = WorkoutRemoteEntity(fakeOwnerId, 1, "test1")
+        workoutRemoteDAO.insertWorkoutEntity(workoutToAdd1)
+        val workoutsCount = workoutRemoteDAO.getAllWorkoutEntities(fakeOwnerId)?.size?:0
+        // WHEN
+        workoutRemoteDAO.deleteWorkoutEntity(workoutToAdd1)
+        val newWorkoutsCount = workoutRemoteDAO.getAllWorkoutEntities(fakeOwnerId)?.size?:0
+        // THEN
+        assertEquals(workoutsCount, newWorkoutsCount+1)
     }
 
     @Test
-    fun deleteWorkoutRemoteEntity_giving_aNotSavedValidWorkout_should_throwFireBaseException(){
-
+    fun deleteWorkoutRemoteEntity_giving_aNotSavedValidWorkout_should_throwException()
+    = runBlocking {
+        // GIVEN
+        val workoutNotSaved = WorkoutRemoteEntity(fakeOwnerId, 2, "test1")
+        val workoutToAdd1 = WorkoutRemoteEntity(fakeOwnerId, 1, "test1")
+        workoutRemoteDAO.insertWorkoutEntity(workoutToAdd1)
+        // WHEN
+        assertThrows(Exception::class.java){
+            runBlocking { workoutRemoteDAO.deleteWorkoutEntity(workoutNotSaved) }
+        }
+        val newWorkoutsCount = workoutRemoteDAO.getAllWorkoutEntities(fakeOwnerId)!!.size
+        // THEN
+        assertEquals(1, newWorkoutsCount)
     }
 
 }

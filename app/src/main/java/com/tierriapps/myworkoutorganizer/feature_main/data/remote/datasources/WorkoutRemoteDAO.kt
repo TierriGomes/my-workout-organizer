@@ -8,7 +8,7 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 
-class WorkoutRemoteDAO @Inject constructor(workoutApiService: FirebaseFirestore) {
+class WorkoutRemoteDAO @Inject constructor(val workoutApiService: FirebaseFirestore) {
     private val collection = workoutApiService.collection(Constants.WORKOUT_REMOTE_COLLECTION)
     suspend fun getWorkoutEntityByID(localId: Int, ownerId: String): WorkoutRemoteEntity? {
         return collection
@@ -17,10 +17,12 @@ class WorkoutRemoteDAO @Inject constructor(workoutApiService: FirebaseFirestore)
             .get().await().documents[0].toObject(WorkoutRemoteEntity::class.java)
     }
 
-    suspend fun getAllWorkoutEntities(ownerId: String): List<WorkoutRemoteEntity>? {
+    suspend fun getAllWorkoutEntities(ownerId: String): List<WorkoutRemoteEntity> {
         return collection
             .whereEqualTo("ownerId", ownerId)
-            .get().await().toObjects(WorkoutRemoteEntity::class.java)
+            .get().await().toObjects(WorkoutRemoteEntity::class.java).sortedBy {
+                it.localId
+            }
     }
 
     suspend fun deleteWorkoutEntity(workoutRemoteEntity: WorkoutRemoteEntity) {
@@ -35,10 +37,10 @@ class WorkoutRemoteDAO @Inject constructor(workoutApiService: FirebaseFirestore)
             .whereEqualTo("ownerId", workoutRemoteEntity.ownerId)
             .whereEqualTo("localId", workoutRemoteEntity.localId)
             .get().await()
-        if ( reference.isEmpty){
-            collection.add(workoutRemoteEntity)
+        if ( reference.documents.isEmpty()){
+            collection.add(workoutRemoteEntity).await()
         }else {
-            reference.documents[0].reference.set(workoutRemoteEntity)
+            reference.documents[0].reference.set(workoutRemoteEntity).await()
         }
 
     }

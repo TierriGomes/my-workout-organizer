@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import com.google.firebase.firestore.FirebaseFirestore
 import com.tierriapps.myworkoutorganizer.feature_main.data.local.datasources.AppLocalDatabase
+import com.tierriapps.myworkoutorganizer.feature_main.data.local.datasources.LocalUserPreferences
 import com.tierriapps.myworkoutorganizer.feature_main.data.local.datasources.WorkoutLocalDAO
 import dagger.Module
 import dagger.Provides
@@ -33,5 +34,10 @@ object MainModuleTest {
     @Provides
     fun providesWorkoutApiService(): FirebaseFirestore {
         return FirebaseFirestore.getInstance()
+    }
+
+    @Provides
+    fun providesLocalUserPreferences(context: Application): LocalUserPreferences {
+        return LocalUserPreferences(context)
     }
 }

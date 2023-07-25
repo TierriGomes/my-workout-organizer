@@ -38,6 +38,9 @@ class WorkoutRepositoryImpl @Inject constructor(
                 if (remoteWorkouts.isEmpty()){
                     throw MyExceptionsNoWorkoutsFound("Workout not found")
                 }
+                for (i in remoteWorkouts.map { it.toWorkout() }){
+                    localWorkoutDAO.insertWorkoutEntity(i.toRoomEntity())
+                }
                 emit(
                     Resource.Success(
                         remoteWorkouts.map { it.toWorkout() },
@@ -88,8 +91,10 @@ class WorkoutRepositoryImpl @Inject constructor(
         emit(Resource.Loading())
         var canLocalDelete = false
         try {
-            localWorkoutDAO.deleteWorkoutEntity(workout.toRoomEntity())
-            canLocalDelete = true
+            try {
+                localWorkoutDAO.deleteWorkoutEntity(workout.toRoomEntity())
+                canLocalDelete = true
+            }catch (_: Exception){}
             remoteWorkoutDAO.deleteWorkoutEntity(workout.toRemoteEntity(Constants.USER_ID))
             emit(Resource.Success(workout, UiText.StringResource(R.string.changes_saved)))
         }catch (e: Exception){

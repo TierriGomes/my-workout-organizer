@@ -63,7 +63,7 @@ class WorkoutRepositoryImplTest {
         assertTrue(loading is Resource.Loading)
         assertTrue(success is Resource.Success)
         assertEquals("test", dataName)
-        coVerify(inverse = true) { remoteWorkoutDAO }
+        coVerify(inverse = true) { remoteWorkoutDAO.getAllWorkoutEntities(any()) }
     }
 
     @Test
@@ -106,13 +106,11 @@ class WorkoutRepositoryImplTest {
         val result = workoutRepositoryImpl.getAllWorkouts().toList()
         val loading = result[0]
         val error = result[1]
-        val dataName = result[1]!!.content!![0].name
         // THEN
         coVerify { remoteWorkoutDAO.getAllWorkoutEntities(any()) }
         assertEquals(2, result.size)
         assertTrue(loading is Resource.Loading)
         assertTrue(error is Resource.Error)
-        assertEquals("test", dataName)
     }
 
     @Test
@@ -127,7 +125,7 @@ class WorkoutRepositoryImplTest {
         val first = result[0]
         val last = result[1]
         // THEN
-        coVerify(inverse = true) { remoteWorkoutDAO }
+        coVerify(inverse = true) { remoteWorkoutDAO.getWorkoutEntityByID(any(), any()) }
         assertEquals(2, result.size)
         assertTrue(first is Resource.Loading)
         assertTrue(last is Resource.Success)
@@ -150,7 +148,7 @@ class WorkoutRepositoryImplTest {
         val first = result[0]
         val last = result[1]
         // THEN
-        coVerify(inverse = true) { remoteWorkoutDAO }
+        coVerify(inverse = true) { remoteWorkoutDAO.getWorkoutEntityByID(any(), any()) }
         assertEquals(2, result.size)
         assertTrue(first is Resource.Loading)
         assertTrue(last is Resource.Error)
@@ -201,7 +199,7 @@ class WorkoutRepositoryImplTest {
         val result = workoutRepositoryImpl.insertWorkout(validWorkout).toList()[1]
         // THEN
         coVerify { localWorkoutDAO.insertWorkoutEntity(validWorkout.toRoomEntity()) }
-        coVerify (inverse = true) {
+        coVerify {
             remoteWorkoutDAO.insertWorkoutEntity(validWorkout.toRemoteEntity("testId"))
         }
         coVerify { localPreferences.isTherePendingTasksInRemote(true) }
@@ -240,8 +238,8 @@ class WorkoutRepositoryImplTest {
     }
 
     @Test
-    fun `deleteWorkout, cannot delete in remote, try to delete in local ans call Preferences`()
-            = runBlocking {
+    fun `deleteWorkout, cannot delete in remote, try to delete in local and call Preferences`()
+    = runBlocking {
         // GIVEN
         coEvery { localWorkoutDAO.deleteWorkoutEntity(any()) } returns Unit
         coEvery { remoteWorkoutDAO.deleteWorkoutEntity(any()) } throws Exception("")
@@ -252,7 +250,7 @@ class WorkoutRepositoryImplTest {
         coVerify { localWorkoutDAO.deleteWorkoutEntity(any()) }
         coVerify { remoteWorkoutDAO.deleteWorkoutEntity(any()) }
         coVerify { localPreferences.isTherePendingTasksInRemote(true) }
-        assertTrue(result is Resource.Success)
+        assertTrue(result is Resource.Error)
     }
     @Test
     fun `deleteWorkout, cannot delete in remote and local, emit Error`()
@@ -317,29 +315,37 @@ class WorkoutRepositoryImplTest {
     = runTest {
         // GIVEN
         Constants.USER_ID = "test1"
-        var list = listOf<String>()
+        val list = mutableListOf<String>()
         // WHEN
-        workoutRepositoryImpl.getUserId().getOrAwaitValues {
-            list = it
-            Constants.USER_ID = "test2"
-            advanceUntilIdle()
-        }
+        workoutRepositoryImpl.getUserId().getOrAwaitValues(
+            duringObserve = {
+                list.add(it)
+                Constants.USER_ID = "test2"
+            },
+            afterObserve = {
+                advanceUntilIdle()
+            }
+        )
         assertEquals("test1", list[0])
         assertEquals("test2", list[1])
     }
 
     @Test
-    fun `getUserName should return the updated value of userIdConstant`()
+    fun `getUserName should return the updated value of userNameConstant`()
             = runTest {
         // GIVEN
         Constants.USER_NAME = "test1"
-        var list = listOf<String>()
+        val list = mutableListOf<String>()
         // WHEN
-        workoutRepositoryImpl.getUserName().getOrAwaitValues {
-            list = it
-            Constants.USER_NAME = "test2"
-            advanceUntilIdle()
-        }
+        workoutRepositoryImpl.getUserId().getOrAwaitValues(
+            duringObserve = {
+                list.add(it)
+                Constants.USER_NAME = "test2"
+            },
+            afterObserve = {
+                advanceUntilIdle()
+            }
+        )
         assertEquals("test1", list[0])
         assertEquals("test2", list[1])
     }

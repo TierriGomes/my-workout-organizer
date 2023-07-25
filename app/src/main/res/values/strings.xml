@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">My Workout Organizer</string>
+    <string name="workouts_loaded">Workouts loaded</string>
+    <string name="error_cannot_find_workouts">Cannot find workouts</string>
+    <string name="changes_saved">Changes saved with success</string>
+    <string name="cannot_save_workout">Cannot save workout</string>
+    <string name="cannot_save_changes_in_cloud">Cannot save changes in cloud, verify your connection</string>
+    <string name="actual_workout_not_setted">Actual workout not setted yet</string>
+    <string name="success">Success</string>
 </resources>

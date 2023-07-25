@@ -1,5 +1,6 @@
 package com.tierriapps.myworkoutorganizer.feature_main.data.repositories
 
+import androidx.lifecycle.LiveData
 import com.tierriapps.myworkoutorganizer.common.utils.Resource
 import com.tierriapps.myworkoutorganizer.feature_main.data.local.datasources.LocalUserPreferences
 import com.tierriapps.myworkoutorganizer.feature_main.data.local.datasources.WorkoutLocalDAO
@@ -18,7 +19,7 @@ class WorkoutRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun getWorkoutById(): Flow<Resource<Workout?>> {
+    override fun getWorkoutById(id: Int): Flow<Resource<Workout?>> {
         TODO("Not yet implemented")
     }
 
@@ -38,11 +39,11 @@ class WorkoutRepositoryImpl @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun getUserId(): String {
+    override fun getUserId(): LiveData<String> {
         TODO("Not yet implemented")
     }
 
-    override fun getUserName(): String {
+    override fun getUserName(): LiveData<String> {
         TODO("Not yet implemented")
     }
 

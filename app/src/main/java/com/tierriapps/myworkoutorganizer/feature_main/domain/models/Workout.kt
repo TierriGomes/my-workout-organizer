@@ -7,7 +7,7 @@ data class Workout(
     val id: Int? = null,
     val name: String = "",
     val description: String = "",
-    val divisions: List<Division>,
+    val divisions: List<Division> = listOf(),
     val trainingsDone: MutableList<Division> = mutableListOf()
 )
 

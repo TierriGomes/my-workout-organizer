@@ -1,6 +1,7 @@
 package com.tierriapps.myworkoutorganizer.feature_main.data.local.datasources
 
 import android.content.Context
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -17,7 +18,7 @@ class LocalUserPreferences @Inject constructor(
         val key = intPreferencesKey(Constants.ACTUAL_WORKOUT_KEY)
         var id: Int? = null
         context.preferences.data.first {
-            id = it.get(key)
+            id = it[key]
             true
         }
         return id
@@ -26,7 +27,14 @@ class LocalUserPreferences @Inject constructor(
     suspend fun setActualWorkoutId(int: Int) {
         val key = intPreferencesKey(Constants.ACTUAL_WORKOUT_KEY)
         context.preferences.edit {
-            it.set(key, int)
+            it[key] = int
+        }
+    }
+
+    suspend fun isTherePendingTasksInRemote(isThere: Boolean) {
+        val key = booleanPreferencesKey(Constants.PENDING_WORKOUTS_KEY)
+        context.preferences.edit {
+            it[key] = isThere
         }
     }
 

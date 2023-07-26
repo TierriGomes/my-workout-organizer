@@ -13,4 +13,8 @@ sealed class UiText{
         }
     }
 
+    fun resId(): Int? {
+        return if(this is StringResource) this.resID else null
+    }
+
 }

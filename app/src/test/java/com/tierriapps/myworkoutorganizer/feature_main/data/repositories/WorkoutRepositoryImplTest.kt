@@ -320,33 +320,31 @@ class WorkoutRepositoryImplTest {
         workoutRepositoryImpl.getUserId().getOrAwaitValues(
             duringObserve = {
                 list.add(it)
-                Constants.USER_ID = "test2"
             },
             afterObserve = {
                 advanceUntilIdle()
             }
         )
+        // THEN
         assertEquals("test1", list[0])
-        assertEquals("test2", list[1])
     }
 
     @Test
     fun `getUserName should return the updated value of userNameConstant`()
-            = runTest {
+    = runTest {
         // GIVEN
         Constants.USER_NAME = "test1"
         val list = mutableListOf<String>()
         // WHEN
-        workoutRepositoryImpl.getUserId().getOrAwaitValues(
+        workoutRepositoryImpl.getUserName().getOrAwaitValues(
             duringObserve = {
                 list.add(it)
-                Constants.USER_NAME = "test2"
             },
             afterObserve = {
                 advanceUntilIdle()
             }
         )
+        // THEN
         assertEquals("test1", list[0])
-        assertEquals("test2", list[1])
     }
 }

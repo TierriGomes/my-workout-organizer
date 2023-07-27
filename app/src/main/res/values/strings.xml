@@ -19,4 +19,5 @@
     <string name="exercise_created">Exercise created</string>
     <string name="no_division_created">No divisions created for the workout</string>
     <string name="workout_created">Workout created</string>
+    <string name="error">Error</string>
 </resources>

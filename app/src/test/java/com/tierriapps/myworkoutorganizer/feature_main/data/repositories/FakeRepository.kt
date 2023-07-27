@@ -18,7 +18,7 @@ class FakeRepository: WorkoutRepository {
     )
     override fun getAllWorkouts(): Flow<Resource<List<Workout>>?> = flow {
         emit(Resource.Loading())
-        if (shouldReturnSuccess){
+        if (shouldReturnSuccess && listOfWorkouts.isNotEmpty()){
             emit(Resource.Success(listOfWorkouts, UiText.StringResource(R.string.success)))
         }
         else {
@@ -28,7 +28,7 @@ class FakeRepository: WorkoutRepository {
 
     override fun getWorkoutById(id: Int): Flow<Resource<Workout?>> = flow {
         emit(Resource.Loading())
-        if (shouldReturnSuccess){
+        if (shouldReturnSuccess && listOfWorkouts.isNotEmpty()){
             emit(Resource.Success(listOfWorkouts[1], UiText.StringResource(R.string.success)))
         }
         else {

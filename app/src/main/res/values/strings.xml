@@ -5,8 +5,16 @@
     <string name="changes_saved">Changes saved with success</string>
     <string name="cannot_save_workout">Cannot save workout</string>
     <string name="cannot_save_changes_in_cloud">Cannot save changes in cloud, verify your connection</string>
-    <string name="actual_workout_not_setted">Actual workout not setted yet</string>
+    <string name="actual_workout_not_defined">Actual workout not defined yet</string>
     <string name="success">Success</string>
     <string name="empty_name">Empty name</string>
     <string name="empty_description">Empty description</string>
+    <string name="empty_fields">Empty fields</string>
+    <string name="invalid_num_of_series">Invalid num of series, should be between 1 and 6</string>
+    <string name="too_long_name">Too long name</string>
+    <string name="too_long_value">Too long value</string>
+    <string name="too_long_description">Too long description</string>
+    <string name="invalid_time_of_rest">Invalid time of rest, should be between 0 and 999</string>
+    <string name="invalid_weight">Invalid weight, should be between 0 and 999</string>
+    <string name="exercise_created">Exercise created</string>
 </resources>

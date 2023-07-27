@@ -113,7 +113,7 @@ class WorkoutRepositoryImpl @Inject constructor(
             if (result == null){
                 Resource.Error(
                     null,
-                    UiText.StringResource(R.string.actual_workout_not_setted)
+                    UiText.StringResource(R.string.actual_workout_not_defined)
                 )
             }else {
                 Resource.Success(result, UiText.StringResource(R.string.success))

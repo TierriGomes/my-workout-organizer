@@ -6,10 +6,10 @@ sealed class UiText{
     data class StringDynamic(val value: String): UiText()
     class StringResource(val resID: Int, vararg val args: Any): UiText()
 
-    fun asString(context: Context): String{
+    fun asString(context: Context? = null): String{
         return when(this){
             is StringDynamic -> value
-            is StringResource -> context.getString(resID, *args)
+            is StringResource -> context!!.getString(resID, *args)
         }
     }
 

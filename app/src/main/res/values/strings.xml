@@ -20,4 +20,5 @@
     <string name="no_division_created">No divisions created for the workout</string>
     <string name="workout_created">Workout created</string>
     <string name="error">Error</string>
+    <string name="workout_not_saved">Workout not saved yet</string>
 </resources>

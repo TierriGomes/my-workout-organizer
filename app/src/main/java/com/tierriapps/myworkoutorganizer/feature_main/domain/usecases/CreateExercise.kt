@@ -29,9 +29,6 @@ class CreateExercise {
         else if (numOfSeries !in 1..6) {
             return Resource.Error(null, UiText.StringResource(R.string.invalid_num_of_series))
         }
-        else if (seriesDone.size > numOfSeries) {
-            return Resource.Error(null, UiText.StringDynamic("Invalid operation error"))
-        }
         else if (timeOfRest !in 0..999){
             return Resource.Error(null, UiText.StringResource(R.string.invalid_time_of_rest))
         }
@@ -40,6 +37,13 @@ class CreateExercise {
         }
         val n = name.trim()
         val d = if (description.trim() != "") description.trim() else n
+        var mySeriesDone = seriesDone.toMutableList()
+        if (mySeriesDone.size > numOfSeries) {
+            mySeriesDone = mySeriesDone.filter { mySeriesDone.indexOf(it) < numOfSeries }.toMutableList()
+            return Resource.Error(
+                Exercise(n, d, numOfSeries, timeOfRest, type, weight, mySeriesDone),
+                UiText.StringDynamic("Invalid operation error"))
+        }
         return Resource.Success(
             Exercise(n, d, numOfSeries, timeOfRest, type, weight, seriesDone),
             UiText.StringResource(R.string.exercise_created)

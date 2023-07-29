@@ -1,6 +1,7 @@
 package com.tierriapps.myworkoutorganizer.feature_main.domain.usecases
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.test.filters.SmallTest
 import com.tierriapps.myworkoutorganizer.common.utils.Resource
 import com.tierriapps.myworkoutorganizer.feature_main.data.repositories.FakeRepository
 import io.mockk.coVerify
@@ -13,6 +14,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
+@SmallTest
 @ExperimentalCoroutinesApi
 class GetAllWorkoutsTest {
     @get:Rule
@@ -36,7 +38,7 @@ class GetAllWorkoutsTest {
         // WHEN
         val result = getAllWorkouts.invoke().toList()
         // THEN
-        coVerify { fakeRepository.getAllWorkouts() }
+        assertEquals(1, fakeRepository.getAllWorkoutCalls)
         assertEquals(2, result.size)
         assertTrue(result[0] is Resource.Loading)
         assertTrue(result[1] is Resource.Error)
@@ -50,7 +52,7 @@ class GetAllWorkoutsTest {
         // WHEN
         val result = getAllWorkouts.invoke().toList()
         // THEN
-        coVerify { fakeRepository.getAllWorkouts() }
+        assertEquals(1, fakeRepository.getAllWorkoutCalls)
         assertEquals(2, result.size)
         assertTrue(result[0] is Resource.Loading)
         assertTrue(result[1] is Resource.Success)

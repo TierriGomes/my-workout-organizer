@@ -1,5 +1,6 @@
 package com.tierriapps.myworkoutorganizer.feature_main.domain.usecases
 
+import androidx.test.filters.SmallTest
 import com.tierriapps.myworkoutorganizer.R
 import com.tierriapps.myworkoutorganizer.common.utils.Resource
 import com.tierriapps.myworkoutorganizer.feature_main.domain.models.Exercise
@@ -8,6 +9,7 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
+@SmallTest
 class CreateDivisionTest {
 
     // class under test
@@ -42,7 +44,7 @@ class CreateDivisionTest {
         val result = createDivision.invoke(name, description)
         // THEN
         assertTrue(result is Resource.Success)
-        assertEquals("valid", result.content?.name)
+        assertEquals(DivisionName.A, result.content?.name)
     }
 
     @Test

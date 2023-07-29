@@ -1,10 +1,12 @@
 package com.tierriapps.myworkoutorganizer.feature_main.domain.usecases
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.test.filters.SmallTest
 import com.tierriapps.myworkoutorganizer.feature_main.data.repositories.FakeRepository
 import com.tierriapps.myworkoutorganizer.feature_main.domain.models.Workout
 import io.mockk.coVerify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
@@ -13,6 +15,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
+@SmallTest
 @ExperimentalCoroutinesApi
 class SetActualWorkoutTest {
     @get:Rule
@@ -34,11 +37,11 @@ class SetActualWorkoutTest {
         fakeRepository.shouldReturnSuccess = true
         val workout = Workout(99, "test")
         // WHEN
-        setActualWorkout.invoke(workout)
+        setActualWorkout.invoke(workout).toList()
         advanceUntilIdle()
         // THEN
-        coVerify { fakeRepository.getWorkoutById(99) }
-        coVerify { fakeRepository.setActualWorkoutId(99) }
+        assertEquals(1, fakeRepository.getWorkoutByIdCalls)
+        assertEquals(1, fakeRepository.setActualWorkoutCalls)
     }
 
     @Test
@@ -47,10 +50,10 @@ class SetActualWorkoutTest {
         fakeRepository.shouldReturnSuccess = false
         val workout = Workout(99, "test")
         // WHEN
-        setActualWorkout.invoke(workout)
+        setActualWorkout.invoke(workout).toList()
         advanceUntilIdle()
         // THEN
-        coVerify { fakeRepository.getWorkoutById(99) }
-        coVerify(inverse = true) { fakeRepository.setActualWorkoutId(any()) }
+        assertEquals(1, fakeRepository.getWorkoutByIdCalls)
+        assertEquals(0, fakeRepository.setActualWorkoutCalls)
     }
 }

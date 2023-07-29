@@ -18,10 +18,15 @@ class PutDivisionTrainedInWorkout {
                         && exercice.timeOfRest == division.exercises[key].timeOfRest
                     ){
                         isValidDivision = true
+                    }else {
+                        break
                     }
                     while( division.exercises[key].seriesDone.size < exercice.numOfSeries){
                         division.exercises[key].seriesDone.add(Reps(listOf(0)))
                     }
+                }
+                if (!isValidDivision){
+                    break
                 }
             }
             if (isValidDivision){

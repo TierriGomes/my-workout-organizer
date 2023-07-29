@@ -1,5 +1,6 @@
 package com.tierriapps.myworkoutorganizer.feature_main.domain.usecases
 
+import androidx.test.filters.SmallTest
 import com.tierriapps.myworkoutorganizer.R
 import com.tierriapps.myworkoutorganizer.common.utils.Resource
 import com.tierriapps.myworkoutorganizer.feature_main.domain.models.Division
@@ -9,6 +10,7 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
+@SmallTest
 class CreateWorkoutTest {
 
     // class under teste
@@ -61,7 +63,7 @@ class CreateWorkoutTest {
     @Test
     fun `createWorkout when description is too big return a ResourceError`(){
         // GIVEN
-        val name = ""
+        val name = "valid"
         val description = "description description description description description description" +
                 "description description description description description description description" +
                 "description description description description description description description" +

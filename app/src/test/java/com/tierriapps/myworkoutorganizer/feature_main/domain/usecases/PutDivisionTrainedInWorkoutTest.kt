@@ -1,5 +1,6 @@
 package com.tierriapps.myworkoutorganizer.feature_main.domain.usecases
 
+import androidx.test.filters.SmallTest
 import com.tierriapps.myworkoutorganizer.feature_main.domain.models.Division
 import com.tierriapps.myworkoutorganizer.feature_main.domain.models.Exercise
 import com.tierriapps.myworkoutorganizer.feature_main.domain.models.Reps
@@ -11,6 +12,7 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
+@SmallTest
 class PutDivisionTrainedInWorkoutTest {
 
     // class under test
@@ -54,7 +56,7 @@ class PutDivisionTrainedInWorkoutTest {
     }
 
     @Test
-    fun `putDivisionTrainedInWorkout dont add the division in divisionsDone if its not registered in divisions`(){
+    fun `putDivisionTrainedInWorkout don't add the division in divisionsDone if its not registered in divisions`(){
         // GIVEN
         val exercises = mutableListOf(
             Exercise(

@@ -1,5 +1,6 @@
 package com.tierriapps.myworkoutorganizer.feature_main.domain.usecases
 
+import androidx.test.filters.SmallTest
 import com.tierriapps.myworkoutorganizer.feature_main.domain.models.Division
 import com.tierriapps.myworkoutorganizer.feature_main.domain.models.Exercise
 import com.tierriapps.myworkoutorganizer.feature_main.utils.DivisionName
@@ -9,6 +10,7 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
+@SmallTest
 class PutExerciseInDivisionTest {
 
     // class under test

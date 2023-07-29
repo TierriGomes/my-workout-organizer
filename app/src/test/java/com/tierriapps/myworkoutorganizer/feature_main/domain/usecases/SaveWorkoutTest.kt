@@ -1,6 +1,7 @@
 package com.tierriapps.myworkoutorganizer.feature_main.domain.usecases
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.test.filters.SmallTest
 import com.tierriapps.myworkoutorganizer.feature_main.domain.models.Workout
 import com.tierriapps.myworkoutorganizer.feature_main.domain.repositories.WorkoutRepository
 import io.mockk.coVerify
@@ -14,6 +15,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
+@SmallTest
 @ExperimentalCoroutinesApi
 class SaveWorkoutTest {
     @get:Rule

@@ -1,5 +1,6 @@
 package com.tierriapps.myworkoutorganizer.feature_main.domain.usecases
 
+import androidx.test.filters.SmallTest
 import com.tierriapps.myworkoutorganizer.R
 import com.tierriapps.myworkoutorganizer.common.utils.Resource
 import com.tierriapps.myworkoutorganizer.feature_main.domain.models.Reps
@@ -9,6 +10,7 @@ import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Test
 
+@SmallTest
 class CreateExerciseTest {
 
     // class under test
@@ -169,12 +171,12 @@ class CreateExerciseTest {
     }
 
     @Test
-    fun `createExercise when weight is not between 0 and 999 set it as 0 and returns a ResourceError`(){
+    fun `createExercise when weight is not between 0 and 999 returns a ResourceError`(){
         // GIVEN
         val name: String = "test"
         val description: String = ""
         val numOfSeries: Int = 1
-        val timeOfRest: Int = 1000
+        val timeOfRest: Int = 999
         val type: ExerciseType = ExerciseType.NORMAL
         val weight: Int = 1000
         val seriesDone: MutableList<Reps> = mutableListOf()

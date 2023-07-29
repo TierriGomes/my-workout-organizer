@@ -5,7 +5,12 @@ import com.tierriapps.myworkoutorganizer.feature_main.domain.models.Exercise
 
 class PutExerciseInDivision {
     operator fun invoke(division: Division, exercise: Exercise): Division {
-        division.exercises.add(exercise)
-        return division
+        val myDivision = Division(
+            division.name,
+            division.description,
+            division.exercises.toMutableList()
+        )
+        myDivision.exercises.add(exercise)
+        return myDivision
     }
 }

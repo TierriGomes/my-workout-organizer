@@ -7,4 +7,55 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="gray_light">#DAD5D5</color>
+    <color name="golden">#D1A300</color>
+
+    <color name="background_blue">#CEF3FD</color>
+    <color name="background_yellow">#FAF4BB</color>
+    <color name="background_red">#F7D6D6</color>
+    <color name="background_green">#ADEFB0</color>
+
+    <color name="background_blue2">#000000</color>
+    <color name="background_yellow2">#000000</color>
+    <color name="background_red2">#000000</color>
+    <color name="background_green2">#000000</color>
+
+    <!-- Azul Claro-->
+    <color name="blue1_light">#61AEEA</color>
+    <color name="blue2_light">#8692E1</color>
+    <color name="blue3_light">#36AAC6</color>
+    <!-- Amarelo Claro -->
+    <color name="yellow1_light">#CFCA70</color>
+    <color name="yellow2_light">#EDC67A</color>
+    <color name="yellow3_light">#EDD5D52C</color>
+    <!-- Vermelho Claro -->
+    <color name="red1_light">#FD886B</color>
+    <color name="red2_light">#DF5555</color>
+    <color name="red3_light">#DA5A49</color>
+    <!-- Verde Claro -->
+    <color name="green1_light">#76F676</color>
+    <color name="green2_light">#9CDA48</color>
+    <color name="green3_light">#2AC37B</color>
+
+    <!-- Azul Escuro-->
+    <color name="blue1_dark">#081145</color>
+    <color name="blue2_dark">#2A284A</color>
+    <color name="blue3_dark">#1A3153</color>
+    <!-- Amarelo Escuro-->
+    <color name="yellow1_dark">#4C4C06</color>
+    <color name="yellow2_dark">#614F10</color>
+    <color name="yellow3_dark">#434300</color>
+    <!-- Vermelho -->
+    <color name="red1_dark">#500909</color>
+    <color name="red2_dark">#3E0505</color>
+    <color name="red3_dark">#3C0909</color>
+    <!-- Verde -->
+    <color name="green1_dark">#052C05</color>
+    <color name="green2_dark">#0C2E20</color>
+    <color name="green3_dark">#002B13</color>
+
+
+
+
 </resources>
+

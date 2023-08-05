@@ -8,6 +8,13 @@ import com.tierriapps.myworkoutorganizer.common.values.Constants
 import com.tierriapps.myworkoutorganizer.feature_main.data.local.datasources.AppLocalDatabase
 import com.tierriapps.myworkoutorganizer.feature_main.data.local.datasources.LocalUserPreferences
 import com.tierriapps.myworkoutorganizer.feature_main.data.local.datasources.WorkoutLocalDAO
+import com.tierriapps.myworkoutorganizer.feature_main.data.remote.datasources.WorkoutRemoteDAO
+import com.tierriapps.myworkoutorganizer.feature_main.data.repositories.WorkoutRepositoryImpl
+import com.tierriapps.myworkoutorganizer.feature_main.domain.repositories.WorkoutRepository
+import com.tierriapps.myworkoutorganizer.feature_main.domain.usecases.CreateDivision
+import com.tierriapps.myworkoutorganizer.feature_main.domain.usecases.CreateExercise
+import com.tierriapps.myworkoutorganizer.feature_main.domain.usecases.CreateWorkout
+import com.tierriapps.myworkoutorganizer.feature_main.domain.usecases.PutExerciseInDivision
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -44,5 +51,31 @@ object MainModule {
     @Singleton
     fun providesLocalUserPreferences(context: Application): LocalUserPreferences {
         return LocalUserPreferences(context)
+    }
+    @Provides
+    fun providesCreateExercise(): CreateExercise{
+        return CreateExercise()
+    }
+
+    @Provides
+    fun providesCreateDivision(): CreateDivision {
+        return CreateDivision()
+    }
+
+    @Provides
+    fun providesCreateWorkout(): CreateWorkout {
+        return CreateWorkout()
+    }
+    @Provides
+    fun putExerciseInDivision(): PutExerciseInDivision {
+        return PutExerciseInDivision()
+    }
+
+    @Provides
+    @Singleton
+    fun providesWorkoutRepository(
+        localDAO: WorkoutLocalDAO, remoteDAO: WorkoutRemoteDAO, preferences: LocalUserPreferences)
+    : WorkoutRepository {
+        return WorkoutRepositoryImpl(remoteDAO, localDAO, preferences)
     }
 }

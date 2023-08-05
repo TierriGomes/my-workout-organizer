@@ -25,4 +25,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hint_workout_name">Workout Name</string>
     <string name="hint_workout_description">Workout Description</string>
+    <string name="hint_resttime">Rest time</string>
+    <string name="hint_weight">Weight</string>
+    <string name="hint_series">Series</string>
 </resources>

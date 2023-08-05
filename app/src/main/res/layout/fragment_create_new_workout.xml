@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/constraintLayoutCreateNewWorkout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_green"
@@ -12,10 +13,14 @@
         android:id="@+id/editTextCreateWorkoutName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="10dp"
+        android:background="@null"
         android:ems="10"
         android:hint="@string/hint_workout_name"
-        android:textSize="24sp"
+        android:textColor="@color/golden"
+        android:textColorHint="@color/golden"
+        android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,21 +29,25 @@
         android:id="@+id/editTextCreateWorkoutDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="10dp"
+        android:background="@null"
         android:ems="10"
         android:hint="@string/hint_workout_description"
-        android:textSize="16sp"
+        android:textColor="@color/golden"
+        android:textColorHint="@color/golden"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextCreateWorkoutName" />
 
     <HorizontalScrollView
-        android:id="@+id/horizontalScrollView"
+        android:id="@+id/horizontalScrollViewDivisionButtons"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
-        app:layout_constraintEnd_toStartOf="@+id/imageView2"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewButtonAdd"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextCreateWorkoutDescription">
 
@@ -49,19 +58,10 @@
 
             <Button
                 android:id="@+id/button"
-                android:layout_width="60dp"
-                android:layout_height="match_parent"
-                android:layout_marginStart="3dp"
-                android:layout_marginEnd="3dp"
-                android:layout_weight="1"
-                android:background="@drawable/shape_division_button"
-                android:fontFamily="@font/caesar_dressing"
                 android:text="A"
-                android:textColor="@color/black"
-                android:textSize="30sp"
-                app:backgroundTint="@color/red2_light"
+                app:backgroundTint="@color/blue"
                 app:backgroundTintMode="multiply"
-                app:strokeColor="@color/red1_dark" />
+                style="@style/style_division_button" />
 
             <Button
                 android:id="@+id/button2"
@@ -73,11 +73,10 @@
                 android:background="@drawable/shape_division_button"
                 android:fontFamily="@font/caesar_dressing"
                 android:text="B"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="30sp"
-                app:backgroundTint="@color/blue2_light"
-                app:backgroundTintMode="multiply"
-                app:strokeColor="@color/red1_dark" />
+                app:backgroundTint="@color/red"
+                app:backgroundTintMode="multiply" />
 
             <Button
                 android:id="@+id/button3"
@@ -89,11 +88,10 @@
                 android:background="@drawable/shape_division_button"
                 android:fontFamily="@font/caesar_dressing"
                 android:text="C"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="30sp"
-                app:backgroundTint="@color/yellow1_light"
-                app:backgroundTintMode="multiply"
-                app:strokeColor="@color/red1_dark" />
+                app:backgroundTint="@color/purple"
+                app:backgroundTintMode="multiply" />
 
             <Button
                 android:id="@+id/button4"
@@ -105,21 +103,21 @@
                 android:background="@drawable/shape_division_button"
                 android:fontFamily="@font/caesar_dressing"
                 android:text="D"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="30sp"
-                app:backgroundTint="@color/green2_light"
-                app:backgroundTintMode="multiply"
-                app:strokeColor="@color/red1_dark" />
+                app:backgroundTint="@color/green"
+                app:backgroundTintMode="multiply" />
+
         </LinearLayout>
     </HorizontalScrollView>
 
-    <ImageView
-        android:id="@+id/imageView2"
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imageViewButtonAdd"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/baseline_add_circle_24"
+        android:src="@drawable/baseline_addcircle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextCreateWorkoutDescription" />
+        app:layout_constraintTop_toTopOf="@+id/horizontalScrollViewDivisionButtons" />
 
     <ScrollView
         android:layout_width="0dp"
@@ -128,55 +126,152 @@
         android:layout_marginTop="3dp"
         android:layout_marginEnd="3dp"
         android:layout_marginBottom="3dp"
-        android:background="@drawable/shape_exercises_container"
+        android:background="@color/background_green"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView">
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollViewDivisionButtons">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_height="match_parent"
+            android:layout_marginTop="6dp"
+            android:orientation="vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_exercises_container">
 
-                <ImageView
-                    android:id="@+id/imageView3"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_marginStart="2dp"
-                    android:layout_marginTop="2dp"
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardview1"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="7dp"
+                    android:layout_marginTop="7dp"
+                    app:cardCornerRadius="90dp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:src="@tools:sample/avatars" />
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/imageViewExercisePicture1"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        tools:src="@tools:sample/avatars" />
+                </androidx.cardview.widget.CardView>
+
 
                 <EditText
                     android:id="@+id/editTextTextPersonName"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="2dp"
+                    android:layout_marginStart="7dp"
+                    android:layout_marginTop="1dp"
                     android:layout_marginEnd="2dp"
+                    android:background="@null"
                     android:ems="10"
                     android:inputType="textPersonName"
-                    android:text="Name"
+                    android:text="Exercise Name"
+                    android:textColor="@color/golden"
+                    android:textColorHint="@color/golden"
+                    android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/imageView3"
+                    app:layout_constraintStart_toEndOf="@+id/cardview1"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
                     android:id="@+id/editTextTextPersonName3"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="7dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="2dp"
+                    android:background="@null"
                     android:ems="10"
                     android:inputType="textPersonName"
-                    android:text="Name"
+                    android:text="Exercise Description"
+                    android:textColor="@color/golden"
+                    android:textColorHint="@color/golden"
+                    android:textSize="18sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/imageView3"
+                    app:layout_constraintStart_toEndOf="@+id/cardview1"
                     app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="6dp"
+                    android:src="@drawable/baseline_series"
+                    app:layout_constraintBottom_toBottomOf="@+id/editTextTextPersonName2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/editTextTextPersonName2" />
+
+                <EditText
+                    android:id="@+id/editTextTextPersonName2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="3dp"
+                    android:background="@null"
+                    android:hint="@string/hint_series"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/golden"
+                    android:textColorHint="@color/golden"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+                    app:layout_constraintStart_toEndOf="@+id/imageView"
+                    app:layout_constraintTop_toTopOf="@+id/imageView5" />
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:src="@drawable/baseline_backpack"
+                    app:layout_constraintBottom_toBottomOf="@+id/editTextTextPersonName4"
+                    app:layout_constraintEnd_toStartOf="@+id/editTextTextPersonName4"
+                    app:layout_constraintTop_toTopOf="@+id/editTextTextPersonName4" />
+
+                <EditText
+                    android:id="@+id/editTextTextPersonName4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:background="@null"
+                    android:hint="@string/hint_weight"
+                    android:inputType="number"
+                    android:textColor="@color/golden"
+                    android:textColorHint="@color/golden"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView6"
+                    app:layout_constraintEnd_toStartOf="@+id/imageView6"
+                    app:layout_constraintStart_toEndOf="@+id/editTextTextPersonName2"
+                    app:layout_constraintTop_toTopOf="@+id/imageView6" />
+
+                <ImageView
+                    android:id="@+id/imageView6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:src="@drawable/baseline_watch"
+                    app:layout_constraintBottom_toBottomOf="@+id/editTextNumber"
+                    app:layout_constraintEnd_toStartOf="@+id/editTextNumber"
+                    app:layout_constraintTop_toTopOf="@+id/editTextNumber" />
+
+                <EditText
+                    android:id="@+id/editTextNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:background="@null"
+                    android:hint="@string/hint_resttime"
+                    android:textColor="@color/golden"
+                    android:textColorHint="@color/golden"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:inputType="number"
+                 app:layout_constraintTop_toBottomOf="@+id/cardview1" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </LinearLayout>
     </ScrollView>
 

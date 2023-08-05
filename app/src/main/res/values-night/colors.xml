@@ -11,20 +11,13 @@
 
     <color name="golden">#2E033A</color>
 
-    <color name="background_blue">#D7F0F6</color>
-    <color name="background_purple">#D9CCE8</color>
-    <color name="background_red">#DCBDBD</color>
-    <color name="background_green">#D9E7CA</color>
+    <color name="background_blue">#020320</color>
+    <color name="background_purple">#160222</color>
+    <color name="background_red">#270202</color>
+    <color name="background_green">#052002</color>
 
     <color name="blue">#185B8F</color>
     <color name="purple">#580E8E</color>
-    <color name="red">#8A2309</color>
+    <color name="red">#810A0A</color>
     <color name="green">#084B08</color>
-
-
-
-
-
-
 </resources>
-

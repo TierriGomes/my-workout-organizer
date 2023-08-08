@@ -9,7 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="gray_light">#DAD5D5</color>
 
-    <color name="golden">#2E033A</color>
+    <color name="text_main_color">#2E033A</color>
 
     <color name="background_blue">#020320</color>
     <color name="background_purple">#160222</color>

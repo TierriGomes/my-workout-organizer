@@ -28,4 +28,14 @@
     <string name="hint_resttime">Rest time</string>
     <string name="hint_weight">Weight</string>
     <string name="hint_series">Series</string>
+    <string name="exercise_description">Exercise Description</string>
+    <string name="reps">Reps = </string>
+    <string name="hint_exercise_name">Exercise Name</string>
+    <string-array name="exercise_types">
+        <item>Normal</item>
+        <item>Isometric</item>
+        <item>Drop set</item>
+        <item>Unilateral</item>
+        <item>Explosive</item>
+    </string-array>
 </resources>

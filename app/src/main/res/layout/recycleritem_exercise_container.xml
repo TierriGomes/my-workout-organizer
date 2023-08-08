@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/contraintLayoutExerciseContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_exercises_container">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardviewExercisePicture"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="7dp"
+        app:cardCornerRadius="90dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageViewExercisePicture"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:src="@tools:sample/avatars" />
+    </androidx.cardview.widget.CardView>
+
+
+    <EditText
+        android:id="@+id/editTextExerciseName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:background="@null"
+        android:hint="@string/hint_exercise_name"
+        android:inputType="textPersonName"
+        android:maxLength="@integer/max_length_item_names"
+        android:textColor="@color/text_main_color"
+        android:textColorHint="@color/text_main_color"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/spinnerExerciseType"
+        app:layout_constraintStart_toEndOf="@+id/cardviewExercisePicture"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextExerciseDescription"
+        style="@style/style_small_texts"
+        android:layout_width="0dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="2dp"
+        android:hint="@string/exercise_description"
+        android:inputType="textPersonName"
+        android:maxLength="@integer/max_length_descriptions"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cardviewExercisePicture"
+        app:layout_constraintTop_toBottomOf="@+id/editTextExerciseName" />
+
+    <ImageView
+        android:id="@+id/imageViewSeries"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:src="@drawable/baseline_series"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="@+id/cardviewExercisePicture"
+        app:layout_constraintTop_toBottomOf="@+id/cardviewExercisePicture" />
+
+    <EditText
+        android:id="@+id/editTextSeries"
+        style="@style/style_small_texts"
+        android:layout_marginTop="6dp"
+        android:hint="@string/hint_series"
+        android:inputType="number"
+        android:maxLength="@integer/max_length_numeric_inputs"
+        app:layout_constraintEnd_toStartOf="@+id/editTextWeight"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toEndOf="@+id/imageViewSeries"
+        app:layout_constraintTop_toBottomOf="@+id/cardviewExercisePicture" />
+
+    <ImageView
+        android:id="@+id/imageViewWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_weight"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewSeries"
+        app:layout_constraintEnd_toStartOf="@+id/editTextWeight"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintTop_toTopOf="@+id/imageViewSeries" />
+
+    <EditText
+        android:id="@+id/editTextWeight"
+        style="@style/style_small_texts"
+        android:hint="@string/hint_weight"
+        android:inputType="number"
+        android:maxLength="@integer/max_length_numeric_inputs"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextSeries"
+        app:layout_constraintEnd_toStartOf="@+id/editTextRestTime"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/editTextSeries"
+        app:layout_constraintTop_toTopOf="@+id/editTextSeries" />
+
+    <ImageView
+        android:id="@+id/imageViewRestIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_watch"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewWeight"
+        app:layout_constraintEnd_toStartOf="@+id/editTextRestTime"
+        app:layout_constraintTop_toTopOf="@+id/imageViewWeight"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <EditText
+        android:id="@+id/editTextRestTime"
+        style="@style/style_small_texts"
+        android:layout_marginEnd="6dp"
+        android:hint="@string/hint_resttime"
+        android:inputType="number"
+        android:maxLength="@integer/max_length_numeric_inputs"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextSeries"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editTextWeight"
+        app:layout_constraintTop_toTopOf="@+id/editTextSeries" />
+
+    <Spinner
+        android:id="@+id/spinnerExerciseType"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="60dp"
+        android:layout_marginEnd="3dp"
+        android:entries="@array/exercise_types"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextExerciseName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/editTextWeight"
+        app:layout_constraintTop_toTopOf="@+id/editTextExerciseName" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

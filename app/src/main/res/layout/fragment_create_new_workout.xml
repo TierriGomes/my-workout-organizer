@@ -5,7 +5,6 @@
     android:id="@+id/constraintLayoutCreateNewWorkout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_green"
     android:hapticFeedbackEnabled="false"
     tools:context=".feature_main.presenter.fragments.CreateNewWorkoutFragment">
 
@@ -14,13 +13,15 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="3dp"
         android:background="@null"
-        android:ems="10"
+        android:fontFamily="@font/caesar_dressing"
         android:hint="@string/hint_workout_name"
+        android:inputType="textNoSuggestions"
+        android:maxLength="@integer/max_length_item_names"
         android:textColor="@color/text_main_color"
         android:textColorHint="@color/text_main_color"
-        android:textSize="28sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -30,13 +31,16 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="40dp"
         android:background="@null"
         android:ems="10"
         android:hint="@string/hint_workout_description"
+        android:inputType="textNoSuggestions"
+        android:maxLength="@integer/max_length_descriptions"
         android:textColor="@color/text_main_color"
         android:textColorHint="@color/text_main_color"
-        android:textSize="20sp"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextCreateWorkoutName" />
@@ -44,14 +48,15 @@
     <HorizontalScrollView
         android:id="@+id/horizontalScrollViewDivisionButtons"
         android:layout_width="0dp"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="3dp"
         app:layout_constraintEnd_toStartOf="@+id/imageViewButtonAdd"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextCreateWorkoutDescription">
 
         <LinearLayout
+            android:id="@+id/linearLayoutDivisionButtons"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal" />
@@ -59,9 +64,9 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageViewButtonAdd"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@drawable/baseline_addcircle"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/selector_baseline_addcircle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/horizontalScrollViewDivisionButtons" />
 
@@ -70,21 +75,63 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="2dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="2dp"
         android:layout_marginEnd="2dp"
-        android:paddingBottom="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonAddExercise" />
+
+    <EditText
+        android:id="@+id/editTextDivisionDescription"
+        style="@style/style_small_texts"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/hint_division_description"
+        android:inputType="textNoSuggestions|textPersonName"
+        android:maxLength="@integer/max_length_descriptions"
+        android:textAlignment="center"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonAddExercise"
+        app:layout_constraintEnd_toStartOf="@+id/imageViewAlertForDivision"
+        app:layout_constraintStart_toEndOf="@+id/buttonAddExercise"
         app:layout_constraintTop_toBottomOf="@+id/horizontalScrollViewDivisionButtons" />
 
     <ImageView
-        android:id="@+id/imageViewButtonAddExercise"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/baseline_addcircle"
-        app:layout_constraintBottom_toBottomOf="@+id/recyclerView"
+        android:id="@+id/imageViewAlertForDivision"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="3dp"
+        android:src="@drawable/baseline_alert_error"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewButtonAdd" />
 
+    <ImageView
+        android:id="@+id/imageViewAlertForWorkout"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="3dp"
+        android:src="@drawable/baseline_alert_error"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextCreateWorkoutName" />
+
+    <Button
+        android:id="@+id/buttonAddExercise"
+        android:layout_width="wrap_content"
+        android:layout_height="26dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="3dp"
+        android:background="@drawable/selector_button_add_exercise"
+        android:clickable="true"
+        android:paddingTop="0dp"
+        android:paddingBottom="0dp"
+        android:text="Add Exercise"
+        android:textSize="12sp"
+        android:visibility="invisible"
+        app:backgroundTint="@null"
+        app:iconPadding="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollViewDivisionButtons" />
 </androidx.constraintlayout.widget.ConstraintLayout>

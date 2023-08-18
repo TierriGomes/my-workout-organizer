@@ -1,48 +1,155 @@
 package com.tierriapps.myworkoutorganizer.feature_main.presenter.fragments
 
 import android.os.Bundle
+import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.lifecycle.ViewModelProvider
+import android.widget.EditText
+import android.widget.Toast
+import androidx.appcompat.widget.ActionMenuView
+import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
+import androidx.core.view.children
+import androidx.fragment.app.viewModels
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
+import com.tierriapps.myworkoutorganizer.R
+import com.tierriapps.myworkoutorganizer.common.utils.Resource
 import com.tierriapps.myworkoutorganizer.databinding.FragmentCreateNewWorkoutBinding
+import com.tierriapps.myworkoutorganizer.feature_main.presenter.MainActivity
 import com.tierriapps.myworkoutorganizer.feature_main.presenter.adapters.CreateWorkoutRecyclerViewAdapter
+import com.tierriapps.myworkoutorganizer.feature_main.presenter.customviews.DivisionButtonView
+import com.tierriapps.myworkoutorganizer.feature_main.presenter.viewmodels.CreateNewWorkoutViewModel
 import com.tierriapps.myworkoutorganizer.feature_main.utils.adaptersutil.CustomizedLayoutManager
-import com.tierriapps.myworkoutorganizer.feature_main.presenter.viewmodels.TestViewModel
+import com.tierriapps.myworkoutorganizer.feature_main.utils.adaptersutil.MyTextWatcher
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class CreateNewWorkoutFragment : Fragment() {
     private lateinit var binding: FragmentCreateNewWorkoutBinding
-    private lateinit var  viewModel: TestViewModel
+    private lateinit var toolbar: Toolbar
+    private val viewModel: CreateNewWorkoutViewModel by viewModels()
+    private lateinit var adapter: CreateWorkoutRecyclerViewAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCreateNewWorkoutBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this)[TestViewModel::class.java]
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.listOfExercises.observe(this){
-            val adapter = CreateWorkoutRecyclerViewAdapter(it)
-            binding.recyclerView.layoutManager = CustomizedLayoutManager(requireContext())
-            binding.recyclerView.adapter = adapter
-
-            binding.imageViewButtonAddExercise.setOnClickListener {
-                adapter.addNewExercise()
-            }
+        binding.recyclerView.layoutManager = CustomizedLayoutManager(requireContext())
+        // button to add a new Division
+        binding.imageViewButtonAdd.setOnClickListener {
+            viewModel.addNewDivision()
         }
-
-
-
-        binding.imageViewButtonAdd.setOnClickListener{
-            viewModel.printItems()
+        // button to add a new Exercise
+        binding.buttonAddExercise.setOnClickListener {
+            viewModel.addNewExerciseInActualDivision()
+        }
+        // save division description
+        binding.editTextDivisionDescription
+            .addTextChangedListener(MyTextWatcher(
+                actualView = binding.editTextDivisionDescription, nextView = null,
+                function = {
+                    val description = binding.editTextDivisionDescription.text.toString()
+                    viewModel.insertDescriptionInDivision(description)
+                }
+            )
+        )
+        // save workout button at the toolbar
+        toolbar = (requireActivity() as MainActivity).binding.toolbar
+        toolbar.inflateMenu(R.menu.create_workout_save_button_menu)
+        toolbar.setOnMenuItemClickListener {
+            if (it.itemId == R.id.saveNewWorkoutMenuButton){
+                val workoutName = binding.editTextCreateWorkoutName.text.toString()
+                val workoutDescription = binding.editTextCreateWorkoutDescription.text.toString()
+                viewModel.createAndValidateWorkout(workoutName, workoutDescription)
+            }
+            true
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.allDoneToNavigate.observe(this) {
+            if (it is Resource.Success && it.content != null){
+                findNavController().navigate(R.id.mainFragment)
+            }
+        }
+        viewModel.workoutStatus.observe(this) { resourceWorkout ->
+            binding.imageViewAlertForWorkout.setOnClickListener {
+                Toast.makeText(
+                    requireContext(),
+                    resourceWorkout.message?.asString(requireContext()),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            if (resourceWorkout is Resource.Error) {
+                binding.imageViewAlertForWorkout.visibility = View.VISIBLE
+            }else {
+                binding.imageViewAlertForWorkout.visibility = View.INVISIBLE
+            }
+        }
+        viewModel.listOfDivisions.observe(this) { divisions ->
+            if (divisions.isNotEmpty()) {
+                binding.editTextDivisionDescription.visibility = View.VISIBLE
+                binding.buttonAddExercise.visibility = View.VISIBLE
+            }
+            binding.linearLayoutDivisionButtons.removeAllViews()
+            for (division in divisions) {
+                val button = DivisionButtonView(requireContext())
+                button.setText(division.name.toString())
+                button.setOnClickListener {
+                    viewModel.selectDivision(division)
+                }
+                binding.linearLayoutDivisionButtons
+                    .addView(button)
+            }
+        }
 
+        viewModel.actualDivision.observe(this) { actualDivision ->
+            if (actualDivision == null) {
+                binding.constraintLayoutCreateNewWorkout.setBackgroundResource(0)
+                return@observe
+            }
+            binding.imageViewAlertForDivision.visibility =
+                if (actualDivision.status) View.INVISIBLE else View.VISIBLE
+            binding.imageViewAlertForDivision.setOnClickListener {
+                Toast.makeText(requireContext(),
+                    actualDivision.message?.asString(requireContext()),
+                    Toast.LENGTH_SHORT).show()
+            }
+            binding.editTextDivisionDescription.setText(actualDivision.description)
+            binding.constraintLayoutCreateNewWorkout.setBackgroundResource(actualDivision.colorForBackGround())
+            toolbar.setBackgroundResource(actualDivision.colorForButtonAndHints())
+            adapter = CreateWorkoutRecyclerViewAdapter(
+                actualDivision.exercises,
+                textColor = actualDivision.colorForTexts(),
+                hintColor = actualDivision.colorForButtonAndHints(),
+                itemSelectionFunction = { viewModel.removeExercise(it) }
+            )
+            binding.recyclerView.adapter = adapter
+            val editTexts = binding.root.children.filter { it is EditText }
+            for (editText in editTexts) {
+                editText as EditText
+                editText.setTextColor(
+                    ContextCompat.getColor(requireContext(), actualDivision.colorForTexts())
+                )
+                editText.setHintTextColor(
+                    ContextCompat.getColor(requireContext(), actualDivision.colorForButtonAndHints())
+                )
+            }
+        }
+    }
+    override fun onDestroy() {
+        toolbar.menu.clear()
+        toolbar.setBackgroundResource(R.color.default_toolbar)
+        super.onDestroy()
+    }
 
 }

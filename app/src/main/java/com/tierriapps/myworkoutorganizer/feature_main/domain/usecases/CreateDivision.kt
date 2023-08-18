@@ -11,13 +11,16 @@ class CreateDivision {
     operator fun invoke(
         name: DivisionName,
         description: String,
-        listOfExercises: List<Exercise> = listOf()
+        listOfExercises: List<Exercise?> = listOf()
     ): Resource<Division?> {
         if (description.trim() == ""){
             return Resource.Error(null, UiText.StringResource(R.string.empty_description))
         }
+        if (null in listOfExercises || listOfExercises.isEmpty()){
+            return Resource.Error(null, UiText.StringResource(R.string.invalid_exercises))
+        }
         return Resource.Success(
-            Division(name, description.trim(), listOfExercises.toMutableList()),
+            Division(name, description.trim(), listOfExercises as MutableList<Exercise>),
             UiText.StringDynamic("")
         )
     }

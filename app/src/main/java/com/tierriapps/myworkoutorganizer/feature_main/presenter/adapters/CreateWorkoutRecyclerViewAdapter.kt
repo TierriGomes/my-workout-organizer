@@ -4,6 +4,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.TextView
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -16,7 +19,10 @@ import com.tierriapps.myworkoutorganizer.feature_main.utils.adaptersutil.MyTextW
 import javax.inject.Inject
 
 class CreateWorkoutRecyclerViewAdapter @Inject constructor(
-    private val listOfExercises: MutableList<ExerciseForCreateWorkout>
+    private val listOfExercises: MutableList<ExerciseForCreateWorkout>,
+    private val textColor: Int,
+    private val hintColor: Int,
+    private var itemSelectionFunction: ((actualExercise: ExerciseForCreateWorkout)-> Unit)? = null
 ) : RecyclerView.Adapter<ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -33,11 +39,6 @@ class CreateWorkoutRecyclerViewAdapter @Inject constructor(
         viewHolder.bind(listOfExercises[position])
     }
 
-    fun addNewExercise(){
-        listOfExercises.add(ExerciseForCreateWorkout())
-        notifyItemInserted(listOfExercises.lastIndex)
-    }
-
     inner class CreateWorkoutViewHolder(val view: View): ViewHolder(view){
         private val binding = RecycleritemExerciseContainerBinding.bind(view)
         private val ctlExerciseContainer = binding.contraintLayoutExerciseContainer
@@ -48,6 +49,22 @@ class CreateWorkoutRecyclerViewAdapter @Inject constructor(
         private val etWeight = binding.editTextWeight
         private val etRest = binding.editTextRestTime
         private val image = binding.imageViewExercisePicture
+        private val alert = binding.imageViewAlertExercise
+
+        init {
+            val ctextColor = ContextCompat.getColor(binding.root.context, textColor)
+            val chintColor = ContextCompat.getColor(binding.root.context, hintColor)
+            etExerciseName.setTextColor(ctextColor)
+            etExerciseName.setHintTextColor(chintColor)
+            etExerciseDescription.setTextColor(ctextColor)
+            etExerciseDescription.setHintTextColor(chintColor)
+            etSeries.setTextColor(ctextColor)
+            etSeries.setHintTextColor(chintColor)
+            etWeight.setTextColor(ctextColor)
+            etWeight.setHintTextColor(chintColor)
+            etRest.setTextColor(ctextColor)
+            etRest.setHintTextColor(chintColor)
+        }
 
         fun bind(exercise: ExerciseForCreateWorkout){
             etExerciseName.setText(exercise.name?:"")
@@ -93,7 +110,14 @@ class CreateWorkoutRecyclerViewAdapter @Inject constructor(
                     // Chamado quando nenhum item é selecionado
                 }
             }
-            image.setOnClickListener { println(layoutPosition) }
+            alert.visibility = if (exercise.status)
+                View.INVISIBLE else View.VISIBLE
+            alert.setOnClickListener {
+                Toast.makeText(
+                    binding.root.context,
+                    exercise.message?.asString(binding.root.context),
+                    Toast.LENGTH_SHORT).show()
+            }
         }
 
         private fun generateSnackBarToDelete(actualExercise: ExerciseForCreateWorkout){
@@ -102,7 +126,8 @@ class CreateWorkoutRecyclerViewAdapter @Inject constructor(
                 .make(view.context, view,"Want to delete?", Snackbar.LENGTH_SHORT )
             snackBar.setAction("yes"){
                 val pos = listOfExercises.indexOf(actualExercise)
-                listOfExercises.remove(actualExercise)
+                itemSelectionFunction?.invoke(actualExercise)
+                itemSelectionFunction = null
                 notifyItemRemoved(pos)
                 snackBar.dismiss()
             }

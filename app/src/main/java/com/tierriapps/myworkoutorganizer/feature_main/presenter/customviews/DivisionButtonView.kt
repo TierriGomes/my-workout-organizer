@@ -1,27 +1,42 @@
 package com.tierriapps.myworkoutorganizer.feature_main.presenter.customviews
 
-import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.graphics.PorterDuff
 import android.os.Build
 import android.util.AttributeSet
+import android.view.ViewGroup.LayoutParams
+import android.view.ViewGroup.MarginLayoutParams
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import com.tierriapps.myworkoutorganizer.R
 
+
 class DivisionButtonView @JvmOverloads constructor(
-    context: Context, attrs: AttributeSet, defStyleAttr: Int = 0
+    context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ): AppCompatButton(context, attrs, defStyleAttr) {
     private var divisionChar = 'a'
-    private var backGroundColor = 0
     private var buttonColor = 0
 
+
     init {
+        this.setBackgroundResource(R.drawable.selector_division_button)
+        this.typeface = ResourcesCompat.getFont(context, R.font.caesar_dressing)
+        this.textAlignment = TEXT_ALIGNMENT_CENTER
+        this.textSize = 30f
+        this.setTextColor(Color.WHITE)
+
+        val params = MarginLayoutParams(100, LayoutParams.MATCH_PARENT)
+
+        params.marginEnd = 3
+        params.marginStart = 3
+        this.layoutParams = params
+        setPadding(0, 10, 0, 0)
+
         val char = if (text.isNotEmpty()) text[0] else divisionChar
         defAttrsWithNewChar(char)
     }
-    fun getBackGroundColor() = backGroundColor
-    fun getButtonColor() = buttonColor
 
     override fun setText(text: CharSequence?, type: BufferType?) {
         if(text?.toString() != ""){
@@ -32,21 +47,14 @@ class DivisionButtonView @JvmOverloads constructor(
     }
 
     private fun defAttrsWithNewChar(char: Char){
-        val backgroundColors = mapOf<String, Int>(
-            "aeimquy" to R.color.background_blue,
-            "bfjnrvz" to R.color.background_red,
-            "cgkosw" to R.color.background_green,
-            "dhlptx" to R.color.background_purple
-        )
         val buttonColors = mapOf<String, Int>(
             "aeimquy" to R.color.blue,
             "bfjnrvz" to R.color.red,
             "cgkosw" to R.color.green,
             "dhlptx" to R.color.purple
         )
-        for (k in backgroundColors){
+        for (k in buttonColors){
             if (char in k.key){
-                backGroundColor = k.value
                 buttonColor = buttonColors[k.key]!!
                 break
             }

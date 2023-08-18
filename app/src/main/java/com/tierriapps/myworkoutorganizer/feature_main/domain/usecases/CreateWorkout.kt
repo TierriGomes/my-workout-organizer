@@ -10,7 +10,7 @@ class CreateWorkout {
     operator fun invoke(
         name: String,
         description: String,
-        divisions: List<Division>,
+        divisions: List<Division?>,
     ): Resource<Workout?> {
         val n = name.trim()
         val d = description.trim()
@@ -29,8 +29,11 @@ class CreateWorkout {
         else if (divisions.isEmpty()){
             return Resource.Error(null, UiText.StringResource(R.string.no_division_created))
         }
+        else if (divisions.contains(null)){
+            return Resource.Error(null, UiText.StringResource(R.string.invalid_divisions))
+        }
         return Resource.Success(
-            Workout(name = n, description = d, divisions = divisions),
+            Workout(name = n, description = d, divisions = divisions as List<Division>),
             UiText.StringResource(R.string.workout_created)
         )
     }

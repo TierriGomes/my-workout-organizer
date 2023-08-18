@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/fragmentCreateNewWorkout"
+        android:id="@+id/createNewWorkoutFragment"
         android:icon="@drawable/baseline_add_workout"
         android:title="Create New Workout" />
 </menu>

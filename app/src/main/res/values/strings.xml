@@ -31,6 +31,12 @@
     <string name="exercise_description">Exercise Description</string>
     <string name="reps">Reps = </string>
     <string name="hint_exercise_name">Exercise Name</string>
+    <string name="hint_division_description">Division description</string>
+    <string name="invalid_divisions">There are invalid divisions</string>
+    <string name="save_buttons">SAVE</string>
+    <string name="menu_open">Menu open</string>
+    <string name="menu_closed">Menu closed</string>
+    <string name="invalid_exercises">Invalid exercises</string>
     <string-array name="exercise_types">
         <item>Normal</item>
         <item>Isometric</item>

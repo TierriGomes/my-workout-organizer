@@ -6,6 +6,7 @@ import com.tierriapps.myworkoutorganizer.feature_main.data.repositories.FakeRepo
 import com.tierriapps.myworkoutorganizer.feature_main.domain.models.Workout
 import io.mockk.coVerify
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
@@ -55,5 +56,15 @@ class SetActualWorkoutTest {
         // THEN
         assertEquals(1, fakeRepository.getWorkoutByIdCalls)
         assertEquals(0, fakeRepository.setActualWorkoutCalls)
+    }
+
+    @Test
+    fun `setActualWorkout emits just one result`() = runTest {
+        fakeRepository.shouldReturnSuccess = true
+        val workout = Workout(null, "name2", "description")
+
+        val flow = setActualWorkout.invoke(workout).toList()
+        println(flow.toString())
+
     }
 }

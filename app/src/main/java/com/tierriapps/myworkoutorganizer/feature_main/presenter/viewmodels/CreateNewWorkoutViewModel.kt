@@ -1,9 +1,11 @@
 package com.tierriapps.myworkoutorganizer.feature_main.presenter.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.*
 import com.tierriapps.myworkoutorganizer.R
 import com.tierriapps.myworkoutorganizer.common.utils.Resource
 import com.tierriapps.myworkoutorganizer.common.utils.UiText
+import com.tierriapps.myworkoutorganizer.common.utils.containsSameReference
 import com.tierriapps.myworkoutorganizer.feature_main.domain.models.Division
 import com.tierriapps.myworkoutorganizer.feature_main.domain.models.Exercise
 import com.tierriapps.myworkoutorganizer.feature_main.domain.models.Workout
@@ -42,27 +44,23 @@ class CreateNewWorkoutViewModel @Inject constructor(
     var autSavingWorkout = false
 
     fun addNewDivision(){
-        val value = _listOfDivisions.value?: mutableListOf()
-        val name = DivisionName.values()[value.size]
-        val newDivision = DivisionForCreateWorkout(name.char, "")
-        value.add(newDivision)
-        _listOfDivisions.value = value
-        _actualDivision.value = newDivision
+        val values = _listOfDivisions.value?: mutableListOf()
+        val name = DivisionName.values()[_listOfDivisions.value!!.size]
+        values.add(DivisionForCreateWorkout(name.char, ""))
+        _listOfDivisions.value = values
+        _actualDivision.value = _listOfDivisions.value?.last()
     }
 
     fun addNewExerciseInActualDivision(){
-        val divisions = _listOfDivisions.value?:return
         val value = _actualDivision.value?:return
-        val position = divisions.indexOf(value)
+        val index = _listOfDivisions.value?.size?:0
         value.exercises.add(ExerciseForCreateWorkout())
         _actualDivision.value = value
-        divisions[position] = value
-        _listOfDivisions.value = divisions
     }
 
     fun selectDivision(division: DivisionForCreateWorkout){
-        val value = _listOfDivisions.value?: mutableListOf()
-        _actualDivision.value = if (value.contains(division)) division else null
+        val value = _listOfDivisions.value?: return
+        _actualDivision.value = if (value.containsSameReference(division)) division else return
     }
 
     fun removeExercise(exercise: ExerciseForCreateWorkout){
@@ -70,6 +68,9 @@ class CreateNewWorkoutViewModel @Inject constructor(
         val allValues = _listOfDivisions.value?: return
         val position = allValues.indexOf(value)
         try {
+            if (!(value.exercises.containsSameReference(exercise))){
+                return
+            }
             value.exercises.remove(exercise)
             if (value.exercises.isEmpty()){
                 allValues.remove(value)
@@ -84,25 +85,13 @@ class CreateNewWorkoutViewModel @Inject constructor(
                 _listOfDivisions.value = allValues
             } else {
                 _actualDivision.value = value
-                allValues[position] = value
-                _listOfDivisions.value = allValues
             }
         }catch (e: Exception){
             println(e)
         }
     }
     fun insertDescriptionInDivision(description: String){
-        println("description change called: $description")
-        val divisions = _listOfDivisions.value?:return
-        val value = _actualDivision.value?:return
-        val position = divisions.indexOf(value)
-        if (value.description == description){
-            return
-        }
-        value.description = description
-        _actualDivision.value = value
-        divisions[position] = value
-        _listOfDivisions.value = divisions
+        actualDivision.value?.description = description
     }
 
     fun createAndValidateWorkout(workoutName: String, workoutDescription: String){
@@ -135,13 +124,15 @@ class CreateNewWorkoutViewModel @Inject constructor(
         val workoutResult = createWorkout.invoke(workoutName, workoutDescription, listOfDivisions)
         viewModelScope.launch {
             if (workoutResult.content != null && workoutResult is Resource.Success){
+                println("workout created by viewModel, trying to save..")
                 saveWorkout.invoke(workoutResult.content).onEach {
                     _workoutStatus.value = it
-                }
+                }.collect()
                 setActualWorkout.invoke(workoutResult.content).onEach {
                     _allDoneToNavigate.value = it
-                }
+                }.collect()
             }else {
+                println("cannot create workout")
                 _workoutStatus.value = workoutResult
                 _listOfDivisions.value = divisionsFromUI
                 _actualDivision.value = divisionsFromUI[actualValuePosition]

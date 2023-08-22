@@ -12,6 +12,7 @@ import javax.inject.Inject
 class SetActualWorkout @Inject constructor(val repository: WorkoutRepository) {
     operator fun invoke(workout: Workout) = flow<Resource<Int?>> {
         if (workout.id != null){
+            println("id is not null")
             val workoutExists = repository.getWorkoutById(workout.id).last().content
             if (workoutExists != null){
                 emit(repository.setActualWorkoutId(workout.id))
@@ -19,13 +20,16 @@ class SetActualWorkout @Inject constructor(val repository: WorkoutRepository) {
                 emit(Resource.Error(null, UiText.StringResource(R.string.workout_not_saved)))
             }
         }else {
+            println("id is null")
             val result = repository.getAllWorkouts().last()?.content
             val index = result?.lastIndex?: 0
             val workoutName = result?.last()?.name?:""
             if(index != 0 && workoutName == workout.name){
                 emit(repository.setActualWorkoutId(index))
+            }else {
+                emit(Resource.Error(null, UiText.StringResource(R.string.workout_not_saved)))
             }
-            emit(Resource.Error(null, UiText.StringResource(R.string.workout_not_saved)))
+
         }
     }
 }

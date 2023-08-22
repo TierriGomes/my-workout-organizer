@@ -79,20 +79,37 @@ class CreateNewWorkoutFragment : Fragment() {
         viewModel.allDoneToNavigate.observe(this) {
             if (it is Resource.Success && it.content != null){
                 findNavController().navigate(R.id.mainFragment)
+                onDestroy()
             }
+            Toast.makeText(
+                requireContext(),
+                it.message?.asString(requireContext()) + " ${it.content}",
+                Toast.LENGTH_LONG).show()
         }
         viewModel.workoutStatus.observe(this) { resourceWorkout ->
-            binding.imageViewAlertForWorkout.setOnClickListener {
-                Toast.makeText(
-                    requireContext(),
-                    resourceWorkout.message?.asString(requireContext()),
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-            if (resourceWorkout is Resource.Error) {
-                binding.imageViewAlertForWorkout.visibility = View.VISIBLE
-            }else {
-                binding.imageViewAlertForWorkout.visibility = View.INVISIBLE
+            when(resourceWorkout){
+                is Resource.Error -> {
+                    binding.progressBar.visibility = View.INVISIBLE
+                    binding.imageViewAlertForWorkout.visibility = View.VISIBLE
+                    binding.imageViewAlertForWorkout.setOnClickListener {
+                        Toast.makeText(
+                            requireContext(),
+                            resourceWorkout.message?.asString(requireContext()),
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+                is Resource.Loading -> {
+                    binding.progressBar.visibility = View.VISIBLE
+                    binding.imageViewAlertForWorkout.visibility = View.INVISIBLE
+                }
+
+                is Resource.Success -> {
+                    binding.progressBar.visibility = View.INVISIBLE
+                    binding.imageViewAlertForWorkout.visibility = View.INVISIBLE
+                    val message = resourceWorkout.message?.asString(requireContext())
+                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                }
             }
         }
         viewModel.listOfDivisions.observe(this) { divisions ->

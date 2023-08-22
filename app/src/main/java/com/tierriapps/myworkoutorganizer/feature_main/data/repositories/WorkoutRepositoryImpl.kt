@@ -79,7 +79,7 @@ class WorkoutRepositoryImpl @Inject constructor(
             emit(Resource.Success(workout, UiText.StringResource(R.string.changes_saved)))
         }catch (e: Exception){
             if (canLocalSave){
-                emit(Resource.Error(workout, UiText.StringResource(R.string.cannot_save_changes_in_cloud)))
+                emit(Resource.Success(workout, UiText.StringResource(R.string.cannot_save_changes_in_cloud)))
                 localPreferences.isTherePendingTasksInRemote(true)
             }else {
                 emit(Resource.Error(workout, UiText.StringResource(R.string.cannot_save_workout)))

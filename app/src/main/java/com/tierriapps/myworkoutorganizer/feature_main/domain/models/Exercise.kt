@@ -9,5 +9,6 @@ data class Exercise(
     val timeOfRest: Int = 0,
     val type: ExerciseType = ExerciseType.NORMAL,
     val weight: Int = 0,
-    val seriesDone: MutableList<Reps> = mutableListOf()
+    val seriesDone: MutableList<Reps> = mutableListOf(),
+    val image: String = ""
 )

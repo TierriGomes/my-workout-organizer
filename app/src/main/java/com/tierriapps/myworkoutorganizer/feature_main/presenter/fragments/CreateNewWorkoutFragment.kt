@@ -1,17 +1,14 @@
 package com.tierriapps.myworkoutorganizer.feature_main.presenter.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.widget.ActionMenuView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.view.children
 import androidx.fragment.app.viewModels
-import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.tierriapps.myworkoutorganizer.R
 import com.tierriapps.myworkoutorganizer.common.utils.Resource

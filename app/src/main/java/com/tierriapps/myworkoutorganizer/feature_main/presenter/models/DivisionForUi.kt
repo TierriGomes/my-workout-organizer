@@ -2,6 +2,7 @@ package com.tierriapps.myworkoutorganizer.feature_main.presenter.models
 
 import com.tierriapps.myworkoutorganizer.R
 import com.tierriapps.myworkoutorganizer.common.utils.UiText
+import com.tierriapps.myworkoutorganizer.feature_main.domain.models.Division
 
 
 class DivisionForUi(
@@ -50,6 +51,13 @@ class DivisionForUi(
         }
         return R.color.black
     }
-
-
+}
+fun Division.toDivisionForUi(): DivisionForUi{
+    return DivisionForUi(
+        name = this.name.char,
+        description = this.description,
+        exercises = this.exercises.map { it.toExerciseForUi() }.toMutableList(),
+        status = true,
+        message = null
+    )
 }

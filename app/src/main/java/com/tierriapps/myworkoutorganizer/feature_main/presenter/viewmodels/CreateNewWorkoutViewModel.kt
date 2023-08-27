@@ -1,6 +1,5 @@
 package com.tierriapps.myworkoutorganizer.feature_main.presenter.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.*
 import com.tierriapps.myworkoutorganizer.R
 import com.tierriapps.myworkoutorganizer.common.utils.Resource
@@ -10,8 +9,8 @@ import com.tierriapps.myworkoutorganizer.feature_main.domain.models.Division
 import com.tierriapps.myworkoutorganizer.feature_main.domain.models.Exercise
 import com.tierriapps.myworkoutorganizer.feature_main.domain.models.Workout
 import com.tierriapps.myworkoutorganizer.feature_main.domain.usecases.*
-import com.tierriapps.myworkoutorganizer.feature_main.presenter.models.DivisionForCreateWorkout
-import com.tierriapps.myworkoutorganizer.feature_main.presenter.models.ExerciseForCreateWorkout
+import com.tierriapps.myworkoutorganizer.feature_main.presenter.models.DivisionForUi
+import com.tierriapps.myworkoutorganizer.feature_main.presenter.models.ExerciseForUi
 import com.tierriapps.myworkoutorganizer.feature_main.utils.DivisionName
 import com.tierriapps.myworkoutorganizer.feature_main.utils.getDivisionByChar
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,11 +28,11 @@ class CreateNewWorkoutViewModel @Inject constructor(
     private val setActualWorkout: SetActualWorkout
 ): ViewModel() {
 
-    private val _listOfDivisions = MutableLiveData(mutableListOf<DivisionForCreateWorkout>())
-    val listOfDivisions: LiveData<MutableList<DivisionForCreateWorkout>> = _listOfDivisions
+    private val _listOfDivisions = MutableLiveData(mutableListOf<DivisionForUi>())
+    val listOfDivisions: LiveData<MutableList<DivisionForUi>> = _listOfDivisions
 
-    private val _actualDivision = MutableLiveData<DivisionForCreateWorkout?>()
-    val actualDivision: LiveData<DivisionForCreateWorkout?> = _actualDivision
+    private val _actualDivision = MutableLiveData<DivisionForUi?>()
+    val actualDivision: LiveData<DivisionForUi?> = _actualDivision
 
     private val _workoutStatus = MutableLiveData<Resource<Workout?>>()
     val workoutStatus: LiveData<Resource<Workout?>> = _workoutStatus
@@ -46,7 +45,7 @@ class CreateNewWorkoutViewModel @Inject constructor(
     fun addNewDivision(){
         val values = _listOfDivisions.value?: mutableListOf()
         val name = DivisionName.values()[_listOfDivisions.value!!.size]
-        values.add(DivisionForCreateWorkout(name.char, ""))
+        values.add(DivisionForUi(name.char, ""))
         _listOfDivisions.value = values
         _actualDivision.value = _listOfDivisions.value?.last()
     }
@@ -54,16 +53,16 @@ class CreateNewWorkoutViewModel @Inject constructor(
     fun addNewExerciseInActualDivision(){
         val value = _actualDivision.value?:return
         val index = _listOfDivisions.value?.size?:0
-        value.exercises.add(ExerciseForCreateWorkout())
+        value.exercises.add(ExerciseForUi())
         _actualDivision.value = value
     }
 
-    fun selectDivision(division: DivisionForCreateWorkout){
+    fun selectDivision(division: DivisionForUi){
         val value = _listOfDivisions.value?: return
         _actualDivision.value = if (value.containsSameReference(division)) division else return
     }
 
-    fun removeExercise(exercise: ExerciseForCreateWorkout){
+    fun removeExercise(exercise: ExerciseForUi){
         val value = _actualDivision.value?:return
         val allValues = _listOfDivisions.value?: return
         val position = allValues.indexOf(value)

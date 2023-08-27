@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/contraintLayoutExerciseContainer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="2dp"
+    android:layout_marginBottom="3dp"
+    android:background="@drawable/shape_exercises_container"
+    android:paddingBottom="3dp">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardviewExercisePicture"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="7dp"
+        app:cardCornerRadius="90dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/imageViewExercisePicture"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:src="@tools:sample/avatars" />
+    </androidx.cardview.widget.CardView>
+
+
+    <TextView
+        android:id="@+id/tvExerciseName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:background="@null"
+        android:hint="@string/hint_exercise_name"
+        android:maxLength="@integer/max_length_item_names"
+        android:textColor="@color/text_main_color"
+        android:textColorHint="@color/text_main_color"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/textViewExerciseType"
+        app:layout_constraintStart_toEndOf="@+id/cardviewExercisePicture"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvExerciseDescription"
+        style="@style/style_small_texts"
+        android:layout_width="0dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="40dp"
+        android:hint="@string/exercise_description"
+        android:maxLength="@integer/max_length_descriptions"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cardviewExercisePicture"
+        app:layout_constraintTop_toBottomOf="@+id/tvExerciseName" />
+
+    <ImageView
+        android:id="@+id/imageViewSeries"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:src="@drawable/baseline_series"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="@+id/cardviewExercisePicture"
+        app:layout_constraintTop_toBottomOf="@+id/cardviewExercisePicture" />
+
+    <TextView
+        android:id="@+id/tvSeries"
+        style="@style/style_small_texts"
+        android:layout_marginTop="6dp"
+        android:hint="@string/hint_series"
+        android:maxLength="@integer/max_length_numeric_inputs"
+        app:layout_constraintEnd_toStartOf="@+id/tvWeight"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toEndOf="@+id/imageViewSeries"
+        app:layout_constraintTop_toBottomOf="@+id/cardviewExercisePicture" />
+
+    <ImageView
+        android:id="@+id/imageViewWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_weight"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewSeries"
+        app:layout_constraintEnd_toStartOf="@+id/tvWeight"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintTop_toTopOf="@+id/imageViewSeries" />
+
+    <TextView
+        android:id="@+id/tvWeight"
+        style="@style/style_small_texts"
+        android:hint="@string/hint_weight"
+        android:maxLength="@integer/max_length_numeric_inputs"
+        app:layout_constraintBottom_toBottomOf="@+id/tvSeries"
+        app:layout_constraintEnd_toStartOf="@+id/tvRestTime"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/tvSeries"
+        app:layout_constraintTop_toTopOf="@+id/tvSeries" />
+
+    <ImageView
+        android:id="@+id/imageViewRestIcon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/baseline_watch"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewWeight"
+        app:layout_constraintEnd_toStartOf="@+id/tvRestTime"
+        app:layout_constraintTop_toTopOf="@+id/imageViewWeight"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/tvRestTime"
+        style="@style/style_small_texts"
+        android:layout_marginEnd="6dp"
+        android:hint="@string/hint_resttime"
+        android:maxLength="@integer/max_length_numeric_inputs"
+        app:layout_constraintBottom_toBottomOf="@+id/tvSeries"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvWeight"
+        app:layout_constraintTop_toTopOf="@+id/tvSeries" />
+
+    <TextView
+        android:id="@+id/textViewExerciseType"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginEnd="3dp"
+        android:gravity="center"
+        android:text="@string/text_type"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/tvExerciseName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tvWeight"
+        app:layout_constraintTop_toTopOf="@+id/tvExerciseName" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvSeries">
+
+        <TextView
+            android:id="@+id/textViewS1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textViewS2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textViewS3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textViewS4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textViewS5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/textViewS6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

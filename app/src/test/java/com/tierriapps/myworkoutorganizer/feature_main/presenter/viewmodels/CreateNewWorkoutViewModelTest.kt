@@ -7,20 +7,18 @@ import com.tierriapps.myworkoutorganizer.feature_main.domain.models.Division
 import com.tierriapps.myworkoutorganizer.feature_main.domain.models.Exercise
 import com.tierriapps.myworkoutorganizer.feature_main.domain.models.Workout
 import com.tierriapps.myworkoutorganizer.feature_main.domain.usecases.*
-import com.tierriapps.myworkoutorganizer.feature_main.presenter.models.DivisionForCreateWorkout
-import com.tierriapps.myworkoutorganizer.feature_main.presenter.models.ExerciseForCreateWorkout
+import com.tierriapps.myworkoutorganizer.feature_main.presenter.models.DivisionForUi
+import com.tierriapps.myworkoutorganizer.feature_main.presenter.models.ExerciseForUi
 import com.tierriapps.myworkoutorganizer.feature_main.utils.DivisionName
 import com.tierriapps.myworkoutorganizer.testutils.getOrAwaitValues
 import io.mockk.coEvery
 import com.tierriapps.myworkoutorganizer.R
 import com.tierriapps.myworkoutorganizer.testutils.getOrAwaitValue
 import io.mockk.coVerify
-import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.*
 import org.junit.Assert.*
 
@@ -70,7 +68,7 @@ class CreateNewWorkoutViewModelTest {
     @Test
     fun `addNewDivision will create a newDivision and notify the listOfDivisions`() = runTest {
         // given
-        var events: List<MutableList<DivisionForCreateWorkout>> = listOf()
+        var events: List<MutableList<DivisionForUi>> = listOf()
 
         // when
         viewModel.listOfDivisions.getOrAwaitValues(
@@ -89,7 +87,7 @@ class CreateNewWorkoutViewModelTest {
     @Test
     fun `addNewDivision will create a new division and set it as actualDivision`() = runTest {
         // given
-        var events: List<DivisionForCreateWorkout?> = listOf()
+        var events: List<DivisionForUi?> = listOf()
 
         // when
         viewModel.actualDivision.getOrAwaitValues(
@@ -108,7 +106,7 @@ class CreateNewWorkoutViewModelTest {
     fun `addExerciseInActualDivision will create and add an Exercise and notify it in actualDivision`()
     = runTest {
         // given
-        var events: List<DivisionForCreateWorkout?> = listOf()
+        var events: List<DivisionForUi?> = listOf()
         // when
         viewModel.actualDivision.getOrAwaitValues(
             duringObserve = { println("${it?.name}  -  ${it?.exercises?.size}") },
@@ -128,7 +126,7 @@ class CreateNewWorkoutViewModelTest {
     fun `addExerciseInActualDivision will create and add an Exercise, change value in listOfDivisions but DON'T notify it`()
     = runTest {
         // given
-        var events: List<MutableList<DivisionForCreateWorkout>> = listOf()
+        var events: List<MutableList<DivisionForUi>> = listOf()
         viewModel.listOfDivisions.getOrAwaitValues(
             duringObserve = { println(it.toString()) },
             afterObserve = {
@@ -146,8 +144,8 @@ class CreateNewWorkoutViewModelTest {
     @Test
     fun `selectDivision when division is in listOfDivision will change the actualDivision to a division with reference in listOfDivisions`(){
         // given
-        var events: List<DivisionForCreateWorkout?> = listOf()
-        var divisionFromList: DivisionForCreateWorkout? = null
+        var events: List<DivisionForUi?> = listOf()
+        var divisionFromList: DivisionForUi? = null
         // when
         viewModel.actualDivision.getOrAwaitValues(
             duringObserve = { println(it?.name) },
@@ -176,7 +174,7 @@ class CreateNewWorkoutViewModelTest {
     @Test
     fun `selectDivision when division is NOT in listOfDivision will NOT change the actualDivision`(){
         // given
-        var events: List<DivisionForCreateWorkout?> = listOf()
+        var events: List<DivisionForUi?> = listOf()
         // when
         viewModel.actualDivision.getOrAwaitValues(
             duringObserve = { println(it?.name) },
@@ -185,7 +183,7 @@ class CreateNewWorkoutViewModelTest {
                 viewModel.addNewDivision()
                 viewModel.addNewDivision()
                 it[0]?.apply { name = 'A'; description = "" }
-                val divisionToSelect = DivisionForCreateWorkout('A', "")
+                val divisionToSelect = DivisionForUi('A', "")
                 viewModel.selectDivision(divisionToSelect)
             }
         )
@@ -198,7 +196,7 @@ class CreateNewWorkoutViewModelTest {
     @Test
     fun `deleteExercise will delete the exercise notify the actualDivision`(){
         // given
-        var events: List<DivisionForCreateWorkout?> = listOf()
+        var events: List<DivisionForUi?> = listOf()
         // when
         viewModel.actualDivision.getOrAwaitValues(
             duringObserve = { println(it?.exercises) },
@@ -222,8 +220,8 @@ class CreateNewWorkoutViewModelTest {
     @Test
     fun `deleteExercise will delete the exercise and the empty division and notify actualDivision and listOfDivisions`(){
         // given
-        var events: List<DivisionForCreateWorkout?> = listOf()
-        var listEvents: List<MutableList<DivisionForCreateWorkout>> = listOf()
+        var events: List<DivisionForUi?> = listOf()
+        var listEvents: List<MutableList<DivisionForUi>> = listOf()
         // when
         viewModel.listOfDivisions.getOrAwaitValues(
             duringObserve = { println("big list ${it.toString()}") },
@@ -256,7 +254,7 @@ class CreateNewWorkoutViewModelTest {
     @Test
     fun `deleteExercise don't delete if the exercise is not inside the division`(){
         // given
-        var events: List<DivisionForCreateWorkout?> = listOf()
+        var events: List<DivisionForUi?> = listOf()
         // when
         viewModel.actualDivision.getOrAwaitValues(
             duringObserve = { println(it?.exercises) },
@@ -266,7 +264,7 @@ class CreateNewWorkoutViewModelTest {
                 viewModel.addNewExerciseInActualDivision()
                 val actualExercises = it[1]!!.exercises
                 actualExercises[0].name = "first"
-                val copyExercise = ExerciseForCreateWorkout("first")
+                val copyExercise = ExerciseForUi("first")
                 copyExercise.name = "porra"
                 viewModel.removeExercise(copyExercise)
             }
@@ -280,8 +278,8 @@ class CreateNewWorkoutViewModelTest {
     @Test
     fun `insertDescriptionInDivision insert the description without notifying any livedata`(){
         // given
-        var listEvents: List<MutableList<DivisionForCreateWorkout>> = listOf()
-        var events: List<DivisionForCreateWorkout?> = listOf()
+        var listEvents: List<MutableList<DivisionForUi>> = listOf()
+        var events: List<DivisionForUi?> = listOf()
         // when
         viewModel.listOfDivisions.getOrAwaitValues(
             duringObserve = { println(it.toString()) },

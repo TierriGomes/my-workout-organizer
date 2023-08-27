@@ -4,10 +4,10 @@ import com.tierriapps.myworkoutorganizer.R
 import com.tierriapps.myworkoutorganizer.common.utils.UiText
 
 
-class DivisionForCreateWorkout(
+class DivisionForUi(
     var name: Char,
     var description: String,
-    val exercises: MutableList<ExerciseForCreateWorkout> = mutableListOf(),
+    val exercises: MutableList<ExerciseForUi> = mutableListOf(),
     var status: Boolean = true,
     var message: UiText? = null
     ){

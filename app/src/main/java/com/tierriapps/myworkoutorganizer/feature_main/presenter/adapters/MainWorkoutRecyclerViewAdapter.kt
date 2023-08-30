@@ -45,17 +45,12 @@ class MainWorkoutRecyclerViewAdapter constructor(
 
         init {
             val ctextColor = ContextCompat.getColor(binding.root.context, textColor)
-            val chintColor = ContextCompat.getColor(binding.root.context, hintColor)
             tvExerciseName.setTextColor(ctextColor)
-            tvExerciseName.setHintTextColor(chintColor)
             tvExerciseDescription.setTextColor(ctextColor)
-            tvExerciseDescription.setHintTextColor(chintColor)
             tvSeries.setTextColor(ctextColor)
-            tvSeries.setHintTextColor(chintColor)
             tvWeight.setTextColor(ctextColor)
-            tvWeight.setHintTextColor(chintColor)
             tvRest.setTextColor(ctextColor)
-            tvRest.setHintTextColor(chintColor)
+            tvExerciseType.setTextColor(ctextColor)
         }
 
         fun bind(exercise: ExerciseForUi){
@@ -73,6 +68,7 @@ class MainWorkoutRecyclerViewAdapter constructor(
                 text.replaceFirst('-', '(')
                 text += ")"
                 listOfReps[k].text = text
+                listOfReps[k].visibility = View.VISIBLE
             }
         }
     }

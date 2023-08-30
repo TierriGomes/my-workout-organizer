@@ -19,17 +19,16 @@ class SetActualWorkout @Inject constructor(val repository: WorkoutRepository) {
             }else {
                 emit(Resource.Error(null, UiText.StringResource(R.string.workout_not_saved)))
             }
-        }else {
+        } else {
             println("id is null")
             val result = repository.getAllWorkouts().last()?.content
-            val index = result?.lastIndex?: 0
+            val index = result?.size?:1
             val workoutName = result?.last()?.name?:""
             if(index != 0 && workoutName == workout.name){
                 emit(repository.setActualWorkoutId(index))
-            }else {
+            } else {
                 emit(Resource.Error(null, UiText.StringResource(R.string.workout_not_saved)))
             }
-
         }
     }
 }

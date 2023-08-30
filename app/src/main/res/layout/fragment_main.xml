@@ -8,42 +8,34 @@
     android:hapticFeedbackEnabled="false"
     tools:context=".feature_main.presenter.fragments.MainFragment">
 
-    <EditText
-        android:id="@+id/editTextMainWorkoutName"
+    <TextView
+        android:id="@+id/tvMainWorkoutName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="3dp"
         android:background="@null"
         android:fontFamily="@font/caesar_dressing"
-        android:hint="@string/hint_workout_name"
-        android:inputType="textNoSuggestions"
-        android:maxLength="@integer/max_length_item_names"
         android:textColor="@color/text_main_color"
-        android:textColorHint="@color/text_main_color"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/editTextMainWorkoutDescription"
+    <TextView
+        android:id="@+id/tvMainWorkoutDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginTop="2dp"
         android:layout_marginEnd="4dp"
         android:background="@null"
-        android:ems="10"
-        android:hint="@string/hint_workout_description"
-        android:inputType="textNoSuggestions"
-        android:maxLength="@integer/max_length_descriptions"
         android:textColor="@color/text_main_color"
         android:textColorHint="@color/text_main_color"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextMainWorkoutName" />
+        app:layout_constraintTop_toBottomOf="@+id/tvMainWorkoutName" />
 
     <HorizontalScrollView
         android:id="@+id/horizontalScrollViewDivisionButtonsMain"
@@ -52,7 +44,7 @@
         android:layout_marginTop="3dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextMainWorkoutDescription">
+        app:layout_constraintTop_toBottomOf="@+id/tvMainWorkoutDescription">
 
         <LinearLayout
             android:id="@+id/linearLayoutDivisionButtonsMain"
@@ -67,21 +59,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="2dp"
         android:layout_marginEnd="2dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextDivisionDescriptionMain" />
-
-    <EditText
-        android:id="@+id/editTextDivisionDescriptionMain"
-        style="@style/style_small_texts"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="@string/hint_division_description"
-        android:inputType="textNoSuggestions|textPersonName"
-        android:maxLength="@integer/max_length_descriptions"
-        android:textAlignment="center"
-        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayoutNextTrainingToDo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/horizontalScrollViewDivisionButtonsMain" />

@@ -9,6 +9,7 @@ class DivisionForUi(
     var name: Char,
     var description: String,
     val exercises: MutableList<ExerciseForUi> = mutableListOf(),
+    var day: Int = 0,
     var status: Boolean = true,
     var message: UiText? = null
     ){

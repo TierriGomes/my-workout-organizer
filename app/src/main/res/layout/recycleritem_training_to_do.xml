@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/contraintLayoutExerciseContainer"
+    android:id="@+id/constraintLayoutExerciseToDo"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="2dp"
@@ -11,7 +12,7 @@
     android:paddingBottom="3dp">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardviewExercisePicture"
+        android:id="@+id/cardviewExercisePictureToDo"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginStart="7dp"
@@ -21,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imageViewExercisePicture"
+            android:id="@+id/imageViewExercisePictureToDo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:src="@tools:sample/avatars" />
@@ -29,7 +30,7 @@
 
 
     <TextView
-        android:id="@+id/tvExerciseName"
+        android:id="@+id/tvExerciseNameToDo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
@@ -40,12 +41,12 @@
         android:textColor="@color/text_main_color"
         android:textColorHint="@color/text_main_color"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/textViewExerciseType"
-        app:layout_constraintStart_toEndOf="@+id/cardviewExercisePicture"
+        app:layout_constraintEnd_toStartOf="@+id/textViewExerciseTypeToDo"
+        app:layout_constraintStart_toEndOf="@+id/cardviewExercisePictureToDo"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/tvExerciseDescription"
+        android:id="@+id/tvExerciseDescriptionToDo"
         style="@style/style_small_texts"
         android:layout_width="0dp"
         android:layout_marginStart="6dp"
@@ -54,21 +55,21 @@
         android:hint="@string/exercise_description"
         android:maxLength="@integer/max_length_descriptions"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cardviewExercisePicture"
-        app:layout_constraintTop_toBottomOf="@+id/tvExerciseName" />
+        app:layout_constraintStart_toEndOf="@+id/cardviewExercisePictureToDo"
+        app:layout_constraintTop_toBottomOf="@+id/tvExerciseNameToDo" />
 
     <ImageView
-        android:id="@+id/imageViewSeries"
+        android:id="@+id/imageViewSeriesToDo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
         android:src="@drawable/baseline_series"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintStart_toStartOf="@+id/cardviewExercisePicture"
-        app:layout_constraintTop_toBottomOf="@+id/cardviewExercisePicture" />
+        app:layout_constraintStart_toStartOf="@+id/cardviewExercisePictureToDo"
+        app:layout_constraintTop_toBottomOf="@+id/cardviewExercisePictureToDo" />
 
     <TextView
-        android:id="@+id/tvSeries"
+        android:id="@+id/tvSeriesToDo"
         style="@style/style_small_texts"
         android:layout_marginTop="6dp"
         android:hint="@string/hint_series"
@@ -76,53 +77,54 @@
         app:layout_constraintEnd_toStartOf="@+id/tvWeight"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintStart_toEndOf="@+id/imageViewSeries"
-        app:layout_constraintTop_toBottomOf="@+id/cardviewExercisePicture" />
+        app:layout_constraintStart_toEndOf="@+id/imageViewSeriesToDo"
+        app:layout_constraintTop_toBottomOf="@+id/cardviewExercisePictureToDo" />
 
     <ImageView
-        android:id="@+id/imageViewWeight"
+        android:id="@+id/imageViewWeightToDo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/baseline_weight"
-        app:layout_constraintBottom_toBottomOf="@+id/imageViewSeries"
-        app:layout_constraintEnd_toStartOf="@+id/tvWeight"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewSeriesToDo"
+        app:layout_constraintEnd_toStartOf="@+id/editTextWeightToDo"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintTop_toTopOf="@+id/imageViewSeries" />
+        app:layout_constraintTop_toTopOf="@+id/imageViewSeriesToDo" />
 
-    <TextView
-        android:id="@+id/tvWeight"
+    <EditText
+        android:id="@+id/editTextWeightToDo"
         style="@style/style_small_texts"
         android:hint="@string/hint_weight"
+        android:inputType="number|text"
         android:maxLength="@integer/max_length_numeric_inputs"
-        app:layout_constraintBottom_toBottomOf="@+id/tvSeries"
-        app:layout_constraintEnd_toStartOf="@+id/tvRestTime"
+        app:layout_constraintBottom_toBottomOf="@+id/tvSeriesToDo"
+        app:layout_constraintEnd_toStartOf="@+id/tvRestTimeToDo"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/tvSeries"
-        app:layout_constraintTop_toTopOf="@+id/tvSeries" />
+        app:layout_constraintStart_toEndOf="@+id/tvSeriesToDo"
+        app:layout_constraintTop_toTopOf="@+id/tvSeriesToDo" />
 
     <ImageView
-        android:id="@+id/imageViewRestIcon"
+        android:id="@+id/imageViewRestIconToDo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/baseline_watch"
-        app:layout_constraintBottom_toBottomOf="@+id/imageViewWeight"
-        app:layout_constraintEnd_toStartOf="@+id/tvRestTime"
-        app:layout_constraintTop_toTopOf="@+id/imageViewWeight"
+        app:layout_constraintBottom_toBottomOf="@+id/imageViewWeightToDo"
+        app:layout_constraintEnd_toStartOf="@+id/tvRestTimeToDo"
+        app:layout_constraintTop_toTopOf="@+id/imageViewWeightToDo"
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
-        android:id="@+id/tvRestTime"
+        android:id="@+id/tvRestTimeToDo"
         style="@style/style_small_texts"
         android:layout_marginEnd="6dp"
         android:hint="@string/hint_resttime"
         android:maxLength="@integer/max_length_numeric_inputs"
-        app:layout_constraintBottom_toBottomOf="@+id/tvSeries"
+        app:layout_constraintBottom_toBottomOf="@+id/tvSeriesToDo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvWeight"
-        app:layout_constraintTop_toTopOf="@+id/tvSeries" />
+        app:layout_constraintStart_toEndOf="@+id/tvWeightToDo"
+        app:layout_constraintTop_toTopOf="@+id/tvSeriesToDo" />
 
     <TextView
-        android:id="@+id/textViewExerciseType"
+        android:id="@+id/textViewExerciseTypeToDo"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="35dp"
@@ -130,10 +132,10 @@
         android:gravity="center"
         android:text="@string/text_type"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="@+id/tvExerciseName"
+        app:layout_constraintBottom_toBottomOf="@+id/tvExerciseNameToDo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvWeight"
-        app:layout_constraintTop_toTopOf="@+id/tvExerciseName" />
+        app:layout_constraintStart_toEndOf="@+id/tvWeightToDo"
+        app:layout_constraintTop_toTopOf="@+id/tvExerciseNameToDo" />
 
     <LinearLayout
         android:layout_width="0dp"
@@ -142,61 +144,67 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvSeries">
+        app:layout_constraintTop_toBottomOf="@+id/tvSeriesToDo">
 
-        <TextView
+        <EditText
             android:id="@+id/textViewS1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView"
+            android:inputType="number|text"
             android:textSize="16sp"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:visibility="gone" />
 
-        <TextView
+        <EditText
             android:id="@+id/textViewS2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView"
+            android:inputType="number|text"
             android:textSize="16sp"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:visibility="gone" />
 
-        <TextView
+        <EditText
             android:id="@+id/textViewS3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView"
+            android:inputType="number|text"
             android:textSize="16sp"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:visibility="gone" />
 
-        <TextView
+        <EditText
             android:id="@+id/textViewS4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView"
+            android:inputType="number|text"
             android:textSize="16sp"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:visibility="gone" />
 
-        <TextView
+        <EditText
             android:id="@+id/textViewS5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView"
+            android:inputType="number|text"
             android:textSize="16sp"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:visibility="gone" />
 
-        <TextView
+        <EditText
             android:id="@+id/textViewS6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView"
+            android:inputType="number|text"
             android:textSize="16sp"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:visibility="gone" />
     </LinearLayout>
 
 

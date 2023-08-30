@@ -14,8 +14,10 @@ import com.tierriapps.myworkoutorganizer.feature_main.presenter.models.ExerciseF
 import com.tierriapps.myworkoutorganizer.feature_main.utils.DivisionName
 import com.tierriapps.myworkoutorganizer.feature_main.utils.getDivisionByChar
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -124,12 +126,15 @@ class CreateNewWorkoutViewModel @Inject constructor(
         viewModelScope.launch {
             if (workoutResult.content != null && workoutResult is Resource.Success){
                 println("workout created by viewModel, trying to save..")
-                saveWorkout.invoke(workoutResult.content).onEach {
-                    _workoutStatus.value = it
-                }.collect()
-                setActualWorkout.invoke(workoutResult.content).onEach {
-                    _allDoneToNavigate.value = it
-                }.collect()
+                val saveResult = saveWorkout.invoke(workoutResult.content).toList()
+                _workoutStatus.value = saveResult.last()
+                delay(200)
+                if (saveResult.last() is Resource.Success){
+                    setActualWorkout.invoke(workoutResult.content).onEach {
+                        _allDoneToNavigate.value = it
+                    }.collect()
+                }
+
             }else {
                 println("cannot create workout")
                 _workoutStatus.value = workoutResult

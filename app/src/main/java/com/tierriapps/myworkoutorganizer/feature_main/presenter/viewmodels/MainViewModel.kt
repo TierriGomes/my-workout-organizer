@@ -9,11 +9,13 @@ import com.tierriapps.myworkoutorganizer.feature_main.domain.models.Workout
 import com.tierriapps.myworkoutorganizer.feature_main.domain.usecases.GetActualWorkout
 import com.tierriapps.myworkoutorganizer.feature_main.presenter.models.DivisionForUi
 import com.tierriapps.myworkoutorganizer.feature_main.presenter.models.toDivisionForUi
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@HiltViewModel
 class MainViewModel @Inject constructor(
     private val getActualWorkout: GetActualWorkout
 ): ViewModel() {
@@ -35,7 +37,12 @@ class MainViewModel @Inject constructor(
                 _actualWorkout.value = it
                 if (it is Resource.Success && it.content != null){
                     _divisionsForm.value = it.content.divisions.map { it.toDivisionForUi() }
-                    divisionsDone = it.content.trainingsDone.map { it.toDivisionForUi() }
+                    divisionsDone = it.content.trainingsDone.map {division ->
+                        val position = it.content.trainingsDone.indexOf(division)
+                        division.toDivisionForUi().apply { day = position } }
+                    if (divisionsDone.isEmpty()){
+                        divisionsDone = it.content!!.divisions!!.map { it.toDivisionForUi() }
+                    }
                     selectDivision(divisionsDone.last())
                 }
             }.collect()

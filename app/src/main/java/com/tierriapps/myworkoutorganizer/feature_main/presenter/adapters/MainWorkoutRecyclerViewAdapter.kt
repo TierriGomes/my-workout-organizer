@@ -61,13 +61,13 @@ class MainWorkoutRecyclerViewAdapter constructor(
             tvRest.text = exercise.timeOfRest.toString()
             tvExerciseType.text = exercise.type.name
             for ((k, r) in exercise.repsDone.withIndex()){
-                var text = ""
+                var text = "("
                 for(n in r){
                     text += "-$n"
                 }
-                text.replaceFirst('-', '(')
+                //text.replaceFirst('-', '(')
                 text += ")"
-                listOfReps[k].text = text
+                listOfReps[k].text = exercise.repsDone[k].toString()
                 listOfReps[k].visibility = View.VISIBLE
             }
         }

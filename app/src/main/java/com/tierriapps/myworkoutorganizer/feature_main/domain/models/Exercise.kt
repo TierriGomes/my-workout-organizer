@@ -12,3 +12,4 @@ data class Exercise(
     val seriesDone: MutableList<Reps> = mutableListOf(),
     val image: String = ""
 )
+

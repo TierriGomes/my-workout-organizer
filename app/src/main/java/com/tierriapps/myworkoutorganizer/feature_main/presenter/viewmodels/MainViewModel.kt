@@ -45,7 +45,9 @@ class MainViewModel @Inject constructor(
                     it.content.trainingsDone.map {division ->
                         val position = it.content.trainingsDone.indexOf(division)
                         division.toDivisionForUi().apply { day = position } }
-                    selectDivision(divisionsDone.last())
+                    if (divisionsDone.isNotEmpty()){
+                        selectDivision(divisionsDone.last())
+                    }
                 }
             }.collect()
         }

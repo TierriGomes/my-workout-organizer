@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.tierriapps.myworkoutorganizer.R
 import com.tierriapps.myworkoutorganizer.databinding.ActivityMainBinding
@@ -30,6 +32,17 @@ class DoTrainingSessionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.buttonSaveTrainingDone.setOnClickListener {
+            viewModel.createTraining()
+        }
+
+        binding.buttonOpenInNotificationBar.setOnClickListener {
+            // not yet implemented
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
         val name = arguments?.getString("divisionName", "null")
         viewModel.getActualDivisionToDo(name?:"")
         val toolBar = (requireActivity() as MainActivity).binding.toolbar
@@ -47,6 +60,17 @@ class DoTrainingSessionFragment : Fragment() {
             binding.constraintLayotDoTrainingSession.setBackgroundResource(divisionForUi.colorForBackGround())
             val adapter = DoTrainingSessionAdapter(divisionForUi.exercises, divisionForUi.colorForTexts())
             binding.recyclerViewDoTrainingSession.adapter = adapter
+        }
+        viewModel.jobStatus.observe(viewLifecycleOwner){
+            if (it == null){
+                binding.progressBar2.visibility = View.VISIBLE
+            }else {
+                binding.progressBar2.visibility = View.GONE
+                Toast.makeText(requireContext(), it.asString(requireContext()), Toast.LENGTH_LONG).show()
+                if (it.asString(requireContext()) == "Training Done And Saved!"){
+                    findNavController().navigateUp()
+                }
+            }
         }
     }
 }

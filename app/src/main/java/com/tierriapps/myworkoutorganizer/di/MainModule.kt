@@ -14,6 +14,7 @@ import com.tierriapps.myworkoutorganizer.feature_main.domain.repositories.Workou
 import com.tierriapps.myworkoutorganizer.feature_main.domain.usecases.CreateDivision
 import com.tierriapps.myworkoutorganizer.feature_main.domain.usecases.CreateExercise
 import com.tierriapps.myworkoutorganizer.feature_main.domain.usecases.CreateWorkout
+import com.tierriapps.myworkoutorganizer.feature_main.domain.usecases.PutDivisionTrainedInWorkout
 import com.tierriapps.myworkoutorganizer.feature_main.domain.usecases.PutExerciseInDivision
 import dagger.Module
 import dagger.Provides
@@ -77,5 +78,11 @@ object MainModule {
         localDAO: WorkoutLocalDAO, remoteDAO: WorkoutRemoteDAO, preferences: LocalUserPreferences)
     : WorkoutRepository {
         return WorkoutRepositoryImpl(remoteDAO, localDAO, preferences)
+    }
+
+    @Provides
+    @Singleton
+    fun providesPutDivisionInWorkout(): PutDivisionTrainedInWorkout{
+        return PutDivisionTrainedInWorkout()
     }
 }

@@ -41,6 +41,7 @@
     <string name="text_type">Exercise type</string>
     <string name="btDoSelectedTraining">Do Selected Training</string>
     <string name="btGetNextTraining">Show Next Training</string>
+    <string name="btOpenInNotificationBar">Open in notification bar</string>
     <string-array name="exercise_types">
         <item>Normal</item>
         <item>Isometric</item>

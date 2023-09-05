@@ -37,12 +37,14 @@ class MainViewModel @Inject constructor(
                 _actualWorkout.value = it
                 if (it is Resource.Success && it.content != null){
                     _divisionsForm.value = it.content.divisions.map { it.toDivisionForUi() }
-                    divisionsDone = it.content.trainingsDone.map {division ->
+                    val div = it.content.divisions.map { it.toDivisionForUi() }.toMutableList()
+                    for (d in it.content.trainingsDone){
+                        div.add(d.toDivisionForUi())
+                    }
+                    divisionsDone = div
+                    it.content.trainingsDone.map {division ->
                         val position = it.content.trainingsDone.indexOf(division)
                         division.toDivisionForUi().apply { day = position } }
-                    if (divisionsDone.isEmpty()){
-                        divisionsDone = it.content!!.divisions!!.map { it.toDivisionForUi() }
-                    }
                     selectDivision(divisionsDone.last())
                 }
             }.collect()

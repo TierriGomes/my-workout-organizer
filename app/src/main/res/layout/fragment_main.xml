@@ -59,7 +59,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="2dp"
         android:layout_marginEnd="2dp"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayoutNextTrainingToDo"
+        app:layout_constraintBottom_toTopOf="@+id/buttonDoSelectedTraining"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/horizontalScrollViewDivisionButtonsMain" />
@@ -75,34 +75,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayoutNextTrainingToDo"
+    <Button
+        android:id="@+id/buttonDoSelectedTraining"
         android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="4dp"
-        android:background="@drawable/selector_button_add_exercise"
-        android:clickable="true"
-        android:longClickable="true"
-        android:padding="3dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:text="@string/btDoSelectedTraining"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/progressBarMain"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/buttonGetNextTraining"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dp"
+        android:text="@string/btGetNextTraining"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toEndOf="@+id/progressBarMain" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:gravity="left|center_vertical"
-            android:padding="2dp"
-            android:paddingStart="4dp"
-            android:text="@string/next_training_to_do"
-            android:textSize="24sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

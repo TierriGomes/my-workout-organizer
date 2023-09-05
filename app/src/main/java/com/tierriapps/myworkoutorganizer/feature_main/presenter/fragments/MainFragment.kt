@@ -9,6 +9,11 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavAction
+import androidx.navigation.NavActionBuilder
+import androidx.navigation.NavArgument
+import androidx.navigation.NavDirections
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView.SmoothScroller
@@ -40,11 +45,16 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         toolbar = (requireActivity() as MainActivity).binding.toolbar
         viewModel.getActualWorkoutAndSetValues()
-        binding.constraintLayoutNextTrainingToDo.setOnClickListener {
-            val next = viewModel.getNextTrainingToDo()
-            if (next != null ){
-                viewModel.selectDivision(next)
-            }
+        binding.buttonGetNextTraining.setOnClickListener {
+            val division = viewModel.getNextTrainingToDo()?:return@setOnClickListener
+            viewModel.selectDivision(division)
+        }
+
+        binding.buttonDoSelectedTraining.setOnClickListener {
+            val string = viewModel.getActualDivisionName()
+            val bundle = Bundle().apply { putString("divisionName", string) }
+            findNavController().navigate(R.id.action_mainFragment_to_doTrainingSessionFragment, bundle)
+            onDestroy()
         }
     }
     override fun onResume() {

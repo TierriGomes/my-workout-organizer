@@ -39,6 +39,8 @@
     <string name="invalid_exercises">Invalid exercises</string>
     <string name="next_training_to_do">Next Training To Do</string>
     <string name="text_type">Exercise type</string>
+    <string name="btDoSelectedTraining">Do Selected Training</string>
+    <string name="btGetNextTraining">Show Next Training</string>
     <string-array name="exercise_types">
         <item>Normal</item>
         <item>Isometric</item>

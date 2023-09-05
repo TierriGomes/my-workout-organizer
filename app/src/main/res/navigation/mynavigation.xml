@@ -14,5 +14,19 @@
         android:id="@+id/mainFragment"
         android:name="com.tierriapps.myworkoutorganizer.feature_main.presenter.fragments.MainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_doTrainingSessionFragment"
+            app:destination="@id/doTrainingSessionFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/doTrainingSessionFragment"
+        android:name="com.tierriapps.myworkoutorganizer.feature_main.presenter.fragments.DoTrainingSessionFragment"
+        android:label="fragment_do_training_session"
+        tools:layout="@layout/fragment_do_training_session" >
+        <argument
+            android:name="divisionName"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 </navigation>

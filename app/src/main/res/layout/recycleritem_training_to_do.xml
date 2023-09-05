@@ -74,7 +74,7 @@
         android:layout_marginTop="6dp"
         android:hint="@string/hint_series"
         android:maxLength="@integer/max_length_numeric_inputs"
-        app:layout_constraintEnd_toStartOf="@+id/tvWeight"
+        app:layout_constraintEnd_toStartOf="@+id/editTextWeightToDo"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toEndOf="@+id/imageViewSeriesToDo"
@@ -120,7 +120,7 @@
         android:maxLength="@integer/max_length_numeric_inputs"
         app:layout_constraintBottom_toBottomOf="@+id/tvSeriesToDo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvWeightToDo"
+        app:layout_constraintStart_toEndOf="@+id/editTextWeightToDo"
         app:layout_constraintTop_toTopOf="@+id/tvSeriesToDo" />
 
     <TextView
@@ -134,7 +134,7 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/tvExerciseNameToDo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/tvWeightToDo"
+        app:layout_constraintStart_toEndOf="@+id/editTextWeightToDo"
         app:layout_constraintTop_toTopOf="@+id/tvExerciseNameToDo" />
 
     <LinearLayout
@@ -147,7 +147,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvSeriesToDo">
 
         <EditText
-            android:id="@+id/textViewS1"
+            android:id="@+id/editTextS1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -157,7 +157,7 @@
             tools:visibility="gone" />
 
         <EditText
-            android:id="@+id/textViewS2"
+            android:id="@+id/editTextS2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -167,7 +167,7 @@
             tools:visibility="gone" />
 
         <EditText
-            android:id="@+id/textViewS3"
+            android:id="@+id/editTextS3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -177,7 +177,7 @@
             tools:visibility="gone" />
 
         <EditText
-            android:id="@+id/textViewS4"
+            android:id="@+id/editTextS4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -187,7 +187,7 @@
             tools:visibility="gone" />
 
         <EditText
-            android:id="@+id/textViewS5"
+            android:id="@+id/editTextS5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -197,7 +197,7 @@
             tools:visibility="gone" />
 
         <EditText
-            android:id="@+id/textViewS6"
+            android:id="@+id/editTextS6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

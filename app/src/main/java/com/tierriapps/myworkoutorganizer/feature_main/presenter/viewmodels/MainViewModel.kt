@@ -64,4 +64,8 @@ class MainViewModel @Inject constructor(
         index = if (index == divisions.lastIndex) 0 else index
         return divisions[index]
     }
+
+    fun getActualDivisionName(): String{
+        return _actualTrainings.value?.get(0)?.name.toString()
+    }
 }

@@ -48,6 +48,19 @@ class CreateNewWorkoutFragment : Fragment() {
         binding.buttonAddExercise.setOnClickListener {
             viewModel.addNewExerciseInActualDivision()
         }
+
+        binding.editTextCreateWorkoutName.addTextChangedListener(MyTextWatcher(
+            binding.editTextCreateWorkoutName,
+            binding.editTextDivisionDescription,
+            function = {
+                val text = binding.editTextCreateWorkoutName.text.toString()
+                if (text == text.uppercase()){
+                    return@MyTextWatcher
+                }else {
+                    binding.editTextCreateWorkoutName.setText(text.uppercase())
+                }
+            }
+        ))
         // save division description
         binding.editTextDivisionDescription
             .addTextChangedListener(MyTextWatcher(

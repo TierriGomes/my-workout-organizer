@@ -46,7 +46,11 @@ class CreateNewWorkoutViewModel @Inject constructor(
 
     fun addNewDivision(){
         val values = _listOfDivisions.value?: mutableListOf()
-        val name = DivisionName.values()[_listOfDivisions.value!!.size]
+        val index = _listOfDivisions.value!!.size
+        if (index > DivisionName.values().lastIndex){
+            return
+        }
+        val name = DivisionName.values()[index]
         values.add(DivisionForUi(name.char, ""))
         _listOfDivisions.value = values
         _actualDivision.value = _listOfDivisions.value?.last()

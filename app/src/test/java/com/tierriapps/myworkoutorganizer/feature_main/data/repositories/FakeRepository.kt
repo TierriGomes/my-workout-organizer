@@ -17,6 +17,7 @@ import kotlinx.coroutines.flow.flow
 
 class FakeRepository: WorkoutRepository {
     var shouldReturnSuccess = true
+    val insertedWorkouts = mutableListOf<Workout>()
     var listOfWorkouts = listOf(
         Workout(
             1, "name1", "description",
@@ -180,6 +181,7 @@ class FakeRepository: WorkoutRepository {
 
     override fun insertWorkout(workout: Workout): Flow<Resource<Workout?>> = flow {
         insertWorkoutCalls ++
+        insertedWorkouts.add(workout)
         emit(Resource.Loading())
         if (shouldReturnSuccess){
             emit(Resource.Success(listOfWorkouts[1], UiText.StringResource(R.string.success)))
@@ -230,37 +232,3 @@ class FakeRepository: WorkoutRepository {
         return MutableLiveData("userName")
     }
 }
-
-
-    val division2 = Division(
-        name = DivisionName.B,
-        description = "Esta é a descrição da Divisão 2",
-        exercises = mutableListOf(
-            Exercise(
-                name = "Exercício 3",
-                description = "Descrição do Exercício 3",
-                numOfSeries = 3,
-                timeOfRest = 60,
-                type = ExerciseType.NORMAL,
-                weight = 60,
-                seriesDone = mutableListOf(
-                    Reps(listOf(8, 8, 6)),
-                    Reps(listOf(10, 10, 8))
-                ),
-                image = "imagem_exercicio3.jpg"
-            ),
-            Exercise(
-                name = "Exercício 4",
-                description = "Descrição do Exercício 4",
-                numOfSeries = 5,
-                timeOfRest = 45,
-                type = ExerciseType.NORMAL,
-                weight = 45,
-                seriesDone = mutableListOf(
-                    Reps(listOf(12, 12, 10, 10, 8)),
-                    Reps(listOf(15, 15, 12, 12, 10))
-                ),
-                image = "imagem_exercicio4.jpg"
-            )
-        )
-    )

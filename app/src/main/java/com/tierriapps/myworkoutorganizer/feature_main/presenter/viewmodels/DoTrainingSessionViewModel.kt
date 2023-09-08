@@ -40,7 +40,9 @@ class DoTrainingSessionViewModel @Inject constructor(
 
     fun getActualDivisionToDo(divisionName: String){
         viewModelScope.launch {
-            actualWorkout = getActualWorkout.invoke().last().content
+            val result = getActualWorkout.invoke().last()
+            _jobStatus.value = result.message
+            actualWorkout = result.content
             if (actualWorkout == null){return@launch}
             val division = actualWorkout!!.divisions.find { it.name.char == divisionName[0] }
             _divisionStatus.value = division?.toDivisionForUi()
@@ -48,6 +50,7 @@ class DoTrainingSessionViewModel @Inject constructor(
     }
 
     fun createTraining(){
+        _jobStatus.value = null
         val divisionForUi = _divisionStatus.value
         if (divisionForUi == null || actualWorkout == null){
             _divisionStatus.value = DivisionForUi('A', "error", status = false)

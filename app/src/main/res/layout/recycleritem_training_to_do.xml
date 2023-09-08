@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constraintLayoutExerciseToDo"
@@ -41,7 +40,8 @@
         android:textColor="@color/text_main_color"
         android:textColorHint="@color/text_main_color"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/textViewExerciseTypeToDo"
+        app:layout_constraintEnd_toEndOf="@+id/editTextWeightToDo"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/cardviewExercisePictureToDo"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -50,35 +50,32 @@
         style="@style/style_small_texts"
         android:layout_width="0dp"
         android:layout_marginStart="6dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginEnd="40dp"
         android:hint="@string/exercise_description"
         android:maxLength="@integer/max_length_descriptions"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/cardviewExercisePictureToDo"
-        app:layout_constraintTop_toBottomOf="@+id/tvExerciseNameToDo" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
     <ImageView
         android:id="@+id/imageViewSeriesToDo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
         android:src="@drawable/baseline_series"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
-        app:layout_constraintStart_toStartOf="@+id/cardviewExercisePictureToDo"
-        app:layout_constraintTop_toBottomOf="@+id/cardviewExercisePictureToDo" />
+        app:layout_constraintStart_toStartOf="@+id/tvExerciseNameToDo"
+        app:layout_constraintTop_toBottomOf="@+id/tvExerciseNameToDo" />
 
     <TextView
         android:id="@+id/tvSeriesToDo"
         style="@style/style_small_texts"
-        android:layout_marginTop="6dp"
         android:hint="@string/hint_series"
         android:maxLength="@integer/max_length_numeric_inputs"
         app:layout_constraintEnd_toStartOf="@+id/editTextWeightToDo"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toEndOf="@+id/imageViewSeriesToDo"
-        app:layout_constraintTop_toBottomOf="@+id/cardviewExercisePictureToDo" />
+        app:layout_constraintTop_toBottomOf="@+id/tvExerciseNameToDo" />
 
     <ImageView
         android:id="@+id/imageViewWeightToDo"
@@ -127,17 +124,16 @@
         android:id="@+id/textViewExerciseTypeToDo"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginEnd="3dp"
         android:gravity="center"
         android:text="@string/text_type"
-        android:textSize="20sp"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@+id/tvExerciseNameToDo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/editTextWeightToDo"
+        app:layout_constraintEnd_toStartOf="@+id/buttonInfoToDo"
+        app:layout_constraintStart_toEndOf="@+id/tvExerciseNameToDo"
         app:layout_constraintTop_toTopOf="@+id/tvExerciseNameToDo" />
 
     <LinearLayout
+        android:id="@+id/lntoDo1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="3dp"
@@ -151,7 +147,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:inputType="number|text"
+            android:inputType="datetime"
             android:textSize="16sp"
             android:visibility="gone"
             tools:visibility="gone" />
@@ -161,7 +157,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:inputType="number|text"
+            android:inputType="datetime"
             android:textSize="16sp"
             android:visibility="gone"
             tools:visibility="gone" />
@@ -171,17 +167,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:inputType="number|text"
+            android:inputType="datetime"
             android:textSize="16sp"
             android:visibility="gone"
             tools:visibility="gone" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lntoDo1">
 
         <EditText
             android:id="@+id/editTextS4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:inputType="number|text"
+            android:inputType="datetime"
             android:textSize="16sp"
             android:visibility="gone"
             tools:visibility="gone" />
@@ -191,7 +198,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:inputType="number|text"
+            android:inputType="datetime"
             android:textSize="16sp"
             android:visibility="gone"
             tools:visibility="gone" />
@@ -201,11 +208,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:inputType="number|text"
+            android:inputType="datetime"
             android:textSize="16sp"
             android:visibility="gone"
             tools:visibility="gone" />
     </LinearLayout>
 
+    <ImageView
+        android:id="@+id/buttonInfoToDo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@+id/tvRestTimeToDo"
+        app:layout_constraintTop_toTopOf="@+id/tvExerciseNameToDo"
+        app:srcCompat="@drawable/baseline_info_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

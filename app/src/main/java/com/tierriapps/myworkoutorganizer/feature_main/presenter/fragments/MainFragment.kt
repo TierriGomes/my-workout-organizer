@@ -16,6 +16,7 @@ import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
+import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView.SmoothScroller
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.collection.LLRBNode
@@ -43,6 +44,8 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val pagerSnapHelper = PagerSnapHelper()
+        pagerSnapHelper.attachToRecyclerView(binding.recyclerViewMain)
         toolbar = (requireActivity() as MainActivity).binding.toolbar
         viewModel.getActualWorkoutAndSetValues()
         binding.buttonGetNextTraining.setOnClickListener {
@@ -51,7 +54,7 @@ class MainFragment : Fragment() {
         }
 
         binding.buttonDoSelectedTraining.setOnClickListener {
-            val string = viewModel.getActualDivisionName()
+            val string = viewModel.getActualDivisionName()?:return@setOnClickListener
             val bundle = Bundle().apply { putString("divisionName", string) }
             findNavController().navigate(R.id.action_mainFragment_to_doTrainingSessionFragment, bundle)
             onDestroy()
@@ -63,6 +66,7 @@ class MainFragment : Fragment() {
             when(resourceWorkout){
                 is Resource.Loading -> binding.progressBarMain.visibility = View.VISIBLE
                 is Resource.Error -> {
+                    binding.progressBarMain.visibility = View.INVISIBLE
                     val snackBar = Snackbar.make(
                         requireContext(),
                         binding.root,
@@ -76,8 +80,10 @@ class MainFragment : Fragment() {
                     snackBar.show()
                 }
                 is Resource.Success -> {
+                    binding.buttonGetNextTraining.visibility = View.VISIBLE
+                    binding.buttonDoSelectedTraining.visibility = View.VISIBLE
                     binding.progressBarMain.visibility = View.INVISIBLE
-                    binding.tvMainWorkoutName.text = resourceWorkout.content?.name
+                    binding.tvMainWorkoutName.text = resourceWorkout.content?.name?.uppercase()
                     binding.tvMainWorkoutDescription.text = resourceWorkout.content?.description
                     observeThings()
                 }
@@ -98,6 +104,7 @@ class MainFragment : Fragment() {
                 }
             binding.recyclerViewMain.clipToPadding = false
             binding.recyclerViewMain.layoutManager = layoutManager
+            adapter.scrollToLastItem(binding.recyclerViewMain)
             binding.recyclerViewMain.adapter = adapter
             binding.constraintLayoutMainFragment
                 .setBackgroundResource(trainingsDone[0].colorForBackGround())
@@ -105,6 +112,8 @@ class MainFragment : Fragment() {
             val textColor = ContextCompat.getColor(requireContext(), trainingsDone[0].colorForTexts())
             binding.tvMainWorkoutName.setTextColor(textColor)
             binding.tvMainWorkoutDescription.setTextColor(textColor)
+            binding.buttonGetNextTraining.setTextColor(textColor)
+            binding.buttonDoSelectedTraining.setTextColor(textColor)
         }
         viewModel.divisionsForm.observe(this){ divisionsForm ->
             binding.linearLayoutDivisionButtonsMain.removeAllViews()

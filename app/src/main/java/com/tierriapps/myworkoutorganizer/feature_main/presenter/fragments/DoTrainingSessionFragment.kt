@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
@@ -33,7 +34,13 @@ class DoTrainingSessionFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.buttonSaveTrainingDone.setOnClickListener {
-            viewModel.createTraining()
+            val snackbar = Snackbar.make(
+                requireContext(), binding.root,
+                "Save training?", Snackbar.LENGTH_SHORT)
+            snackbar.setAction("Yes"){
+                viewModel.createTraining()
+            }
+            snackbar.show()
         }
 
         binding.buttonOpenInNotificationBar.setOnClickListener {
@@ -56,6 +63,9 @@ class DoTrainingSessionFragment : Fragment() {
                     Snackbar.LENGTH_LONG).show()
                 return@observe
             }
+            val textColor = ContextCompat.getColor(requireContext(), divisionForUi.colorForTexts())
+            binding.buttonSaveTrainingDone.setTextColor(textColor)
+            binding.buttonOpenInNotificationBar.setTextColor(textColor)
             toolBar.setBackgroundResource(divisionForUi.colorForButtonAndHints())
             binding.constraintLayotDoTrainingSession.setBackgroundResource(divisionForUi.colorForBackGround())
             val adapter = DoTrainingSessionAdapter(divisionForUi.exercises, divisionForUi.colorForTexts())

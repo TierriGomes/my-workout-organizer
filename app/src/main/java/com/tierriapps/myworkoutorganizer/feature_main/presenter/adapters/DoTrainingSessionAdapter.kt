@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.tierriapps.myworkoutorganizer.databinding.RecycleritemTrainingToDoBinding
@@ -37,6 +38,7 @@ class DoTrainingSessionAdapter constructor(
         private val tvSeries = binding.tvSeriesToDo
         private val tvWeight = binding.editTextWeightToDo
         private val tvRest = binding.tvRestTimeToDo
+        private val buttonInfo = binding.buttonInfoToDo
         private val image = binding.imageViewExercisePictureToDo
         private val listOfReps = listOf(
             binding.editTextS1, binding.editTextS2, binding.editTextS3,
@@ -59,6 +61,13 @@ class DoTrainingSessionAdapter constructor(
             tvWeight.setText(exercise.weight.toString())
             tvRest.text = exercise.timeOfRest.toString()
             tvExerciseType.text = exercise.type.name
+            buttonInfo.setOnClickListener {
+                if (tvExerciseDescription.isVisible){
+                    tvExerciseDescription.visibility = View.GONE
+                }else {
+                    tvExerciseDescription.visibility = View.VISIBLE
+                }
+            }
 
             for (serie in 0 until exercise.numOfSeries!!){
                 val editText = listOfReps[serie]
@@ -68,19 +77,38 @@ class DoTrainingSessionAdapter constructor(
                     editText,
                     if (serie < listOfReps.lastIndex) listOfReps[serie+1] else null,
                     function = {
-                        val textList = mutableListOf<Int>()
-                        var digitBefore: String? = null
-                        for (char in editText.text){
-                            if (char.isDigit()){
-                                digitBefore += char
-                            }else{
-                                textList.add(digitBefore?.toIntOrNull()?:0)
-                            }
-                        }
-                        exercise.repsDone[serie] = textList
+                        println("the function was called")
+                        val text = editText.text.toString()
+                        exercise.repsDone[serie] = getNumberListFromString(text).toMutableList()
                     })
                 editText.addTextChangedListener(myTextWatcher)
             }
+        }
+        private fun getNumberListFromString(string: String): List<Int>{
+            val list = mutableListOf<Int>()
+            var number = ""
+            var canAdd = true
+            for (char in string){
+                try {
+                    char.toString().toInt()
+                    number += char
+                }catch (e: Exception){
+                    if (number.toIntOrNull() != null){
+                        number = ""
+                        canAdd = true
+                    }
+                }finally {
+                    if (number.toIntOrNull() != null){
+                        if (canAdd){
+                            list.add(number.toInt())
+                            canAdd = false
+                        }else {
+                            list[list.lastIndex] = number.toInt()
+                        }
+                    }
+                }
+            }
+            return list
         }
     }
 }

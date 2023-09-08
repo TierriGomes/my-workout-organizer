@@ -6,6 +6,8 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toolbar
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.view.menu.MenuBuilder
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
@@ -38,6 +40,18 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         val toolbar = binding.toolbar
+        toolbar.inflateMenu(R.menu.menu_theme)
+        toolbar.setOnMenuItemClickListener {
+            if (it.itemId == R.id.setDarkMode){
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                true
+            }else if (it.itemId == R.id.setLightMode){
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                true
+            }
+            recreate()
+            false
+        }
         val drawerLayout = binding.drawerLayout
         val navView = binding.navigationView
         val navController = findNavController(R.id.fragmentContainerView)

@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.tierriapps.myworkoutorganizer.databinding.RecycleritemExerciseMainContainerBinding
@@ -37,6 +38,7 @@ class MainWorkoutRecyclerViewAdapter constructor(
         private val tvSeries = binding.tvSeries
         private val tvWeight = binding.tvWeight
         private val tvRest = binding.tvRestTime
+        private val buttonInfo = binding.buttonInfo
         private val image = binding.imageViewExercisePicture
         private val listOfReps = listOf(
             binding.textViewS1, binding.textViewS2, binding.textViewS3,
@@ -61,14 +63,21 @@ class MainWorkoutRecyclerViewAdapter constructor(
             tvRest.text = exercise.timeOfRest.toString()
             tvExerciseType.text = exercise.type.name
             for ((k, r) in exercise.repsDone.withIndex()){
-                var text = "("
+                var text = "s${k+1}("
                 for(n in r){
-                    text += "-$n"
+                    text += " - $n"
                 }
-                //text.replaceFirst('-', '(')
-                text += ")"
-                listOfReps[k].text = exercise.repsDone[k].toString()
+                text = text.replaceFirst(" -", "")
+                text += " )"
+                listOfReps[k].text = text
                 listOfReps[k].visibility = View.VISIBLE
+            }
+            buttonInfo.setOnClickListener {
+                if (tvExerciseDescription.isVisible){
+                    tvExerciseDescription.visibility = View.GONE
+                }else {
+                    tvExerciseDescription.visibility = View.VISIBLE
+                }
             }
         }
     }

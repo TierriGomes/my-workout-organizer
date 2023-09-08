@@ -60,16 +60,22 @@ class MainViewModel @Inject constructor(
     }
 
     fun getNextTrainingToDo(): DivisionForUi?{
+        if (divisionsDone.isEmpty()){return null}
         val name = divisionsDone.last().name
         val divisions = _divisionsForm.value?:return null
         var index = divisions.indexOf(
             divisions.find { it.name == name }
         )
-        index = if (index == divisions.lastIndex) 0 else index
+        if (divisions.lastIndex == index){
+            index = 0
+        }else {
+            index += 1
+        }
         return divisions[index]
     }
 
-    fun getActualDivisionName(): String{
-        return _actualTrainings.value?.get(0)?.name.toString()
+    fun getActualDivisionName(): String?{
+        val name = _actualTrainings.value?.get(0)?.name
+        return if (name == null) null else name.toString()
     }
 }

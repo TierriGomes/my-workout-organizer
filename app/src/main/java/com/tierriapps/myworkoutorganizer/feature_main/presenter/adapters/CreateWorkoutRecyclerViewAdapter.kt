@@ -1,11 +1,20 @@
 package com.tierriapps.myworkoutorganizer.feature_main.presenter.adapters
 
+import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
+import androidx.core.view.children
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -63,9 +72,12 @@ class CreateWorkoutRecyclerViewAdapter @Inject constructor(
             etWeight.setHintTextColor(chintColor)
             etRest.setTextColor(ctextColor)
             etRest.setHintTextColor(chintColor)
+            val lista = ExerciseType.values().map { it.name.lowercase() }
+            val adapter = CustomSpinnerAdapter(binding.root.context, android.R.layout.simple_spinner_dropdown_item, lista, ctextColor)
+            spExerciseType.adapter = adapter
         }
 
-        fun bind(exercise: ExerciseForUi){
+        fun bind(exercise: ExerciseForUi) {
             etExerciseName.setText(exercise.name?:"")
             etExerciseDescription.setText(exercise.description?:"")
             spExerciseType.setSelection(exercise.type.getPosition())
@@ -137,6 +149,20 @@ class CreateWorkoutRecyclerViewAdapter @Inject constructor(
             })
             snackBar.show()
         }
+        inner class CustomSpinnerAdapter(context: Context, resource: Int, items: List<String>, textColor: Int) : ArrayAdapter<String>(context, resource, items) {
+            private val color = textColor
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getView(position, convertView, parent) as TextView
+                view.setTextColor(color) // Defina a cor desejada aqui
+                return view
+            }
 
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getDropDownView(position, convertView, parent) as TextView
+                view.setTextColor(color) // Defina a cor desejada para os itens do dropdown aqui
+                return view
+            }
+        }
     }
+
 }

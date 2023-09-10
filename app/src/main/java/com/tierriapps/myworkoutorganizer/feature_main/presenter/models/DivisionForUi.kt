@@ -37,7 +37,7 @@ class DivisionForUi(
         for (c in buttonAndHintColors){
             if (name.lowercase() in c.key) { return c.value }
         }
-        return R.color.gray_light
+        return R.color.almost_transparent
     }
 
     fun colorForTexts(): Int {

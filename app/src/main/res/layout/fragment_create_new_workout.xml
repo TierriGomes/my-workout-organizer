@@ -64,11 +64,12 @@
             android:orientation="horizontal" />
     </HorizontalScrollView>
 
-    <com.google.android.material.imageview.ShapeableImageView
+    <ImageView
         android:id="@+id/imageViewButtonAdd"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/selector_baseline_addcircle"
+        android:clickable="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/horizontalScrollViewDivisionButtons" />
 

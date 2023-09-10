@@ -7,17 +7,32 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="gray_light">#DAD5D5</color>
 
-    <color name="text_main_color">#2E033A</color>
+    <color name="default_toolbar">#5E0101</color>
+    <color name="transparent_black">#7EFFFFFF</color>
+    <color name="almost_transparent">#39FFFFFF</color>
+    <color name="vectors_main_color">#9C5912</color>
+    <color name="text_main_color">#E5A7F6</color>
+    <color name="text_white_color">#FFFFFF</color>
+    <color name="delete_color">#6DF60000</color>
+    <color name="alert_orange">#FF0000</color>
+    <color name="alert_green">#14C108</color>
+
+    <color name="exercise_container_stroke">#D5C7C7</color>
+    <color name="exercise_container">#333131</color>
 
     <color name="background_blue">#020320</color>
     <color name="background_purple">#160222</color>
     <color name="background_red">#270202</color>
-    <color name="background_green">#052002</color>
+    <color name="background_green">#041702</color>
 
-    <color name="blue">#185B8F</color>
-    <color name="purple">#580E8E</color>
-    <color name="red">#810A0A</color>
-    <color name="green">#084B08</color>
+    <color name="blue">#1D7BA7</color>
+    <color name="purple">#7A1BBF</color>
+    <color name="red">#911010</color>
+    <color name="green">#065C06</color>
+
+    <color name="blue_text">#31CFFF</color>
+    <color name="purple_text">#CD88FF</color>
+    <color name="red_text">#E66C3B</color>
+    <color name="green_text">#4AFF86</color>
 </resources>

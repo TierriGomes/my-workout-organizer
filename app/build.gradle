@@ -18,7 +18,7 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
-
+        multiDexEnabled true
         testInstrumentationRunner "com.tierriapps.myworkoutorganizer.MyHiltTestRunner"
         //testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -49,6 +49,7 @@ android {
         resources {
             excludes += ['META-INF/LICENSE.md', 'META-INF/LICENSE-notice.md']
         }
+        exclude 'androidsupportmultidexversion.txt'
     }
 }
 // versions.. remember to uptade it
@@ -142,6 +143,8 @@ dependencies {
     // data store
     implementation "androidx.datastore:datastore-preferences:1.0.0"
 
+    // api 19 multidex
+    implementation 'com.android.support:multidex:1.0.3'
 }
 // something for dagger '-'
 kapt {

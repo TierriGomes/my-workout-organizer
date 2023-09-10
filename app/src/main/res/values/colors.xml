@@ -7,12 +7,10 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="default_toolbar">#5E0101</color>
 
+    <color name="default_toolbar">#5E0101</color>
     <color name="transparent_black">#7E000000</color>
     <color name="almost_transparent">#40A69595</color>
-
-
     <color name="vectors_main_color">#ED7C02</color>
     <color name="text_main_color">#2E033A</color>
     <color name="text_white_color">#FFFFFFFF</color>
@@ -20,20 +18,23 @@
     <color name="alert_orange">#E15200</color>
     <color name="alert_green">#14C108</color>
 
+    <color name="exercise_container_stroke">#2B2B2B</color>
+    <color name="exercise_container">#D5FFFFFF</color>
+
     <color name="background_blue">#D7F0F6</color>
     <color name="background_purple">#D9CCE8</color>
     <color name="background_red">#DCBDBD</color>
     <color name="background_green">#D9E7CA</color>
 
-    <color name="blue">#185B8F</color>
+    <color name="blue">#094195</color>
     <color name="purple">#580E8E</color>
-    <color name="red">#8A2309</color>
+    <color name="red">#782915</color>
     <color name="green">#084B08</color>
 
-    <color name="blue_text">#0E8EF1</color>
+    <color name="blue_text">#1F6BC8</color>
     <color name="purple_text">#8C07ED</color>
-    <color name="red_text">#D30B0B</color>
-    <color name="green_text">#0D9E0D</color>
+    <color name="red_text">#AF1313</color>
+    <color name="green_text">#127E12</color>
 
 
 

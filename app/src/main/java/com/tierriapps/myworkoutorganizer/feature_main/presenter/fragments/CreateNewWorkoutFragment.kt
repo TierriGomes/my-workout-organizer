@@ -28,6 +28,7 @@ class CreateNewWorkoutFragment : Fragment() {
     private lateinit var toolbar: Toolbar
     private val viewModel: CreateNewWorkoutViewModel by viewModels()
     private lateinit var adapter: CreateWorkoutRecyclerViewAdapter
+    private lateinit var myActivity: MainActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -71,8 +72,12 @@ class CreateNewWorkoutFragment : Fragment() {
                 }
             )
         )
+
+
         // save workout button at the toolbar
-        toolbar = (requireActivity() as MainActivity).binding.toolbar
+        myActivity = (requireActivity() as MainActivity)
+        toolbar = myActivity.binding.toolbar
+        toolbar.menu.clear()
         toolbar.inflateMenu(R.menu.create_workout_save_button_menu)
         toolbar.setOnMenuItemClickListener {
             if (it.itemId == R.id.saveNewWorkoutMenuButton){
@@ -175,6 +180,7 @@ class CreateNewWorkoutFragment : Fragment() {
     }
     override fun onDestroy() {
         toolbar.menu.clear()
+        myActivity.createMenuThemeSetter()
         toolbar.setBackgroundResource(R.color.default_toolbar)
         super.onDestroy()
     }

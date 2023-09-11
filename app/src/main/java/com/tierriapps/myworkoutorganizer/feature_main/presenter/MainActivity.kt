@@ -39,23 +39,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        val toolbar = binding.toolbar
-        toolbar.inflateMenu(R.menu.menu_theme)
-        toolbar.setOnMenuItemClickListener {
-            if (it.itemId == R.id.setDarkMode){
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-                true
-            }else if (it.itemId == R.id.setLightMode){
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-                true
-            }
-            recreate()
-            false
-        }
+        createMenuThemeSetter()
         val drawerLayout = binding.drawerLayout
         val navView = binding.navigationView
         val navController = findNavController(R.id.fragmentContainerView)
-        NavigationUI.setupWithNavController(toolbar, navController, drawerLayout)
+        NavigationUI.setupWithNavController(binding.toolbar, navController, drawerLayout)
         NavigationUI.setupWithNavController(navView, navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id == R.id.mainFragment) {
@@ -65,6 +53,21 @@ class MainActivity : AppCompatActivity() {
                 println("actual is other: ${destination.displayName}")
                 binding.drawerLayout.setDrawerLockMode(LOCK_MODE_LOCKED_CLOSED)
             }
+        }
+    }
+
+    fun createMenuThemeSetter(){
+        val toolbar = binding.toolbar
+        toolbar.menu.clear()
+        toolbar.inflateMenu(R.menu.menu_theme)
+        toolbar.setOnMenuItemClickListener {
+            if (it.itemId == R.id.setDarkMode){
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+            }else if (it.itemId == R.id.setLightMode){
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+            }
+            recreate()
+            true
         }
     }
 }

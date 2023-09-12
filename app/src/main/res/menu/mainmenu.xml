@@ -6,4 +6,7 @@
         android:id="@+id/createNewWorkoutFragment"
         android:icon="@drawable/baseline_add_workout"
         android:title="Create New Workout" />
+    <item
+        android:id="@+id/myWorkoutsFragment"
+        android:title="My Workouts" />
 </menu>

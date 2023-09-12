@@ -101,7 +101,7 @@ class CreateNewWorkoutFragment : Fragment() {
             }
             Toast.makeText(
                 requireContext(),
-                it.message?.asString(requireContext()) + " ${it.content}",
+                it.message?.asString(requireContext()),
                 Toast.LENGTH_LONG).show()
         }
         viewModel.workoutStatus.observe(this) { resourceWorkout ->

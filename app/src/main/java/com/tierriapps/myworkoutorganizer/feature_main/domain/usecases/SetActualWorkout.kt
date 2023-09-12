@@ -22,7 +22,7 @@ class SetActualWorkout @Inject constructor(val repository: WorkoutRepository) {
         } else {
             println("id is null")
             val result = repository.getAllWorkouts().last()?.content
-            val index = result?.size?:1
+            val index = result?.last()?.id?:0
             val workoutName = result?.last()?.name?:""
             if(index != 0 && workoutName == workout.name){
                 emit(repository.setActualWorkoutId(index))

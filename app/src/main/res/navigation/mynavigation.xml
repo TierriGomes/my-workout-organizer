@@ -40,4 +40,9 @@
     <argument android:name="position"
         app:argType="integer"
         android:defaultValue="0" />
+    <fragment
+        android:id="@+id/myWorkoutsFragment"
+        android:name="com.tierriapps.myworkoutorganizer.feature_main.presenter.fragments.MyWorkoutsFragment"
+        android:label="fragment_my_workouts"
+        tools:layout="@layout/fragment_my_workouts" />
 </navigation>

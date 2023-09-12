@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavAction
 import androidx.navigation.NavActionBuilder
@@ -34,6 +35,17 @@ class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
     private val viewModel: MainViewModel by viewModels()
     private lateinit var toolbar: Toolbar
+    private val funToEditTraining: (position: Int, char: Char) -> Unit = {position, char ->
+        val snackbar = Snackbar.make(requireContext(), binding.root, "Edit training?", Snackbar.LENGTH_SHORT)
+        snackbar.setAction("Yes"){
+            val bundle = bundleOf()
+            val thePosition = viewModel.getPositionByAllDivisions(position, char)?:return@setAction
+            bundle.putInt("position", thePosition)
+            findNavController().navigate(R.id.action_mainFragment_to_editTrainingFragment, bundle)
+            onDestroy()
+        }
+        snackbar.show()
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -96,7 +108,7 @@ class MainFragment : Fragment() {
             if (trainingsDone.isEmpty()){
                 return@observe
             }
-            val adapter = MainWorkoutHorizontalAdapter(trainingsDone)
+            val adapter = MainWorkoutHorizontalAdapter(trainingsDone, funToEditTraining)
             val layoutManager = LinearLayoutManager(requireContext())
                 .apply {
                     orientation = LinearLayoutManager.HORIZONTAL

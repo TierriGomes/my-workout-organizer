@@ -9,11 +9,15 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.tierriapps.myworkoutorganizer.databinding.RecycleritemExerciseMainContainerBinding
 import com.tierriapps.myworkoutorganizer.feature_main.presenter.models.ExerciseForUi
+import java.text.FieldPosition
 
 class MainWorkoutRecyclerViewAdapter constructor(
     private val exercisesList: MutableList<ExerciseForUi>,
     private val textColor: Int,
-    private val hintColor: Int
+    private val hintColor: Int,
+    private val funToEdit: (position: Int, char: Char) -> Unit,
+    private val myPosition: Int,
+    private val myChar: Char
 ) : RecyclerView.Adapter<ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = RecycleritemExerciseMainContainerBinding
@@ -56,6 +60,10 @@ class MainWorkoutRecyclerViewAdapter constructor(
         }
 
         fun bind(exercise: ExerciseForUi){
+            image.setOnLongClickListener {
+                funToEdit.invoke(myPosition, myChar)
+                true
+            }
             tvExerciseName.text = exercise.name
             tvExerciseDescription.text = exercise.description
             tvSeries.text = exercise.numOfSeries.toString()
@@ -63,7 +71,7 @@ class MainWorkoutRecyclerViewAdapter constructor(
             tvRest.text = exercise.timeOfRest.toString()
             tvExerciseType.text = exercise.type.name
             for ((k, r) in exercise.repsDone.withIndex()){
-                var text = "s${k+1}("
+                var text = "("
                 for(n in r){
                     text += " - $n"
                 }

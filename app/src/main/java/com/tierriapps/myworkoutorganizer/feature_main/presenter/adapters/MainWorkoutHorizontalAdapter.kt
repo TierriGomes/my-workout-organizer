@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.allViews
+import androidx.core.view.children
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -12,7 +14,8 @@ import com.tierriapps.myworkoutorganizer.feature_main.presenter.models.DivisionF
 import com.tierriapps.myworkoutorganizer.feature_main.utils.adaptersutil.CustomizedLayoutManager
 
 class MainWorkoutHorizontalAdapter constructor(
-    private val trainingsDone: List<DivisionForUi>
+    private val trainingsDone: List<DivisionForUi>,
+    private val funToEdit: (position: Int, char: Char) -> Unit
 ): RecyclerView.Adapter<ViewHolder>() {
     private lateinit var myParent: RecyclerView
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -51,7 +54,10 @@ class MainWorkoutHorizontalAdapter constructor(
             val adapter = MainWorkoutRecyclerViewAdapter(
                 divisionForUi.exercises,
                 divisionForUi.colorForTexts(),
-                divisionForUi.colorForButtonAndHints()
+                divisionForUi.colorForButtonAndHints(),
+                funToEdit,
+                position,
+                divisionForUi.name
             )
             recyclerView.layoutManager = CustomizedLayoutManager(binding.root.context)
             recyclerView.adapter = adapter

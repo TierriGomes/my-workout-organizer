@@ -42,6 +42,8 @@
     <string name="btDoSelectedTraining">Do Selected Training</string>
     <string name="btGetNextTraining">Show Next Training</string>
     <string name="btOpenInNotificationBar">Open in notification bar</string>
+    <string name="bt_delete_this_training">Delete this training</string>
+    <string name="bt_save">Save</string>
     <string-array name="exercise_types">
         <item>Normal</item>
         <item>Isometric</item>

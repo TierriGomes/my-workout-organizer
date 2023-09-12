@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tierriapps.myworkoutorganizer.common.utils.Resource
+import com.tierriapps.myworkoutorganizer.feature_main.domain.models.Division
 import com.tierriapps.myworkoutorganizer.feature_main.domain.models.Workout
 import com.tierriapps.myworkoutorganizer.feature_main.domain.usecases.GetActualWorkout
 import com.tierriapps.myworkoutorganizer.feature_main.presenter.models.DivisionForUi
@@ -31,6 +32,8 @@ class MainViewModel @Inject constructor(
 
     private var divisionsDone: List<DivisionForUi> = listOf()
 
+    private var trainingsDone: List<Division> = listOf()
+
     fun getActualWorkoutAndSetValues(){
         viewModelScope.launch {
             val actual = getActualWorkout.invoke().onEach {
@@ -42,6 +45,7 @@ class MainViewModel @Inject constructor(
                         div.add(d.toDivisionForUi())
                     }
                     divisionsDone = div
+                    trainingsDone = it.content.trainingsDone
                     it.content.trainingsDone.map {division ->
                         val position = it.content.trainingsDone.indexOf(division)
                         division.toDivisionForUi().apply { day = position } }
@@ -77,5 +81,19 @@ class MainViewModel @Inject constructor(
     fun getActualDivisionName(): String?{
         val name = _actualTrainings.value?.get(0)?.name
         return if (name == null) null else name.toString()
+    }
+
+    fun getPositionByAllDivisions(filteredPosition: Int, char: Char):Int? {
+        var count = 0
+        for (iten in trainingsDone.withIndex()){
+            if (iten.value.name.char == char){
+                if (count == filteredPosition-1){
+                    return iten.index
+                }else {
+                    count ++
+                }
+            }
+        }
+        return null
     }
 }

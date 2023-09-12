@@ -3,9 +3,10 @@ package com.tierriapps.myworkoutorganizer.feature_main.domain.usecases
 import com.tierriapps.myworkoutorganizer.feature_main.domain.models.Division
 import com.tierriapps.myworkoutorganizer.feature_main.domain.models.Reps
 import com.tierriapps.myworkoutorganizer.feature_main.domain.models.Workout
+import java.text.FieldPosition
 
 class PutDivisionTrainedInWorkout {
-    operator fun invoke(workout: Workout, division: Division): Workout {
+    operator fun invoke(workout: Workout, division: Division, position: Int? = null): Workout {
         var isValidDivision = false
         for(div in workout.divisions){
             if (div.name == division.name) {
@@ -30,8 +31,13 @@ class PutDivisionTrainedInWorkout {
                 }
             }
             if (isValidDivision){
-                workout.trainingsDone.add(division)
-                return workout
+                if (position == null){
+                    workout.trainingsDone.add(division)
+                    return workout
+                }else{
+                    workout.trainingsDone[position] = division
+                    return workout
+                }
             }
         }
         return workout

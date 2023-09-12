@@ -7,9 +7,11 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.view.children
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.tierriapps.myworkoutorganizer.R
 import com.tierriapps.myworkoutorganizer.common.utils.Resource
 import com.tierriapps.myworkoutorganizer.databinding.FragmentCreateNewWorkoutBinding
@@ -59,6 +61,7 @@ class CreateNewWorkoutFragment : Fragment() {
                     return@MyTextWatcher
                 }else {
                     binding.editTextCreateWorkoutName.setText(text.uppercase())
+                    binding.editTextCreateWorkoutName.setSelection(binding.editTextCreateWorkoutName.text.length)
                 }
             }
         ))

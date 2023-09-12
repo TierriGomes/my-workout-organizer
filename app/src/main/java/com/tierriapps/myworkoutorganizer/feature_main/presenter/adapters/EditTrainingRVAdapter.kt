@@ -11,9 +11,9 @@ import com.tierriapps.myworkoutorganizer.databinding.RecycleritemTrainingToDoBin
 import com.tierriapps.myworkoutorganizer.feature_main.presenter.models.ExerciseForUi
 import com.tierriapps.myworkoutorganizer.feature_main.utils.adaptersutil.MyTextWatcher
 
-class DoTrainingSessionAdapter constructor(
+class EditTrainingRVAdapter constructor(
     private val listOfExercises: List<ExerciseForUi>,
-    private val textColor: Int,
+    private val textColor: Int
 ): RecyclerView.Adapter<ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = RecycleritemTrainingToDoBinding
@@ -68,17 +68,22 @@ class DoTrainingSessionAdapter constructor(
                     tvExerciseDescription.visibility = View.VISIBLE
                 }
             }
-
             for (serie in 0 until exercise.numOfSeries!!){
                 val editText = listOfReps[serie]
                 editText.visibility = View.VISIBLE
-                exercise.repsDone.add(mutableListOf())
+                var text = "("
+                for(n in exercise.repsDone[serie]){
+                    text += " - $n"
+                }
+                text = text.replaceFirst(" -", "")
+                text += " )"
+                editText.setText(text)
                 val myTextWatcher = MyTextWatcher(
                     editText,
                     if (serie < listOfReps.lastIndex) listOfReps[serie+1] else null,
                     function = {
-                        val text = editText.text.toString()
-                        exercise.repsDone[serie] = getNumberListFromString(text).toMutableList()
+                        val newText = editText.text.toString()
+                        exercise.repsDone[serie] = getNumberListFromString(newText).toMutableList()
                     })
                 editText.addTextChangedListener(myTextWatcher)
             }
@@ -110,4 +115,5 @@ class DoTrainingSessionAdapter constructor(
             return list
         }
     }
+
 }

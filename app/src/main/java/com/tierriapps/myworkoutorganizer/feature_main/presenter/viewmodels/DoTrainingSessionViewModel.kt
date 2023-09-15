@@ -18,6 +18,7 @@ import com.tierriapps.myworkoutorganizer.feature_main.presenter.models.toDivisio
 import com.tierriapps.myworkoutorganizer.feature_main.utils.ExerciseType
 import com.tierriapps.myworkoutorganizer.feature_main.utils.getDivisionByChar
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.flow.onEach
@@ -90,6 +91,15 @@ class DoTrainingSessionViewModel @Inject constructor(
                     is Resource.Error -> _jobStatus.value = it.message
                 }
             }.collect()
+        }
+    }
+    fun setDivisionForUi(division: DivisionForUi){
+        viewModelScope.launch {
+            getActualWorkout.invoke().last().also {
+                _jobStatus.value = it.message
+                actualWorkout = it.content
+            }
+            _divisionStatus.value = division
         }
     }
 }

@@ -1,30 +1,24 @@
 package com.tierriapps.myworkoutorganizer.feature_main.presenter
 
+import android.Manifest
+import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.Toolbar
-import androidx.appcompat.app.ActionBarDrawerToggle
+
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.view.menu.MenuBuilder
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
+import androidx.core.app.ActivityCompat
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_UNLOCKED
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.findFragment
 import androidx.navigation.NavController
-import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.tierriapps.myworkoutorganizer.R
 import com.tierriapps.myworkoutorganizer.databinding.ActivityMainBinding
-import com.tierriapps.myworkoutorganizer.feature_main.presenter.fragments.MainFragment
-import dagger.hilt.EntryPoint
-import dagger.hilt.InstallIn
+import com.tierriapps.myworkoutorganizer.feature_main.domain.notification_service.MyBackGroundService
+import com.tierriapps.myworkoutorganizer.feature_main.presenter.fragments.DoTrainingSessionFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.*
-import kotlinx.coroutines.android.awaitFrame
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -33,8 +27,23 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
+            ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.POST_NOTIFICATIONS), 0)
+        }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (intent?.action == MyBackGroundService.Actions.NAVIGATE_TO_THE_FRAGMENT.toString()){
+            println("i received an intent")
+            intent = null
+            val navController = findNavController(R.id.fragmentContainerView)
+            navController.navigate(R.id.doTrainingSessionFragment)
+        }
     }
 
     override fun onResume() {
@@ -69,5 +78,14 @@ class MainActivity : AppCompatActivity() {
             recreate()
             true
         }
+    }
+
+    fun startDoTrainingService(gson: String){
+        Intent(applicationContext, MyBackGroundService::class.java)
+            .also {
+                it.action = MyBackGroundService.Actions.START.toString()
+                it.putExtra("division", gson)
+                startService(it)
+            }
     }
 }

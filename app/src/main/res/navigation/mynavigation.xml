@@ -45,4 +45,7 @@
         android:name="com.tierriapps.myworkoutorganizer.feature_main.presenter.fragments.MyWorkoutsFragment"
         android:label="fragment_my_workouts"
         tools:layout="@layout/fragment_my_workouts" />
+    <action
+        android:id="@+id/activity_to_doTrainingSessionFragment"
+        app:destination="@id/doTrainingSessionFragment"/>
 </navigation>

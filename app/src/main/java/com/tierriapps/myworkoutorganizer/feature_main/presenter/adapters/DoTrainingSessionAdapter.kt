@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+import com.tierriapps.myworkoutorganizer.common.utils.getNumberList
 import com.tierriapps.myworkoutorganizer.databinding.RecycleritemTrainingToDoBinding
 import com.tierriapps.myworkoutorganizer.feature_main.presenter.models.ExerciseForUi
 import com.tierriapps.myworkoutorganizer.feature_main.utils.adaptersutil.MyTextWatcher
@@ -72,42 +73,24 @@ class DoTrainingSessionAdapter constructor(
             for (serie in 0 until exercise.numOfSeries!!){
                 val editText = listOfReps[serie]
                 editText.visibility = View.VISIBLE
-                exercise.repsDone.add(mutableListOf())
+                if (exercise.repsDone.size-1 < serie){
+                    exercise.repsDone.add(mutableListOf())
+                }else{
+                    var text = ""
+                    for(s in exercise.repsDone[serie]){
+                        text += "$s/"
+                    }
+                    editText.setText(text)
+                }
                 val myTextWatcher = MyTextWatcher(
                     editText,
                     if (serie < listOfReps.lastIndex) listOfReps[serie+1] else null,
                     function = {
                         val text = editText.text.toString()
-                        exercise.repsDone[serie] = getNumberListFromString(text).toMutableList()
+                        exercise.repsDone[serie] = text.getNumberList().toMutableList()
                     })
                 editText.addTextChangedListener(myTextWatcher)
             }
-        }
-        private fun getNumberListFromString(string: String): List<Int>{
-            val list = mutableListOf<Int>()
-            var number = ""
-            var canAdd = true
-            for (char in string){
-                try {
-                    char.toString().toInt()
-                    number += char
-                }catch (e: Exception){
-                    if (number.toIntOrNull() != null){
-                        number = ""
-                        canAdd = true
-                    }
-                }finally {
-                    if (number.toIntOrNull() != null){
-                        if (canAdd){
-                            list.add(number.toInt())
-                            canAdd = false
-                        }else {
-                            list[list.lastIndex] = number.toInt()
-                        }
-                    }
-                }
-            }
-            return list
         }
     }
 }

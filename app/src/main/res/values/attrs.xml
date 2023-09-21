@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <declare-styleable name="AuthFieldCustomView">
+        <attr name="textVisibility" format="boolean"/>
+        <attr name="visibilityButton" format="boolean"/>
+        <attr name="topHintText" format="string"/>
+        <attr name="topHintGravity" format="enum">
+            <enum name="left" value="1"/>
+            <enum name="center" value="2"/>
+            <enum name="right" value="3"/>
+        </attr>
+        <attr name="topHintSize" format="dimension"/>
+        <attr name="textGravity" format="enum">
+            <enum name="left" value="1"/>
+            <enum name="center" value="2"/>
+            <enum name="right" value="3"/>
+        </attr>
+        <attr name="textSize" format="dimension"/>
+        <attr name="textHint" format="string"/>
+    </declare-styleable>
 
 </resources>

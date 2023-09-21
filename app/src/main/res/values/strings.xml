@@ -44,6 +44,19 @@
     <string name="btOpenInNotificationBar">Open in notification bar</string>
     <string name="bt_delete_this_training">Delete this training</string>
     <string name="bt_save">Save</string>
+    <string name="logged_with_succes">Logged with succes</string>
+    <string name="connection_error">Connection error</string>
+    <string name="invalid_credentials">Invalis credentials</string>
+    <string name="registred_with_succes">Registred with success</string>
+    <string name="email_already_registred">Email already registered</string>
+    <string name="invalid_email">Invalid email</string>
+    <string name="invalid_password">Invalid password</string>
+    <string name="different_passwords">The passwords are different</string>
+    <string name="passwordhint">20sp</string>
+    <string name="confirmPassword">confirm password</string>
+    <string name="emailhint">E-mail</string>
+    <string name="register">Register</string>
+    <string name="login">Login</string>
     <string-array name="exercise_types">
         <item>Normal</item>
         <item>Isometric</item>

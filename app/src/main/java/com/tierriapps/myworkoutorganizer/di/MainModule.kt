@@ -3,8 +3,11 @@ package com.tierriapps.myworkoutorganizer.di
 import android.app.Application
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.tierriapps.myworkoutorganizer.common.values.Constants
+import com.tierriapps.myworkoutorganizer.feature_authentication.data.remote.AuthenticationRepositoryImpl
+import com.tierriapps.myworkoutorganizer.feature_authentication.domain.repositories.AuthenticationRepository
 import com.tierriapps.myworkoutorganizer.feature_main.data.local.datasources.AppLocalDatabase
 import com.tierriapps.myworkoutorganizer.feature_main.data.local.datasources.LocalUserPreferences
 import com.tierriapps.myworkoutorganizer.feature_main.data.local.datasources.WorkoutLocalDAO
@@ -84,5 +87,10 @@ object MainModule {
     @Singleton
     fun providesPutDivisionInWorkout(): PutDivisionTrainedInWorkout{
         return PutDivisionTrainedInWorkout()
+    }
+
+    @Provides
+    fun provideAuthenticationRepository(): AuthenticationRepository {
+        return AuthenticationRepositoryImpl(FirebaseAuth.getInstance())
     }
 }

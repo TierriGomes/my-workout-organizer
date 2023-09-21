@@ -221,6 +221,7 @@ class MyBackGroundService: Service() {
     private fun openTheApp(){
         val intent = Intent(this, MainActivity::class.java)
         intent.action = Actions.NAVIGATE_TO_THE_FRAGMENT.toString()
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         val pendingIntent = PendingIntent.getActivity(this, 0, intent,
             PendingIntent.FLAG_UPDATE_CURRENT)
         pendingIntent.send()

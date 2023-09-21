@@ -52,8 +52,8 @@
     <string name="invalid_email">Invalid email</string>
     <string name="invalid_password">Invalid password</string>
     <string name="different_passwords">The passwords are different</string>
-    <string name="passwordhint">20sp</string>
-    <string name="confirmPassword">confirm password</string>
+    <string name="passwordhint">Password</string>
+    <string name="confirmPassword">Confirm password</string>
     <string name="emailhint">E-mail</string>
     <string name="register">Register</string>
     <string name="login">Login</string>

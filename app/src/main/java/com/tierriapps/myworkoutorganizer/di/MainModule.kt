@@ -91,6 +91,6 @@ object MainModule {
 
     @Provides
     fun provideAuthenticationRepository(): AuthenticationRepository {
-        return AuthenticationRepositoryImpl(FirebaseAuth.getInstance())
+        return AuthenticationRepositoryImpl(FirebaseAuth.getInstance(), FirebaseFirestore.getInstance())
     }
 }

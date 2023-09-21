@@ -8,7 +8,7 @@ interface AuthenticationRepository {
 
     suspend fun loginWithEmailAndPass(email: String, pass: String): Flow<Resource<String?>>
 
-    suspend fun registerWithEmailAndPass(email: String, pass: String): Flow<Resource<String?>>
+    suspend fun registerWithEmailAndPass(email: String, pass: String, name: String): Flow<Resource<String?>>
 
     suspend fun getConnectedUserID(): String?
 }

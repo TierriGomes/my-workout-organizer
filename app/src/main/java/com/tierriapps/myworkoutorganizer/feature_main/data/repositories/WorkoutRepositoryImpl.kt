@@ -72,9 +72,8 @@ class WorkoutRepositoryImpl @Inject constructor(
             if (workout.id != null){
                 remoteWorkoutDAO.insertWorkoutEntity(workout.toRemoteEntity(Constants.USER_ID))
             }else {
-                val id = localWorkoutDAO.getAllWorkoutEntities().size
-                val workoutRemote = localWorkoutDAO.getWorkoutEntityByID(id)!!.toWorkout()
-                remoteWorkoutDAO.insertWorkoutEntity(workoutRemote.toRemoteEntity(Constants.USER_ID))
+                val workoutR = localWorkoutDAO.getAllWorkoutEntities().last().toWorkout()
+                remoteWorkoutDAO.insertWorkoutEntity(workoutR.toRemoteEntity(Constants.USER_ID))
             }
             emit(Resource.Success(workout, UiText.StringResource(R.string.changes_saved)))
         }catch (e: Exception){

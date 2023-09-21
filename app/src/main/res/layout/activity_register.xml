@@ -21,9 +21,13 @@
 
     <Button
         android:id="@+id/buttonDoRegister"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/selector_button_add_exercise"
         android:text="@string/register"
+        app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -35,11 +39,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/authFieldCustomViewName"
         app:textSize="@dimen/authentication_fields"
         app:topHintSize="@dimen/hints_size"
         app:topHintText="@string/emailhint" />
@@ -78,13 +82,32 @@
 
     <Button
         android:id="@+id/buttonBackToLogin"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/selector_button_add_exercise"
         android:text="back"
+        app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="@+id/buttonDoRegister"
         app:layout_constraintEnd_toStartOf="@+id/buttonDoRegister"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/buttonDoRegister" />
+
+    <com.tierriapps.myworkoutorganizer.customviews.AuthFieldCustomView
+        android:id="@+id/authFieldCustomViewName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:textGravity="center"
+        app:textSize="@dimen/authentication_fields"
+        app:topHintSize="@dimen/hints_size"
+        app:topHintText="Name" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

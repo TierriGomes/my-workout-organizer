@@ -53,7 +53,8 @@ class RegisterActivity : AppCompatActivity() {
             val email = binding.authcvEmailRegister.getText()
             val pass1 = binding.authcvPassword1.getText()
             val pass2 = binding.authcvPassword2.getText()
-            viewModel.registerUserWithEmailAndPassword(email, pass1, pass2)
+            val name = binding.authFieldCustomViewName.getText()
+            viewModel.registerUserWithEmailAndPassword(email, pass1, pass2, name)
         }
         binding.buttonBackToLogin.setOnClickListener { navigateToLogin() }
     }

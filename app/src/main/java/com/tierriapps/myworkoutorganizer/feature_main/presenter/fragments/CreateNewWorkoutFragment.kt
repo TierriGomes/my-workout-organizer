@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.tierriapps.myworkoutorganizer.R
 import com.tierriapps.myworkoutorganizer.common.utils.Resource
+import com.tierriapps.myworkoutorganizer.common.values.Constants
 import com.tierriapps.myworkoutorganizer.databinding.FragmentCreateNewWorkoutBinding
 import com.tierriapps.myworkoutorganizer.feature_main.presenter.MainActivity
 import com.tierriapps.myworkoutorganizer.feature_main.presenter.adapters.CreateWorkoutRecyclerViewAdapter
@@ -86,6 +87,7 @@ class CreateNewWorkoutFragment : Fragment() {
             if (it.itemId == R.id.saveNewWorkoutMenuButton){
                 val workoutName = binding.editTextCreateWorkoutName.text.toString()
                 val workoutDescription = binding.editTextCreateWorkoutDescription.text.toString()
+                println("createNewWorkoutFragment: id: ${Constants.USER_ID}")
                 viewModel.createAndValidateWorkout(workoutName, workoutDescription)
             }
             true
@@ -96,7 +98,7 @@ class CreateNewWorkoutFragment : Fragment() {
         super.onResume()
         viewModel.allDoneToNavigate.observe(this) {
             if (it is Resource.Success && it.content != null){
-                findNavController().navigate(R.id.mainFragment)
+                findNavController().navigateUp()
                 onDestroy()
             }
             Toast.makeText(

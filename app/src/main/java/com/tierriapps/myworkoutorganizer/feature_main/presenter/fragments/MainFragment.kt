@@ -42,7 +42,6 @@ class MainFragment : Fragment() {
             val thePosition = viewModel.getPositionByAllDivisions(position, char)?:return@setAction
             bundle.putInt("position", thePosition)
             findNavController().navigate(R.id.action_mainFragment_to_editTrainingFragment, bundle)
-            onDestroy()
         }
         snackbar.show()
     }

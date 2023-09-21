@@ -60,7 +60,9 @@ class LoginActivity : AppCompatActivity() {
         binding.authcvPassword.setOnKeyListener {view, keyCode, keyEvent ->
             if (keyCode == KeyEvent.KEYCODE_ENTER){
                 binding.buttonLogin.performClick()
+                return@setOnKeyListener true
             }
+            false
         }
 
         binding.buttonRegisterLogin.setOnClickListener { navigateToRegister() }

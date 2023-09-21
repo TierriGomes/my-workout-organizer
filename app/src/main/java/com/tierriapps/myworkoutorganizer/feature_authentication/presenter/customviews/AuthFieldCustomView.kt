@@ -26,21 +26,15 @@ class AuthFieldCustomView @JvmOverloads constructor(
     private val binding = CustomviewAuthfieldBinding
         .inflate(LayoutInflater.from(context), this, true)
 
-    private lateinit var textField: EditText
-    private lateinit var textTopHint: TextView
-    private lateinit var eyeButton: ImageView
-    private lateinit var imgRight: ImageView
-    private lateinit var imgWrong: ImageView
+    private val textField: EditText = binding.etText
+    private var textTopHint: TextView = binding.tvTopHint
+    private var eyeButton: ImageView = binding.imgbtnVisibility
+    private var imgRight: ImageView = binding.imgRight
+    private var imgWrong: ImageView = binding.imgWrong
 
     private var funTextValidator: ((text: String) -> Boolean)? = null
     private var isTextVisible = true
     init {
-        textField = binding.etText
-        textTopHint = binding.tvTopHint
-        eyeButton = binding.imgbtnVisibility
-        imgRight = binding.imgRight
-        imgWrong = binding.imgWrong
-
         if (attrs != null) {
             val attributeSet = context.obtainStyledAttributes(attrs, R.styleable.AuthFieldCustomView)
 
@@ -65,8 +59,8 @@ class AuthFieldCustomView @JvmOverloads constructor(
                     else -> Gravity.RIGHT
                 }
 
-            val eyeBtVisility = attributeSet.getBoolean(R.styleable.AuthFieldCustomView_visibilityButton, false)
-            if (eyeBtVisility) {
+            val eyeBtVisibility = attributeSet.getBoolean(R.styleable.AuthFieldCustomView_visibilityButton, false)
+            if (eyeBtVisibility) {
                 eyeButton.visibility = View.VISIBLE
                 textField.inputType = InputType.TYPE_TEXT_VARIATION_PASSWORD
             }
@@ -81,15 +75,9 @@ class AuthFieldCustomView @JvmOverloads constructor(
     fun getText() = textField.text.toString()
     fun setText(text: String){ textField.setText(text)}
 
-    fun performClick(keyCode: Int){
-        val keyEvent = KeyEvent(KeyEvent.ACTION_DOWN, keyCode)
-        textField.onKeyDown(keyCode, keyEvent)
-    }
-
-    fun setOnKeyListener(lambda: (view: View, keyCode: Int, keyEvent: KeyEvent) -> Unit){
+    fun setOnKeyListener(lambda: (view: View, keyCode: Int, keyEvent: KeyEvent) -> Boolean){
         textField.setOnKeyListener { view, keyCode, keyEvent ->
             lambda(view, keyCode, keyEvent)
-            true
         }
     }
 
@@ -116,7 +104,7 @@ class AuthFieldCustomView @JvmOverloads constructor(
 
     inner class MyInsideTextWatcher(): TextWatcher {
         override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            TODO("Not yet implemented")
+            return
         }
         override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             if (funTextValidator?.invoke(getText()) == true){
@@ -128,7 +116,7 @@ class AuthFieldCustomView @JvmOverloads constructor(
             }
         }
         override fun afterTextChanged(p0: Editable?) {
-            TODO("Not yet implemented")
+            return
         }
 
     }

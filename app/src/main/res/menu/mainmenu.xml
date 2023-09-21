@@ -8,5 +8,6 @@
         android:title="Create New Workout" />
     <item
         android:id="@+id/myWorkoutsFragment"
+        android:icon="@drawable/baseline_weight"
         android:title="My Workouts" />
 </menu>

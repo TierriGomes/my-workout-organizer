@@ -14,7 +14,9 @@ import javax.inject.Inject
 class RegisterUser @Inject constructor(
     private val repository: AuthenticationRepository
 ) {
-    suspend operator fun invoke(email: String, password1: String, password2: String): Flow<Resource<String?>> {
+    suspend operator fun invoke(
+        email: String, password1: String, password2: String, name: String
+    ): Flow<Resource<String?>> {
         if (!validateEmail(email)){
             return flow { emit(Resource.Error(null, UiText.StringResource(R.string.invalid_email))) }
         }else if(!validatePassword(password1)){
@@ -22,7 +24,7 @@ class RegisterUser @Inject constructor(
         }else if(password1 != password2){
             return flow { emit(Resource.Error(null, UiText.StringResource(R.string.different_passwords))) }
         }else{
-            return repository.registerWithEmailAndPass(email, password1)
+            return repository.registerWithEmailAndPass(email, password1, name)
         }
     }
 }

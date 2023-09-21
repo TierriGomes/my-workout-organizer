@@ -29,9 +29,9 @@ class RegisterViewModel @Inject constructor(
     val loadingState: LiveData<Boolean> = _loadingState
 
 
-    fun registerUserWithEmailAndPassword(email: String, pass1: String, pass2: String){
+    fun registerUserWithEmailAndPassword(email: String, pass1: String, pass2: String, name: String){
         viewModelScope.launch {
-            registerUseCase(email, pass1, pass2).onEach {result ->
+            registerUseCase(email, pass1, pass2, name).onEach {result ->
                 when(result){
                     is Resource.Loading -> {
                         _loadingState.value = true

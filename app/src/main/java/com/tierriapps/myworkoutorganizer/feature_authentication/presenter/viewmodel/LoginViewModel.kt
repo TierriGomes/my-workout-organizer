@@ -32,6 +32,7 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             val userID = getUserIfLogged.invoke()
             if (userID != null){
+                Constants.USER_ID = userID
                 _resultEvent.value = (AuthEvents.NavigateToMainAuthenticated(userID))
             }
         }

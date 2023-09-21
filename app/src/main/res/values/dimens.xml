@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="authentication_fields">20sp</dimen>
-    <dimen name="hints_size">20sp</dimen>
+    <dimen name="hints_size">16sp</dimen>
 </resources>

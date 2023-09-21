@@ -28,6 +28,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+        debug {
+            debuggable true
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -67,8 +70,7 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui-ktx:2.6.0'
     implementation 'androidx.test.ext:junit-ktx:1.1.5'
     implementation 'androidx.test:runner:1.5.2'
-    implementation "androidx.fragment:fragment-testing:1.6.0"
-    implementation "androidx.test:core:1.5.0"
+    //implementation "androidx.test:core:1.5.0"
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     // it fix a abominable bug
@@ -103,11 +105,11 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-intents:3.5.1'
 
     androidTestImplementation "io.mockk:mockk-android:1.11.0" // version for sdk 19
-    androidTestImplementation "androidx.fragment:fragment-testing:1.6.0"
+    debugImplementation "androidx.fragment:fragment-testing:1.6.0"
     androidTestImplementation "androidx.test:core:1.5.0"
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
     // for the util class used to test fragments with hilt
-    debugImplementation "androidx.fragment:fragment-testing:1.6.0"
+    //debugImplementation "androidx.fragment:fragment-testing:1.6.0"
 
     // gson dependencies
     implementation "com.google.code.gson:gson:$gson_version"
@@ -145,6 +147,9 @@ dependencies {
 
     // api 19 multidex
     implementation 'com.android.support:multidex:1.0.3'
+
+    // debugImplementation because LeakCanary should only run in debug builds.
+    //debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.12'
 }
 // something for dagger '-'
 kapt {
@@ -152,4 +157,7 @@ kapt {
     arguments {
         arg("foo", "bar")
     }
+}
+configurations {
+    debugImplementation.exclude group: "junit", module: "junit"
 }

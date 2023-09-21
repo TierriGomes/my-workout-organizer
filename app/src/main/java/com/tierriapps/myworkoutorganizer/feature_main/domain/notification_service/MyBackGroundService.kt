@@ -1,9 +1,13 @@
 package com.tierriapps.myworkoutorganizer.feature_main.domain.notification_service
 
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
+import android.content.Context
 import android.content.Intent
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
 import android.widget.RemoteViews
 import androidx.core.app.NotificationCompat
 import androidx.core.app.PendingIntentCompat
@@ -17,7 +21,9 @@ import com.tierriapps.myworkoutorganizer.feature_main.presenter.MainActivity
 import com.tierriapps.myworkoutorganizer.feature_main.presenter.models.DivisionForUi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MyBackGroundService: Service() {
     // layout components
@@ -26,8 +32,6 @@ class MyBackGroundService: Service() {
     private val tvInput = R.id.textViewInput
     private val tvInputWeight = R.id.textViewInputWeight
     private val tvExerciseAndSeries = R.id.textViewExerciseAndSerie
-    private val tvBigTimer = R.id.textViewBigTimer
-    private val tvSmallTimer = R.id.textViewSmallTimer
     private val tvRepsDone = R.id.textViewRepsDone
     private val numericKeyBoard = listOf(
         R.id.button0, R.id.button1, R.id.button2,
@@ -39,9 +43,6 @@ class MyBackGroundService: Service() {
     private val buttonOpenInApp = R.id.buttonopenInApp
     private val buttonNextExercise = R.id.imageViewNextExercise
     private val buttonLastExercise = R.id.imageViewLastExercise
-    
-    private val bigTimer = MySimpleTimer(this, Actions.BIG_TIMER)
-    private val smallTimer = MySimpleTimer(this, Actions.SMALL_TIMER)
 
     // true if is reps, false if is weight
     private var inputSelected = true
@@ -56,7 +57,7 @@ class MyBackGroundService: Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         when(intent?.action){
             Actions.START.toString() -> start(intent)
-            Actions.STOP.toString() -> stopSelf()
+            Actions.STOP.toString() -> stop()
             Actions.DIGIT_PRESSED.toString() -> updateData(intent.extras?.getString("digit", ""))
             Actions.OK_PRESSED.toString() -> updateDataWithOk()
             Actions.OPEN_IN_APP.toString() -> openTheApp()
@@ -65,20 +66,6 @@ class MyBackGroundService: Service() {
             Actions.SELECT_WEIGHT.toString()  -> selectWeight()
             Actions.NEXT_EXERCISE.toString() -> goToNextExercise()
             Actions.LAST_EXERCISE.toString() -> goToLastExercise()
-            Actions.BIG_TIMER.toString() -> {
-                CoroutineScope(Dispatchers.Default).launch {
-                    val text = intent.extras?.getString("current_time")
-                    remoteView.setTextViewText(tvBigTimer, text)
-                    updateNotification()
-                }
-            }
-            Actions.SMALL_TIMER.toString() -> {
-                CoroutineScope(Dispatchers.Default).launch {
-                    val text = intent.extras?.getString("current_time")
-                    remoteView.setTextViewText(tvSmallTimer, text)
-                    updateNotification()
-                }
-            }
             Actions.FRAGMENT_ASKS_FOR_DATA.toString() -> giveDataToTheFragment()
         }
         return super.onStartCommand(intent, flags, startId)
@@ -87,8 +74,7 @@ class MyBackGroundService: Service() {
     enum class Actions{
         START, STOP, DIGIT_PRESSED, OK_PRESSED, OPEN_IN_APP, DEL_PRESSED,
         SELECT_INPUT, SELECT_WEIGHT, NEXT_EXERCISE, LAST_EXERCISE,
-        BIG_TIMER, SMALL_TIMER, NAVIGATE_TO_THE_FRAGMENT, FRAGMENT_ASKS_FOR_DATA,
-        GIVE_DATA_TO_FRAGMENT
+        NAVIGATE_TO_THE_FRAGMENT, FRAGMENT_ASKS_FOR_DATA, GIVE_DATA_TO_FRAGMENT
     }
 
     private  fun start(intent: Intent?){
@@ -101,11 +87,21 @@ class MyBackGroundService: Service() {
         val color = ContextCompat.getColor(this, divisionForUi.colorForBackGround())
         inputWeight = divisionForUi.exercises[actualExerciseId].weight.toString()
         remoteView.setInt(layout, "setBackgroundColor", color)
-
         setButtonActions()
+        startForeground(1, notification.build())
+        notificationManager = this.getSystemService(android.content.Context.NOTIFICATION_SERVICE) as NotificationManager
         updateNotification()
     }
 
+    private fun stop(){
+        stopSelf()
+    }
+
+    private val notification = NotificationCompat
+        .Builder(this, Constants.NOTIFICATION_DO_TRAINING_CHANNEL)
+            .setSmallIcon(R.drawable.baseline_weight)
+            .setStyle(NotificationCompat.BigTextStyle())
+    private lateinit var notificationManager: NotificationManager
     private fun updateNotification(){
         val actualExercise = divisionForUi.exercises[actualExerciseId]
 
@@ -114,13 +110,8 @@ class MyBackGroundService: Service() {
         remoteView.setTextViewText(tvRepsDone, bigTextInput)
         val text = "${actualExercise.name}   -   ${actualExercise.numOfSeries} series"
         remoteView.setTextViewText(tvExerciseAndSeries, text)
-
-        val notification = NotificationCompat.Builder(this, Constants.NOTIFICATION_DO_TRAINING_CHANNEL)
-            .setSmallIcon(R.drawable.baseline_weight)
-            .setCustomBigContentView(remoteView)
-            .setStyle(NotificationCompat.BigTextStyle())
-            .build()
-        startForeground(1, notification)
+        notification.setCustomBigContentView(remoteView)
+        notificationManager.notify(1, notification.build())
     }
 
     private fun updateData(digit: String?){
@@ -128,7 +119,7 @@ class MyBackGroundService: Service() {
         if (inputSelected){
             if (digit == "DELETE" && input.isNotEmpty()){
                 input = input.removeRange(input.lastIndex..input.lastIndex)
-            }else if(input != "DELETE"){
+            }else if(digit != "DELETE"){
                 input += digit
             }
         }else {
@@ -236,6 +227,7 @@ class MyBackGroundService: Service() {
     }
 
     private fun giveDataToTheFragment(){
+        print("someone asks for data")
         if (!hasValue) return
         val gsonDivisionForUi = Gson().toJson(divisionForUi)
         Intent().also {

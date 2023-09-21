@@ -69,7 +69,6 @@ class MainFragment : Fragment() {
             val string = viewModel.getActualDivisionName()?:return@setOnClickListener
             val bundle = Bundle().apply { putString("divisionName", string) }
             findNavController().navigate(R.id.action_mainFragment_to_doTrainingSessionFragment, bundle)
-            onDestroy()
         }
     }
     override fun onResume() {

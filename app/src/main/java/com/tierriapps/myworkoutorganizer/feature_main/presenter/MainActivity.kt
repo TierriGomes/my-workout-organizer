@@ -39,7 +39,6 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         if (intent?.action == MyBackGroundService.Actions.NAVIGATE_TO_THE_FRAGMENT.toString()){
-            println("i received an intent")
             intent = null
             val navController = findNavController(R.id.fragmentContainerView)
             navController.navigate(R.id.doTrainingSessionFragment)

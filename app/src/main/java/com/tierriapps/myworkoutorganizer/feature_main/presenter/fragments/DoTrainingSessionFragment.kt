@@ -54,7 +54,6 @@ class DoTrainingSessionFragment : Fragment() {
         binding = FragmentDoTrainingSessionBinding.inflate(inflater, container, false)
         val name = arguments?.getString("divisionName", "null")
         if (name != null && name != "null" && viewModel.divisionStatus.value == null){
-            println("chamei dnv")
             viewModel.getActualDivisionToDo(name)
         }
         return binding.root
@@ -62,10 +61,6 @@ class DoTrainingSessionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Intent(requireContext(), MyBackGroundService::class.java).also {
-            it.action = MyBackGroundService.Actions.FRAGMENT_ASKS_FOR_DATA.toString()
-            requireActivity().startService(it)
-        }
         binding.buttonSaveTrainingDone.setOnClickListener {
             val snackbar = Snackbar.make(
                 requireContext(), binding.root,
@@ -89,6 +84,10 @@ class DoTrainingSessionFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        Intent(requireContext(), MyBackGroundService::class.java).also {
+            it.action = MyBackGroundService.Actions.FRAGMENT_ASKS_FOR_DATA.toString()
+            requireActivity().startService(it)
+        }
         val toolBar = (requireActivity() as MainActivity).binding.toolbar
         binding.recyclerViewDoTrainingSession.layoutManager = CustomizedLayoutManager(requireContext())
         viewModel.divisionStatus.observe(viewLifecycleOwner){ divisionForUi ->

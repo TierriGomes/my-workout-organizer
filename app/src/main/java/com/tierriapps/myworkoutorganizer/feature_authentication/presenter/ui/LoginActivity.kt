@@ -1,5 +1,7 @@
 package com.tierriapps.myworkoutorganizer.feature_authentication.presenter.ui
 
+import android.animation.ArgbEvaluator
+import android.animation.ValueAnimator
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -9,7 +11,11 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
+import com.tierriapps.myworkoutorganizer.R
 import com.tierriapps.myworkoutorganizer.databinding.ActivityLoginBinding
 import com.tierriapps.myworkoutorganizer.feature_authentication.presenter.AuthEvents
 import com.tierriapps.myworkoutorganizer.feature_authentication.presenter.viewmodel.LoginViewModel
@@ -29,9 +35,8 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
     }
 
-    override fun onStart() {
-        super.onStart()
-
+    override fun onResume() {
+        super.onResume()
         viewModel.loadingState.observe(this){isLoading ->
             binding.progressBarLogin.visibility = if (isLoading) View.VISIBLE else View.INVISIBLE
         }
@@ -44,7 +49,28 @@ class LoginActivity : AppCompatActivity() {
                         showSuccessSnackBar(authEvents.message?.asString(this)?:"")
                     is AuthEvents.NavigateToMainAuthenticated ->
                         navigateToMain()
-                    null -> TODO()
+                    else -> {
+                        val constraintSet = ConstraintSet()
+                        constraintSet.clone(binding.activityLoginLayout)
+                        constraintSet.connect(
+                            R.id.authcvEmailLogin, ConstraintSet.TOP,
+                            R.id.activityLoginLayout, ConstraintSet.TOP
+                            )
+                        constraintSet.applyTo(binding.activityLoginLayout)
+
+                        val corDourada = ContextCompat.getColor(this, R.color.golden)
+                        val corInvisivel = Color.TRANSPARENT
+
+                        val animator = ValueAnimator.ofObject(ArgbEvaluator(), corDourada, corInvisivel)
+                        animator.duration = 3000 // 1 segundo
+                        animator.addUpdateListener { animation ->
+                            val corAnimada = animation.animatedValue as Int
+                            binding.textView.setTextColor(corAnimada)
+                            binding.textView2.setTextColor(corAnimada)
+                            binding.textView3.setTextColor(corAnimada)
+                        }
+                        animator.start()
+                    }
                 }
             }
         }

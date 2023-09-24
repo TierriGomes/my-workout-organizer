@@ -223,7 +223,7 @@ class MyBackGroundService: Service() {
         intent.action = Actions.NAVIGATE_TO_THE_FRAGMENT.toString()
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         val pendingIntent = PendingIntent.getActivity(this, 0, intent,
-            PendingIntent.FLAG_UPDATE_CURRENT)
+            PendingIntent.FLAG_MUTABLE)
         pendingIntent.send()
     }
 

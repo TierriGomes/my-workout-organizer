@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.app.ActivityCompat
@@ -14,8 +15,11 @@ import androidx.fragment.app.findFragment
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import com.tierriapps.myworkoutorganizer.R
 import com.tierriapps.myworkoutorganizer.databinding.ActivityMainBinding
+import com.tierriapps.myworkoutorganizer.feature_authentication.presenter.ui.LoginActivity
 import com.tierriapps.myworkoutorganizer.feature_main.domain.notification_service.MyBackGroundService
 import com.tierriapps.myworkoutorganizer.feature_main.presenter.fragments.DoTrainingSessionFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,7 +27,6 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
-    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +46,23 @@ class MainActivity : AppCompatActivity() {
             val navController = findNavController(R.id.fragmentContainerView)
             navController.navigate(R.id.activity_to_doTrainingSessionFragment)
         }
+        binding.menuLogoutNavigation.setOnItemSelectedListener { menuItem ->
+            if (menuItem.itemId == R.id.itemDoLogout){
+                val snackBar = Snackbar.make(this, binding.root, "Are you sure?", Snackbar.LENGTH_SHORT)
+                snackBar.setAction("Yes"){
+                    FirebaseAuth.getInstance().signOut()
+                    finish()
+                    startActivity(
+                        Intent(
+                            this, LoginActivity::class.java
+                        )
+                    )
+                }
+                snackBar.show()
+                return@setOnItemSelectedListener true
+            }
+            false
+        }
     }
 
     override fun onResume() {
@@ -55,10 +75,8 @@ class MainActivity : AppCompatActivity() {
         NavigationUI.setupWithNavController(navView, navController)
         navController.addOnDestinationChangedListener { _, destination, _ ->
             if (destination.id == R.id.mainFragment) {
-                println("actual is mainFragment")
                 binding.drawerLayout.setDrawerLockMode(LOCK_MODE_UNLOCKED)
             } else {
-                println("actual is other: ${destination.displayName}")
                 binding.drawerLayout.setDrawerLockMode(LOCK_MODE_LOCKED_CLOSED)
             }
         }

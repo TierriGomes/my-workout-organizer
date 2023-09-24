@@ -3,6 +3,7 @@
     <array name="preloaded_fonts" translatable="false">
         <item>@font/berkshire_swash</item>
         <item>@font/caesar_dressing</item>
+        <item>@font/julius_sans_one</item>
         <item>@font/sancreek</item>
     </array>
 </resources>

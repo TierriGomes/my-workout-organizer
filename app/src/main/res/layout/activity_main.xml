@@ -47,8 +47,12 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:menu="@menu/mainmenu">
-
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/menuLogoutNavigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:menu="@menu/menu_logout"
+            android:layout_gravity="bottom"/>
     </com.google.android.material.navigation.NavigationView>
-
 
 </androidx.drawerlayout.widget.DrawerLayout>

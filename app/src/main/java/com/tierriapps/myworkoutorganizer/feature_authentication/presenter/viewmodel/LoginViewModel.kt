@@ -25,15 +25,18 @@ class LoginViewModel @Inject constructor(
     private val _loadingState = MutableLiveData<Boolean>(false)
     val loadingState: LiveData<Boolean> = _loadingState
 
-    private val _resultEvent = MutableLiveData<AuthEvents<String>>()
-    val resultEvent: LiveData<AuthEvents<String>> = _resultEvent
+    private val _resultEvent = MutableLiveData<AuthEvents<String>?>()
+    val resultEvent: LiveData<AuthEvents<String>?> = _resultEvent
 
     init {
         viewModelScope.launch {
             val userID = getUserIfLogged.invoke()
+            delay(1500)
             if (userID != null){
                 Constants.USER_ID = userID
                 _resultEvent.value = (AuthEvents.NavigateToMainAuthenticated(userID))
+            }else {
+                _resultEvent.value = null
             }
         }
     }

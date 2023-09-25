@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.widget.Toast
 
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.cardview.widget.CardView
 import androidx.core.app.ActivityCompat
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED
 import androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_UNLOCKED
@@ -41,9 +42,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        val navController = findNavController(R.id.fragmentContainerView)
         if (intent?.action == MyBackGroundService.Actions.NAVIGATE_TO_THE_FRAGMENT.toString()){
             intent = null
-            val navController = findNavController(R.id.fragmentContainerView)
             navController.navigate(R.id.activity_to_doTrainingSessionFragment)
         }
         binding.menuLogoutNavigation.setOnItemSelectedListener { menuItem ->
@@ -62,6 +63,12 @@ class MainActivity : AppCompatActivity() {
                 return@setOnItemSelectedListener true
             }
             false
+        }
+        val btUserProfile = binding.navigationView.getHeaderView(0)
+            .findViewById<CardView>(R.id.cardViewUserProfile)
+        btUserProfile.setOnClickListener {
+            print("funfou")
+            navController.navigate(R.id.myAccountFragment)
         }
     }
 

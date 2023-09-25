@@ -51,4 +51,9 @@
         app:launchSingleTop="true"
         app:popUpTo="@id/doTrainingSessionFragment"
         app:popUpToInclusive="true" />
+    <fragment
+        android:id="@+id/myAccountFragment"
+        android:name="com.tierriapps.myworkoutorganizer.feature_main.presenter.fragments.MyAccountFragment"
+        android:label="User Settings"
+        tools:layout="@layout/fragment_my_account" />
 </navigation>

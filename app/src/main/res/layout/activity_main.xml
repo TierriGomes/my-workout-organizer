@@ -46,7 +46,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:menu="@menu/mainmenu">
+        app:menu="@menu/mainmenu"
+        app:headerLayout="@layout/header_navigation">
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/menuLogoutNavigation"
             android:layout_width="match_parent"

@@ -13,36 +13,66 @@ class UserRepositoryImpl @Inject constructor(
     val firebaseAuth: FirebaseAuth
 ){
     private val userCollection = FirebaseFirestore.getInstance().collection("users")
-    suspend fun changeEmail(email: String, pass: String){
-        if (!reauthenticate(pass)){return}
-        userCollection.document(Constants.USER_ID).set({"email" to email}).await()
-        firebaseAuth.currentUser?.updateEmail(email)
+    suspend fun changeEmail(email: String, pass: String): String{
+        try {
+            if (!reauthenticate(pass)){
+                print("did not auth")
+                return "Invalid password"}
+            val user = getUser()!!
+            user.email = email
+            userCollection.document(Constants.USER_ID).set(user).await()
+            firebaseAuth.currentUser?.updateEmail(email)
+            return "Email changed"
+        } catch (e: Exception){
+            return e.message.toString()
+        }
     }
-    suspend fun changeName(name: String, pass: String){
-        if (!reauthenticate(pass)){return}
-        userCollection.document(Constants.USER_ID).set({"name" to name}).await()
+    suspend fun changeName(name: String, pass: String): String{
+        try {
+            if (!reauthenticate(pass)){
+                print("did noy auth")
+                return "Invalid password"
+            }
+            val user = getUser()!!
+            print(user)
+            user.name = name
+            userCollection.document(Constants.USER_ID).set(user).await()
+            return "Name changed"
+        } catch (e: Exception){
+            return e.message.toString()
+        }
     }
 
-    suspend fun getUser(): User {
-       val user: User = userCollection.document(Constants.USER_ID).get().await().toObject(User::class.java) as User
-        return user
+    suspend fun getUser(): User? {
+        try {
+            val user: User = userCollection.document(Constants.USER_ID).get().await().toObject(User::class.java) as User
+            return user
+        } catch (e: Exception){
+            return null
+        }
     }
 
-    suspend fun deleteMyAccount(pass: String){
-        if (reauthenticate(pass)){
-            firebaseAuth.currentUser?.delete()
-            userCollection.document(Constants.USER_ID).delete()
+    suspend fun deleteMyAccount(pass: String): String {
+        try {
+            if (reauthenticate(pass)){
+                userCollection.document(Constants.USER_ID).delete().await()
+                firebaseAuth.currentUser?.delete()?.await()
+                return "User Deleted"
+            } else {
+                return "Invalid pass"
+            }
+        } catch (e: Exception){
+            return e.message.toString()
         }
     }
 
     private suspend fun reauthenticate(pass: String): Boolean{
-        var toReturn = false
-        val auth = EmailAuthProvider.getCredential(firebaseAuth.currentUser?.email.toString(), pass)
-        firebaseAuth.currentUser?.reauthenticate(auth)?.addOnCompleteListener {
-            if (it.isSuccessful){
-                toReturn = true
-            }
-        }?.await()
-        return toReturn
+        try {
+            val auth = EmailAuthProvider.getCredential(firebaseAuth.currentUser?.email.toString(), pass)
+            firebaseAuth.currentUser?.reauthenticate(auth)?.await()
+            return true
+        }catch (e: Exception){
+            return false
+        }
     }
 }

@@ -7,7 +7,7 @@ import javax.inject.Inject
 class GetUser @Inject constructor(
     private val userRepositoryImpl: UserRepositoryImpl
 ) {
-    suspend operator fun invoke(): User {
+    suspend operator fun invoke(): User? {
         return userRepositoryImpl.getUser()
     }
 }

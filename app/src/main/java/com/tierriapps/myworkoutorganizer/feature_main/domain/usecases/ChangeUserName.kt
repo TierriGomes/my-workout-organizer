@@ -5,7 +5,7 @@ import com.tierriapps.myworkoutorganizer.feature_main.data.repositories.UserRepo
 import javax.inject.Inject
 
 class ChangeUserName @Inject constructor(private val userRepositoryImpl: UserRepositoryImpl){
-    suspend operator fun invoke(name: String, pass: String){
-        userRepositoryImpl.changeName(name, pass)
+    suspend operator fun invoke(name: String, pass: String): String{
+        return userRepositoryImpl.changeName(name, pass)
     }
 }

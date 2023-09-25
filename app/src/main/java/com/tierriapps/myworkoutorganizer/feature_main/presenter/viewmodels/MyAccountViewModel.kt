@@ -20,9 +20,11 @@ class MyAccountViewModel @Inject constructor(
     private val changeUserName: ChangeUserName,
     private val deleteMyAccount: DeleteMyAccount
 ): ViewModel() {
-    private val _user = MutableLiveData<User>()
-    val user: LiveData<User> = _user
+    private val _user = MutableLiveData<User?>()
+    val user: LiveData<User?> = _user
 
+    private val _message = MutableLiveData<String?>(null)
+    val message: LiveData<String?> = _message
     fun fetchData(){
         viewModelScope.launch {
             _user.value = getUser.invoke()
@@ -31,19 +33,23 @@ class MyAccountViewModel @Inject constructor(
 
     fun changeUserName(name: String, pass: String){
         viewModelScope.launch {
-            changeUserName.invoke(name, pass)
+            _message.value = changeUserName.invoke(name, pass)
         }
     }
 
     fun changeUserEmail(email: String, pass: String){
         viewModelScope.launch {
-            changeUserEmail.invoke(email, pass)
+            _message.value = changeUserEmail.invoke(email, pass)
         }
     }
 
     fun deleteMyAccount(pass: String){
         viewModelScope.launch {
-            deleteMyAccount.invoke(pass)
+           _message.value = deleteMyAccount.invoke(pass)
         }
+    }
+
+    fun valueWasHandled(){
+        _message.value = null
     }
 }

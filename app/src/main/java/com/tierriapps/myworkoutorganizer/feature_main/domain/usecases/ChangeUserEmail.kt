@@ -7,9 +7,11 @@ import javax.inject.Inject
 class ChangeUserEmail @Inject constructor(
     private val userRepositoryImpl: UserRepositoryImpl
 ) {
-    suspend operator fun invoke(email: String, pass: String){
+    suspend operator fun invoke(email: String, pass: String): String{
         if (validateEmail(email)){
-            userRepositoryImpl.changeEmail(email, pass)
+            return userRepositoryImpl.changeEmail(email, pass)
+        } else {
+            return "Invalid email"
         }
     }
 }

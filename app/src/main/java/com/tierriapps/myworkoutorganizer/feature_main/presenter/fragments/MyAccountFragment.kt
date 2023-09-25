@@ -1,14 +1,18 @@
 package com.tierriapps.myworkoutorganizer.feature_main.presenter.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.snackbar.Snackbar
 import com.tierriapps.myworkoutorganizer.R
 import com.tierriapps.myworkoutorganizer.databinding.FragmentMyAccountBinding
+import com.tierriapps.myworkoutorganizer.feature_authentication.presenter.ui.LoginActivity
 import com.tierriapps.myworkoutorganizer.feature_main.presenter.viewmodels.MyAccountViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -45,18 +49,17 @@ class MyAccountFragment : Fragment() {
         }
 
         binding.button10SaveUserData.setOnClickListener {
-            if (binding.editTextTextPasswordToNewValue.text.isNotEmpty()){
-                if (changeEmailSelected){
-                    viewModel.changeUserEmail(
-                        binding.editTextText2NewValue.text.toString(),
-                        binding.editTextTextPasswordToNewValue.text.toString())
-                } else {
-                    viewModel.changeUserName(
-                        binding.editTextText2NewValue.text.toString(),
-                        binding.editTextTextPasswordToNewValue.text.toString()
-                    )
-                }
+            if (changeEmailSelected){
+                viewModel.changeUserEmail(
+                    binding.editTextText2NewValue.text.toString(),
+                    binding.editTextTextPasswordToNewValue.text.toString())
+            } else {
+                viewModel.changeUserName(
+                    binding.editTextText2NewValue.text.toString(),
+                    binding.editTextTextPasswordToNewValue.text.toString()
+                )
             }
+
         }
         binding.button11DeleteMyAccount.setOnClickListener {
             val snackbar = Snackbar.make(requireContext(), binding.root, "Are you sure?", Snackbar.LENGTH_SHORT)
@@ -72,10 +75,25 @@ class MyAccountFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         viewModel.fetchData()
-        viewModel.user.observe(this){
-            binding.textView8Email.text = it.email
-            binding.textViewUserNameProfile.text = it.name
+        viewModel.user.observe(this){user ->
+            if (user == null){
+                return@observe
+            }
+            binding.textView8Email.text = user.email
+            binding.textViewUserNameProfile.text = user.name
+        }
+        viewModel.message.observe(this) {
+            if (it != null){
+                Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                if (it == "User Deleted"){
+                    Intent(requireContext(), LoginActivity::class.java).also {
+                        startActivity(it)
+                    }
+                    requireActivity().finish()
+                }
+                viewModel.valueWasHandled()
+                viewModel.fetchData()
+            }
         }
     }
-
 }

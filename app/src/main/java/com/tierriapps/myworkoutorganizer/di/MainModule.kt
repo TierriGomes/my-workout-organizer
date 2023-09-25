@@ -93,4 +93,9 @@ object MainModule {
     fun provideAuthenticationRepository(): AuthenticationRepository {
         return AuthenticationRepositoryImpl(FirebaseAuth.getInstance(), FirebaseFirestore.getInstance())
     }
+
+    @Provides
+    fun providesFireBaseAuth(): FirebaseAuth{
+        return FirebaseAuth.getInstance()
+    }
 }

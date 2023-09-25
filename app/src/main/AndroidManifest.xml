@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -15,6 +17,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyWorkoutOrganizer"
         tools:targetApi="31">
+        <activity
+            android:name=".feature_authentication.presenter.ui.ResetPasswordActivity"
+            android:exported="false" />
         <activity
             android:name=".feature_authentication.presenter.ui.LoginActivity"
             android:exported="true"
@@ -28,14 +33,14 @@
         <activity
             android:name=".feature_authentication.presenter.ui.RegisterActivity"
             android:exported="true"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
+            android:windowSoftInputMode="stateHidden"></activity>
         <activity
             android:name=".feature_main.presenter.MainActivity"
             android:exported="true"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
-        <service android:name=".feature_main.domain.notification_service.MyBackGroundService"/>
+            android:windowSoftInputMode="stateHidden"></activity>
+
+        <service android:name=".feature_main.domain.notification_service.MyBackGroundService" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />

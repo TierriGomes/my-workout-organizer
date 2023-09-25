@@ -35,6 +35,15 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
     }
 
+    override fun onStart() {
+        super.onStart()
+        binding.textView6.setOnClickListener {
+            Intent(this, ResetPasswordActivity::class.java).also {
+                startActivity(it)
+            }
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         viewModel.loadingState.observe(this){isLoading ->

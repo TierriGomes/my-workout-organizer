@@ -13,6 +13,7 @@ class UserRepositoryImpl @Inject constructor(
     val firebaseAuth: FirebaseAuth
 ){
     private val userCollection = FirebaseFirestore.getInstance().collection("users")
+    private val workoutsCollection = FirebaseFirestore.getInstance().collection("workouts")
     suspend fun changeEmail(email: String, pass: String): String{
         try {
             if (!reauthenticate(pass)){
@@ -56,6 +57,9 @@ class UserRepositoryImpl @Inject constructor(
         try {
             if (reauthenticate(pass)){
                 userCollection.document(Constants.USER_ID).delete().await()
+                workoutsCollection.whereEqualTo("ownerId", Constants.USER_ID).get().await().forEach {
+                    workoutsCollection.document(it.id).delete()
+                }
                 firebaseAuth.currentUser?.delete()?.await()
                 return "User Deleted"
             } else {

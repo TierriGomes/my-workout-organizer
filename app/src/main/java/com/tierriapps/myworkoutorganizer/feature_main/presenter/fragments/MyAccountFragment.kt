@@ -13,6 +13,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.tierriapps.myworkoutorganizer.R
 import com.tierriapps.myworkoutorganizer.databinding.FragmentMyAccountBinding
 import com.tierriapps.myworkoutorganizer.feature_authentication.presenter.ui.LoginActivity
+import com.tierriapps.myworkoutorganizer.feature_main.presenter.MainActivity
 import com.tierriapps.myworkoutorganizer.feature_main.presenter.viewmodels.MyAccountViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,6 +38,7 @@ class MyAccountFragment : Fragment() {
         binding.imageViewChangeName.setOnClickListener {
             changeNameSelected = true
             changeEmailSelected = false
+            binding.editTextText2NewValue.hint = "New name"
             binding.editTextText2NewValue.visibility = View.VISIBLE
             binding.editTextTextPasswordToNewValue.visibility = View.VISIBLE
         }
@@ -44,6 +46,7 @@ class MyAccountFragment : Fragment() {
         binding.imageView3ChangeEmail.setOnClickListener {
             changeNameSelected = false
             changeEmailSelected = true
+            binding.editTextText2NewValue.hint = "New Email"
             binding.editTextText2NewValue.visibility = View.VISIBLE
             binding.editTextTextPasswordToNewValue.visibility = View.VISIBLE
         }
@@ -89,7 +92,9 @@ class MyAccountFragment : Fragment() {
                     Intent(requireContext(), LoginActivity::class.java).also {
                         startActivity(it)
                     }
-                    requireActivity().finish()
+                    val activity = requireActivity() as MainActivity
+                    activity.deleteAllData()
+                    activity.finish()
                 }
                 viewModel.valueWasHandled()
                 viewModel.fetchData()

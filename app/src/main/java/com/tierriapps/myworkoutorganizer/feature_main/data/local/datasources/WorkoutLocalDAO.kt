@@ -17,4 +17,7 @@ interface WorkoutLocalDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWorkoutEntity(workoutRoomEntity: WorkoutRoomEntity)
+
+    @Query("DELETE FROM workouts")
+    suspend fun deleteAll()
 }

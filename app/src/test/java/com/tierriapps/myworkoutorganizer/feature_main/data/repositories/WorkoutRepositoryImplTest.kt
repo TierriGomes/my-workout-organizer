@@ -202,7 +202,7 @@ class WorkoutRepositoryImplTest {
         coVerify {
             remoteWorkoutDAO.insertWorkoutEntity(validWorkout.toRemoteEntity("testId"))
         }
-        coVerify { localPreferences.isTherePendingTasksInRemote(true) }
+        coVerify { localPreferences.setPendingTasksInRemote(true) }
         assertTrue(result is Resource.Error)
         assertEquals("test", result.content?.name)
     }
@@ -249,7 +249,7 @@ class WorkoutRepositoryImplTest {
         // THEN
         coVerify { localWorkoutDAO.deleteWorkoutEntity(any()) }
         coVerify { remoteWorkoutDAO.deleteWorkoutEntity(any()) }
-        coVerify { localPreferences.isTherePendingTasksInRemote(true) }
+        coVerify { localPreferences.setPendingTasksInRemote(true) }
         assertTrue(result is Resource.Error)
     }
     @Test

@@ -31,11 +31,38 @@ class LocalUserPreferences @Inject constructor(
         }
     }
 
-    suspend fun isTherePendingTasksInRemote(isThere: Boolean) {
+    suspend fun setPendingTasksInRemote(isThere: Boolean) {
         val key = booleanPreferencesKey(Constants.PENDING_WORKOUTS_KEY)
         context.preferences.edit {
             it[key] = isThere
         }
+    }
+
+    suspend fun isTherePendingTasksInRemote(): Boolean {
+        var value = false
+        val key = booleanPreferencesKey(Constants.PENDING_WORKOUTS_KEY)
+        context.preferences.data.first {
+            value = it[key]?:false
+            true
+        }
+        return value
+    }
+
+    suspend fun setTheme(boolean: Boolean){
+        val key = booleanPreferencesKey(Constants.THEME_KEY)
+        context.preferences.edit {
+            it[key] = boolean
+        }
+    }
+
+    suspend fun getTheme(): Boolean {
+        var value = true
+        val key = booleanPreferencesKey(Constants.THEME_KEY)
+        context.preferences.data.first {
+            value = it[key]?:true
+            true
+        }
+        return value
     }
 
     suspend fun clearUserPreferences() {

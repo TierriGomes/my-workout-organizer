@@ -5,7 +5,9 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.viewModels
 
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.cardview.widget.CardView
@@ -23,12 +25,13 @@ import com.tierriapps.myworkoutorganizer.databinding.ActivityMainBinding
 import com.tierriapps.myworkoutorganizer.feature_authentication.presenter.ui.LoginActivity
 import com.tierriapps.myworkoutorganizer.feature_main.domain.notification_service.MyBackGroundService
 import com.tierriapps.myworkoutorganizer.feature_main.presenter.fragments.DoTrainingSessionFragment
+import com.tierriapps.myworkoutorganizer.feature_main.presenter.viewmodels.StartViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
-
+    private val viewModel: StartViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU){
@@ -37,7 +40,17 @@ class MainActivity : AppCompatActivity() {
         }
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        viewModel.getTheme()
+        viewModel.theme.observe(this){
+            val night = AppCompatDelegate.MODE_NIGHT_YES
+            val day = AppCompatDelegate.MODE_NIGHT_NO
+            if (it == true){
+                AppCompatDelegate.setDefaultNightMode(day)
+            } else if( AppCompatDelegate.getDefaultNightMode() != night){
+                AppCompatDelegate.setDefaultNightMode(night)
+                recreate()
+            }
+        }
     }
 
     override fun onStart() {
@@ -52,10 +65,11 @@ class MainActivity : AppCompatActivity() {
                 val snackBar = Snackbar.make(this, binding.root, "Are you sure?", Snackbar.LENGTH_SHORT)
                 snackBar.setAction("Yes"){
                     FirebaseAuth.getInstance().signOut()
+                    deleteLocalData()
                     finish()
                     startActivity(
                         Intent(
-                            this, LoginActivity::class.java
+                             this, LoginActivity::class.java
                         )
                     )
                 }
@@ -64,11 +78,14 @@ class MainActivity : AppCompatActivity() {
             }
             false
         }
-        val btUserProfile = binding.navigationView.getHeaderView(0)
-            .findViewById<CardView>(R.id.cardViewUserProfile)
+        val headerview = binding.navigationView.getHeaderView(0)
+        val btUserProfile = headerview.findViewById<CardView>(R.id.cardViewUserProfile)
         btUserProfile.setOnClickListener {
-            print("funfou")
             navController.navigate(R.id.myAccountFragment)
+        }
+        val tvUserName = headerview.findViewById<TextView>(R.id.textViewUserProfileName)
+        viewModel.userName.observe(this){
+            tvUserName.text = it
         }
     }
 
@@ -96,8 +113,10 @@ class MainActivity : AppCompatActivity() {
         toolbar.setOnMenuItemClickListener {
             if (it.itemId == R.id.setDarkMode){
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                viewModel.saveTheme(false)
             }else if (it.itemId == R.id.setLightMode){
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                viewModel.saveTheme(true)
             }
             recreate()
             true
@@ -111,5 +130,13 @@ class MainActivity : AppCompatActivity() {
                 it.putExtra("division", gson)
                 startService(it)
             }
+    }
+
+    fun deleteAllData(){
+        viewModel.deleteAllWorkouts()
+    }
+
+    fun deleteLocalData(){
+        viewModel.deleteLocalData()
     }
 }

@@ -23,4 +23,5 @@ interface WorkoutRepository {
 
     fun getUserName(): LiveData<String>
 
+    suspend fun cleanLocalData()
 }

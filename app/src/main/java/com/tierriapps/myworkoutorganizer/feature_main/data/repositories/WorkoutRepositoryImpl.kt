@@ -1,5 +1,6 @@
 package com.tierriapps.myworkoutorganizer.feature_main.data.repositories
 
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.tierriapps.myworkoutorganizer.R
@@ -79,7 +80,7 @@ class WorkoutRepositoryImpl @Inject constructor(
         }catch (e: Exception){
             if (canLocalSave){
                 emit(Resource.Success(workout, UiText.StringResource(R.string.cannot_save_changes_in_cloud)))
-                localPreferences.isTherePendingTasksInRemote(true)
+                localPreferences.setPendingTasksInRemote(true)
             }else {
                 emit(Resource.Error(workout, UiText.StringResource(R.string.cannot_save_workout)))
             }
@@ -99,7 +100,7 @@ class WorkoutRepositoryImpl @Inject constructor(
         }catch (e: Exception){
             if (canLocalDelete){
                 emit(Resource.Error(workout, UiText.StringResource(R.string.cannot_save_changes_in_cloud)))
-                localPreferences.isTherePendingTasksInRemote(true)
+                localPreferences.setPendingTasksInRemote(true)
             }else {
                 emit(Resource.Error(workout, UiText.StringResource(R.string.error_cannot_find_workouts)))
             }
@@ -137,6 +138,11 @@ class WorkoutRepositoryImpl @Inject constructor(
 
     override fun getUserName(): LiveData<String> {
         return MutableLiveData(Constants.USER_NAME)
+    }
+
+    override suspend fun cleanLocalData(){
+        localWorkoutDAO.deleteAll()
+        localPreferences.clearUserPreferences()
     }
 
 }

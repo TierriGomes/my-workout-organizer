@@ -3,6 +3,7 @@ package com.tierriapps.myworkoutorganizer.feature_authentication.data.remote
 import com.google.firebase.FirebaseNetworkException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
+import com.google.firebase.auth.FirebaseAuthInvalidUserException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.firestore.FirebaseFirestore
 import com.tierriapps.myworkoutorganizer.R
@@ -28,6 +29,8 @@ class AuthenticationRepositoryImpl @Inject constructor(
             emit(Resource.Error(null, UiText.StringResource(R.string.connection_error)))
         } catch (e: FirebaseAuthInvalidCredentialsException) {
             emit(Resource.Error(null, UiText.StringResource(R.string.invalid_credentials)))
+        } catch (e: FirebaseAuthInvalidUserException) {
+            emit(Resource.Error(null, UiText.StringResource(R.string.user_does_not_exist)))
         } catch (e: Exception) {
             emit(Resource.Error(null, UiText.StringResource(R.string.error)))
         }

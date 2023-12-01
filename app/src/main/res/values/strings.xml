@@ -57,6 +57,7 @@
     <string name="emailhint">E-mail</string>
     <string name="register">Register</string>
     <string name="login">Login</string>
+    <string name="user_does_not_exist">User does not exist</string>
     <string-array name="exercise_types">
         <item>Normal</item>
         <item>Isometric</item>

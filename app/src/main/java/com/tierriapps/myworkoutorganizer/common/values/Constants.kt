@@ -1,6 +1,7 @@
 package com.tierriapps.myworkoutorganizer.common.values
 
 object Constants {
+    const val THEME_KEY: String = "theme_key"
     const val PENDING_WORKOUTS_KEY: String = "pending_workouts_keys"
     var USER_ID = ""
     var USER_NAME = ""
